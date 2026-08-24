@@ -8,55 +8,80 @@
 
 <style>
 *{box-sizing:border-box}
+
 :root{
  --bg:#f3f4f7;
- --card:rgba(255,255,255,.86);
+ --card:rgba(255,255,255,.88);
  --text:#15161a;
  --muted:#858994;
- --line:#e6e7eb;
- --dark:#111216;
+ --line:#e5e6ea;
  --green:#19a463;
  --red:#e14d5b;
+ --blue:#547cf0;
  --gold:#d59b35;
- --blue:#4678e8;
+ --dark:#111216;
 }
+
 body.dark{
  --bg:#101114;
- --card:rgba(29,30,35,.92);
+ --card:rgba(29,30,35,.94);
  --text:#f5f5f7;
  --muted:#999ba4;
  --line:#383940;
  --dark:#fff;
 }
+
 body{
  margin:0;
+ min-height:100vh;
  background:
  radial-gradient(circle at 10% 0%,rgba(86,115,255,.18),transparent 30%),
  radial-gradient(circle at 90% 15%,rgba(40,190,140,.14),transparent 28%),
  var(--bg);
  color:var(--text);
  font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Noto Sans TC",sans-serif;
- min-height:100vh;
 }
+
 .app{
  max-width:600px;
  margin:auto;
  min-height:100vh;
- padding-bottom:100px;
+ padding-bottom:105px;
 }
+
 .header{
- padding:26px 20px 20px;
+ padding:27px 20px 21px;
  color:white;
- background:linear-gradient(135deg,#101114,#252830);
- border-radius:0 0 28px 28px;
+ background:linear-gradient(135deg,#101114,#292d36);
+ border-radius:0 0 30px 30px;
 }
-.headerTop{display:flex;justify-content:space-between;align-items:center}
-.header small{color:#aeb1ba}
-.header h1{font-size:27px;margin:4px 0}
+
+.headerTop{
+ display:flex;
+ justify-content:space-between;
+ align-items:center;
+}
+
+.header small{
+ color:#aeb1ba;
+ letter-spacing:.5px;
+}
+
+.header h1{
+ margin:4px 0;
+ font-size:28px;
+}
+
 .iconBtn{
- width:42px;height:42px;border:1px solid #ffffff25;
- border-radius:14px;background:#ffffff12;color:white;font-size:20px;
+ width:44px;
+ height:44px;
+ border:1px solid #ffffff25;
+ border-radius:15px;
+ background:#ffffff12;
+ color:white;
+ font-size:21px;
 }
+
 .hero{
  margin:14px;
  padding:22px;
@@ -65,17 +90,49 @@ body{
  background:linear-gradient(135deg,#16181e,#30343e);
  box-shadow:0 12px 30px #0002;
 }
-.heroLabel{font-size:13px;color:#bfc2cb}
-.heroMoney{font-size:34px;font-weight:800;margin:5px 0 14px}
-.heroRow{display:flex;justify-content:space-between;font-size:13px;color:#c7c9d0}
-.progress{height:8px;background:#ffffff18;border-radius:20px;margin:10px 0;overflow:hidden}
-.progress i{display:block;height:100%;background:linear-gradient(90deg,#55d49b,#77a2ff);border-radius:20px}
+
+.heroLabel{
+ font-size:13px;
+ color:#bfc2cb;
+}
+
+.heroMoney{
+ font-size:35px;
+ font-weight:850;
+ margin:5px 0 15px;
+}
+
+.heroRow{
+ display:flex;
+ justify-content:space-between;
+ font-size:13px;
+ color:#c7c9d0;
+}
+
+.progress{
+ height:8px;
+ background:#ffffff18;
+ border-radius:20px;
+ margin:10px 0;
+ overflow:hidden;
+}
+
+.progress i{
+ display:block;
+ height:100%;
+ width:0;
+ border-radius:20px;
+ background:linear-gradient(90deg,#55d49b,#77a2ff);
+ transition:.3s;
+}
+
 .grid{
  display:grid;
  grid-template-columns:1fr 1fr;
  gap:10px;
  padding:0 14px;
 }
+
 .card{
  background:var(--card);
  border:1px solid #ffffff40;
@@ -84,14 +141,34 @@ body{
  box-shadow:0 6px 20px #00000008;
  backdrop-filter:blur(12px);
 }
-.label{font-size:12px;color:var(--muted)}
-.big{font-size:21px;font-weight:800;margin-top:6px}
-.green{color:var(--green)}.red{color:var(--red)}
-.section{padding:0 14px}
-.sectionTitle{
- display:flex;justify-content:space-between;align-items:center;
- margin:20px 2px 9px;font-size:18px;font-weight:800
+
+.label{
+ font-size:12px;
+ color:var(--muted);
 }
+
+.big{
+ font-size:21px;
+ font-weight:800;
+ margin-top:6px;
+}
+
+.green{color:var(--green)}
+.red{color:var(--red)}
+
+.section{
+ padding:0 14px;
+}
+
+.sectionTitle{
+ display:flex;
+ justify-content:space-between;
+ align-items:center;
+ margin:20px 2px 9px;
+ font-size:18px;
+ font-weight:800;
+}
+
 .item{
  background:var(--card);
  border:1px solid var(--line);
@@ -103,55 +180,181 @@ body{
  align-items:center;
  gap:10px;
 }
-.itemLeft{display:flex;align-items:center;gap:10px}
-.itemIcon{
- width:40px;height:40px;border-radius:13px;
- display:flex;align-items:center;justify-content:center;
- background:#f0f1f4;font-size:20px;
+
+.itemLeft{
+ display:flex;
+ align-items:center;
+ gap:10px;
+ min-width:0;
 }
-body.dark .itemIcon{background:#36373e}
-.item small{display:block;color:var(--muted);margin-top:3px}
-.amount{font-weight:800;white-space:nowrap}
+
+.itemIcon{
+ width:40px;
+ height:40px;
+ border-radius:13px;
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ background:#f0f1f4;
+ font-size:20px;
+ flex-shrink:0;
+}
+
+body.dark .itemIcon{
+ background:#36373e;
+}
+
+.item small{
+ display:block;
+ color:var(--muted);
+ margin-top:3px;
+}
+
+.amount{
+ font-weight:800;
+ white-space:nowrap;
+}
+
+.actions{
+ display:flex;
+ gap:4px;
+ margin-top:5px;
+}
+
 .tabs{
  position:fixed;
- z-index:10;
- bottom:0;left:0;right:0;
- max-width:600px;margin:auto;
+ z-index:20;
+ bottom:0;
+ left:0;
+ right:0;
+ max-width:600px;
+ margin:auto;
  padding:9px 10px calc(9px + env(safe-area-inset-bottom));
- background:rgba(255,255,255,.88);
+ background:rgba(255,255,255,.9);
  backdrop-filter:blur(20px);
  border-top:1px solid var(--line);
- display:grid;grid-template-columns:repeat(5,1fr);
+ display:grid;
+ grid-template-columns:repeat(5,1fr);
 }
-body.dark .tabs{background:rgba(20,21,25,.9)}
+
+body.dark .tabs{
+ background:rgba(20,21,25,.92);
+}
+
 .tab{
- border:0;background:none;color:var(--muted);
- font-size:11px;padding:6px 2px;
+ border:0;
+ background:none;
+ color:var(--muted);
+ font-size:11px;
+ padding:6px 2px;
 }
-.tab span{display:block;font-size:20px;margin-bottom:2px}
-.tab.active{color:var(--text);font-weight:800}
-.page{display:none}.page.active{display:block}
-input,select,button{font:inherit}
-input,select{
- width:100%;padding:12px;
+
+.tab span{
+ display:block;
+ font-size:20px;
+ margin-bottom:2px;
+}
+
+.tab.active{
+ color:var(--text);
+ font-weight:800;
+}
+
+.page{
+ display:none;
+}
+
+.page.active{
+ display:block;
+}
+
+input,
+select,
+button{
+ font:inherit;
+}
+
+input,
+select{
+ width:100%;
+ padding:12px;
  border:1px solid var(--line);
  border-radius:13px;
- background:var(--card);color:var(--text);
+ background:var(--card);
+ color:var(--text);
  margin:5px 0 10px;
 }
+
 button{
- border:0;border-radius:13px;
+ border:0;
+ border-radius:13px;
  padding:11px 14px;
  background:var(--dark);
  color:var(--bg);
  font-weight:750;
 }
-.secondary{background:#e9eaee;color:#111}
-body.dark .secondary{background:#36373e;color:#fff}
-.danger{color:var(--red);background:#ffecee}
-.full{width:100%}
-.formGrid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.fullCol{grid-column:1/-1}
+
+.secondary{
+ background:#e9eaee;
+ color:#111;
+}
+
+body.dark .secondary{
+ background:#36373e;
+ color:#fff;
+}
+
+.danger{
+ color:var(--red);
+ background:#ffecee;
+}
+
+.full{
+ width:100%;
+}
+
+.formGrid{
+ display:grid;
+ grid-template-columns:1fr 1fr;
+ gap:8px;
+}
+
+.fullCol{
+ grid-column:1/-1;
+}
+
+.loanBox{
+ background:linear-gradient(135deg,#242832,#111216);
+ color:white;
+ border-radius:22px;
+ padding:18px;
+}
+
+.loanRow{
+ display:flex;
+ justify-content:space-between;
+ align-items:center;
+ padding:5px 0;
+}
+
+.loanBox .muted{
+ color:#aeb1ba;
+}
+
+.notice{
+ padding:13px;
+ border-radius:14px;
+ background:#eef1f7;
+ color:var(--muted);
+ font-size:13px;
+ line-height:1.6;
+ margin-top:10px;
+}
+
+body.dark .notice{
+ background:#292b31;
+}
+
 .chart{
  height:190px;
  display:flex;
@@ -160,7 +363,14 @@ body.dark .secondary{background:#36373e;color:#fff}
  border-bottom:1px solid var(--line);
  padding:10px 3px;
 }
-.barCol{flex:1;text-align:center;color:var(--muted);font-size:10px}
+
+.barCol{
+ flex:1;
+ text-align:center;
+ color:var(--muted);
+ font-size:10px;
+}
+
 .barCol i{
  display:block;
  background:linear-gradient(180deg,#789bff,#333b55);
@@ -168,41 +378,89 @@ body.dark .secondary{background:#36373e;color:#fff}
  min-height:3px;
  margin-bottom:5px;
 }
-.loanBox{
- background:linear-gradient(135deg,#242832,#111216);
- color:white;
- border-radius:22px;padding:18px;
-}
+
 .modal{
- display:none;position:fixed;inset:0;
- background:#0009;z-index:30;
+ display:none;
+ position:fixed;
+ inset:0;
+ background:#0009;
+ z-index:50;
  align-items:flex-end;
 }
+
 .sheet{
- width:100%;max-width:600px;margin:auto;
+ width:100%;
+ max-width:600px;
+ margin:auto;
  background:var(--bg);
  color:var(--text);
  border-radius:24px 24px 0 0;
  padding:20px;
- max-height:90vh;overflow:auto;
+ max-height:90vh;
+ overflow:auto;
 }
-.modalActions{display:flex;gap:8px;margin-top:8px}
-.modalActions button{flex:1}
-.notice{
- padding:12px;border-radius:14px;
- background:#eef1f7;color:var(--muted);
- font-size:13px;margin-top:10px
+
+.modalActions{
+ display:flex;
+ gap:8px;
+ margin-top:8px;
 }
-body.dark .notice{background:#292b31}
+
+.modalActions button{
+ flex:1;
+}
+
 .switch{
- display:flex;justify-content:space-between;align-items:center;
+ display:flex;
+ justify-content:space-between;
+ align-items:center;
  padding:10px 0;
 }
-.switch input{width:auto;margin:0}
-.empty{text-align:center;color:var(--muted);padding:25px}
+
+.switch input{
+ width:auto;
+ margin:0;
+}
+
+.empty{
+ text-align:center;
+ color:var(--muted);
+ padding:25px;
+}
+
+.infoGrid{
+ display:grid;
+ grid-template-columns:1fr 1fr;
+ gap:8px;
+ margin-top:10px;
+}
+
+.infoBox{
+ background:#ffffff10;
+ border-radius:13px;
+ padding:10px;
+}
+
+.infoBox small{
+ display:block;
+ color:#aaa;
+ font-size:11px;
+}
+
+.infoBox b{
+ display:block;
+ margin-top:4px;
+}
+
 @media(max-width:380px){
- .grid,.formGrid{grid-template-columns:1fr}
- .fullCol{grid-column:auto}
+ .grid,
+ .formGrid{
+  grid-template-columns:1fr;
+ }
+
+ .fullCol{
+  grid-column:auto;
+ }
 }
 </style>
 </head>
@@ -212,766 +470,2351 @@ body.dark .notice{background:#292b31}
 <div class="app">
 
 <header class="header">
+
  <div class="headerTop">
+
   <div>
    <small>PERSONAL FINANCE</small>
    <h1>我的財務</h1>
    <small id="monthText"></small>
   </div>
+
   <button class="iconBtn" onclick="toggleDark()">☾</button>
+
  </div>
+
 </header>
+
+
+<!-- ==================== 首頁 ==================== -->
 
 <div class="page active" id="home">
 
-<div class="hero">
- <div class="heroLabel">本月還能花</div>
- <div class="heroMoney" id="freeMoney">NT$0</div>
- <div class="heroRow">
-  <span>生活費預算</span>
-  <span id="lifeUsed">NT$0 / NT$10,000</span>
- </div>
- <div class="progress"><i id="lifeBar"></i></div>
- <div class="heroRow">
-  <span>預算使用率</span>
-  <span id="lifePct">0%</span>
- </div>
-</div>
+ <div class="hero">
 
-<div class="grid">
- <div class="card">
-  <div class="label">💰 本月收入</div>
-  <div class="big green" id="income"></div>
- </div>
- <div class="card">
-  <div class="label">💸 本月支出</div>
-  <div class="big" id="expense"></div>
- </div>
- <div class="card">
-  <div class="label">💵 本月結餘</div>
-  <div class="big" id="balance"></div>
- </div>
- <div class="card">
-  <div class="label">🏦 資產總額</div>
-  <div class="big" id="assets"></div>
- </div>
-</div>
+  <div class="heroLabel">本月還能花</div>
 
-<div class="section">
- <div class="sectionTitle">🛡️ 緊急預備金</div>
- <div class="card">
-  <div class="row">
-   <span>目前金額</span>
-   <strong id="reserve"></strong>
+  <div class="heroMoney" id="freeMoney">
+   NT$0
   </div>
-  <div class="progress" style="background:#ddd">
-   <i id="reserveBar" style="background:linear-gradient(90deg,#53c98d,#6d9cff)"></i>
-  </div>
-  <div class="label">建議盡量不要拿來支付日常消費</div>
- </div>
 
- <div class="sectionTitle">💳 信貸</div>
- <div class="loanBox">
-  <div class="heroRow"><span>剩餘本金</span><strong id="loanRemain"></strong></div>
-  <div class="progress"><i id="loanBar"></i></div>
   <div class="heroRow">
-   <span id="loanProgress"></span>
-   <span id="loanPayment"></span>
+   <span>生活費預算</span>
+   <span id="lifeUsed"></span>
   </div>
+
+  <div class="progress">
+   <i id="lifeBar"></i>
+  </div>
+
+  <div class="heroRow">
+   <span>預算使用率</span>
+   <span id="lifePct">0%</span>
+  </div>
+
  </div>
 
- <div class="sectionTitle">
-  最近紀錄
-  <button class="secondary" onclick="go('record')">查看全部</button>
+
+ <div class="grid">
+
+  <div class="card">
+   <div class="label">💰 本月收入</div>
+   <div class="big green" id="income"></div>
+  </div>
+
+  <div class="card">
+   <div class="label">💸 本月支出</div>
+   <div class="big" id="expense"></div>
+  </div>
+
+  <div class="card">
+   <div class="label">💵 本月結餘</div>
+   <div class="big" id="balance"></div>
+  </div>
+
+  <div class="card">
+   <div class="label">🏦 資產總額</div>
+   <div class="big" id="assets"></div>
+  </div>
+
  </div>
- <div id="recent"></div>
-</div>
+
+
+ <div class="section">
+
+  <div class="sectionTitle">
+   🛡️ 緊急預備金
+  </div>
+
+  <div class="card">
+
+   <div class="loanRow">
+    <span>目前金額</span>
+    <strong id="reserve"></strong>
+   </div>
+
+   <div class="progress" style="background:#ddd">
+    <i id="reserveBar"></i>
+   </div>
+
+   <div class="label">
+    建議盡量保留作為緊急預備金
+   </div>
+
+  </div>
+
+
+  <div class="sectionTitle">
+   💳 信貸
+  </div>
+
+  <div class="loanBox">
+
+   <div class="loanRow">
+    <span class="muted">剩餘本金</span>
+    <strong id="loanRemain"></strong>
+   </div>
+
+   <div class="progress">
+    <i id="loanBar"></i>
+   </div>
+
+   <div class="heroRow">
+    <span id="loanProgress"></span>
+    <span id="loanPayment"></span>
+   </div>
+
+   <div class="infoGrid">
+
+    <div class="infoBox">
+     <small>首次扣款</small>
+     <b id="firstPaymentDisplay">尚未設定</b>
+    </div>
+
+    <div class="infoBox">
+     <small>下次扣款</small>
+     <b id="nextPaymentDisplay">尚未設定</b>
+    </div>
+
+   </div>
+
+  </div>
+
+
+  <div class="sectionTitle">
+   最近紀錄
+   <button class="secondary" onclick="go('record')">
+    查看全部
+   </button>
+  </div>
+
+  <div id="recent"></div>
+
+ </div>
 
 </div>
+
+
+<!-- ==================== 記帳 ==================== -->
 
 <div class="page" id="record">
-<div class="section">
- <div class="sectionTitle">📝 新增記帳</div>
- <div class="card">
-  <div class="formGrid">
-   <div>
-    <label>類型</label>
-    <select id="type" onchange="updateCats()">
-     <option value="expense">支出</option>
-     <option value="income">收入</option>
-    </select>
-   </div>
-   <div>
-    <label>日期</label>
-    <input id="date" type="date">
-   </div>
-   <div>
-    <label>金額</label>
-    <input id="amount" type="number" placeholder="0">
-   </div>
-   <div>
-    <label>類別</label>
-    <select id="cat"></select>
-   </div>
-   <div class="fullCol">
-    <label>備註</label>
-    <input id="note" placeholder="例如：午餐">
-   </div>
-   <div class="fullCol">
-    <button class="full" onclick="addRecord()">＋ 新增紀錄</button>
-   </div>
+
+ <div class="section">
+
+  <div class="sectionTitle">
+   📝 新增記帳
   </div>
+
+  <div class="card">
+
+   <div class="formGrid">
+
+    <div>
+     <label>類型</label>
+
+     <select id="type" onchange="updateCats()">
+      <option value="expense">支出</option>
+      <option value="income">收入</option>
+     </select>
+
+    </div>
+
+
+    <div>
+     <label>日期</label>
+     <input id="date" type="date">
+    </div>
+
+
+    <div>
+     <label>金額</label>
+     <input id="amount" type="number" placeholder="0">
+    </div>
+
+
+    <div>
+     <label>類別</label>
+     <select id="cat"></select>
+    </div>
+
+
+    <div class="fullCol">
+     <label>備註</label>
+     <input id="note" placeholder="例如：午餐">
+    </div>
+
+
+    <div class="fullCol">
+     <button class="full" onclick="addRecord()">
+      ＋ 新增紀錄
+     </button>
+    </div>
+
+   </div>
+
+  </div>
+
+
+  <div class="sectionTitle">
+   📒 所有紀錄
+  </div>
+
+  <div id="records"></div>
+
  </div>
 
- <div class="sectionTitle">📒 所有紀錄</div>
- <div id="records"></div>
 </div>
-</div>
+
+
+<!-- ==================== 貸款 ==================== -->
 
 <div class="page" id="loan">
-<div class="section">
- <div class="sectionTitle">💳 貸款管理</div>
- <div class="loanBox">
-  <div class="row"><span>原始本金</span><strong id="lp"></strong></div>
-  <div class="row"><span>年利率</span><strong id="lr"></strong></div>
-  <div class="row"><span>期數</span><strong id="lt"></strong></div>
-  <div class="row"><span>每月還款</span><strong id="lm"></strong></div>
-  <div class="row"><span>已繳期數</span><strong id="lpaid"></strong></div>
-  <div class="progress"><i id="lbar"></i></div>
-  <div class="heroRow">
-   <span id="lpct"></span>
-   <span id="lleft"></span>
+
+ <div class="section">
+
+  <div class="sectionTitle">
+   💳 貸款管理
   </div>
-  <div class="row">
-   <span>估算剩餘本金</span>
-   <strong id="lremain"></strong>
+
+
+  <div class="loanBox">
+
+   <div class="loanRow">
+    <span class="muted">原始本金</span>
+    <strong id="lp"></strong>
+   </div>
+
+   <div class="loanRow">
+    <span class="muted">年利率</span>
+    <strong id="lr"></strong>
+   </div>
+
+   <div class="loanRow">
+    <span class="muted">期數</span>
+    <strong id="lt"></strong>
+   </div>
+
+   <div class="loanRow">
+    <span class="muted">每月還款</span>
+    <strong id="lm"></strong>
+   </div>
+
+   <div class="loanRow">
+    <span class="muted">已繳期數</span>
+    <strong id="lpaid"></strong>
+   </div>
+
+   <div class="progress">
+    <i id="lbar"></i>
+   </div>
+
+   <div class="heroRow">
+    <span id="lpct"></span>
+    <span id="lleft"></span>
+   </div>
+
+   <div class="loanRow">
+    <span class="muted">估算剩餘本金</span>
+    <strong id="lremain"></strong>
+   </div>
+
   </div>
+
+
+  <div style="margin-top:10px">
+   <button class="full" onclick="editLoan()">
+    ⚙️ 修改貸款資料
+   </button>
+  </div>
+
+
+  <div class="notice">
+
+   <b>自動還款進度</b><br>
+
+   設定「首次扣款日」後，
+   App 會依照日期自動判斷已繳期數。
+
+   <br><br>
+
+   例如首次扣款日為 2026/09/05：
+
+   <br>
+   2026/09/05 → 第1期
+   <br>
+   2026/10/05 → 第2期
+   <br>
+   2026/11/05 → 第3期
+
+   <br><br>
+
+   如果尚未設定首次扣款日，
+   可以手動設定已繳期數。
+  </div>
+
  </div>
 
- <div style="margin-top:10px">
-  <button class="full" onclick="editLoan()">⚙️ 修改貸款資料</button>
- </div>
+</div>
 
- <div class="notice">
-  每次實際繳款後，可以修改「已繳期數」。所有貸款數字都可以自行調整。
- </div>
-</div>
-</div>
+
+<!-- ==================== 統計 ==================== -->
 
 <div class="page" id="stats">
-<div class="section">
- <div class="sectionTitle">📊 近六個月支出</div>
- <div class="card">
-  <div class="chart" id="chart"></div>
+
+ <div class="section">
+
+  <div class="sectionTitle">
+   📊 近六個月支出
+  </div>
+
+  <div class="card">
+   <div class="chart" id="chart"></div>
+  </div>
+
+
+  <div class="sectionTitle">
+   🧾 本月支出分類
+  </div>
+
+  <div id="catStats"></div>
+
  </div>
 
- <div class="sectionTitle">🧾 本月支出分類</div>
- <div id="catStats"></div>
 </div>
-</div>
+
+
+<!-- ==================== 設定 ==================== -->
 
 <div class="page" id="settings">
-<div class="section">
 
-<div class="sectionTitle">⚙️ 財務設定</div>
+ <div class="section">
 
-<div class="card">
- <label>每月薪資</label>
- <input id="sSalary" type="number">
+  <div class="sectionTitle">
+   ⚙️ 財務設定
+  </div>
 
- <label>生活費預算</label>
- <input id="sBudget" type="number">
 
- <label>緊急預備金</label>
- <input id="sReserve" type="number">
+  <div class="card">
 
- <label>其他現金／存款</label>
- <input id="sCash" type="number">
+   <label>每月薪資</label>
+   <input id="sSalary" type="number">
 
- <label>其他資產</label>
- <input id="sAsset" type="number">
+   <label>生活費預算</label>
+   <input id="sBudget" type="number">
 
- <label>其他負債</label>
- <input id="sDebt" type="number">
+   <label>緊急預備金</label>
+   <input id="sReserve" type="number">
 
- <button class="full" onclick="saveSettings()">儲存設定</button>
-</div>
+   <label>其他現金／存款</label>
+   <input id="sCash" type="number">
 
-<div class="sectionTitle">🏠 固定支出</div>
-<div class="card">
- <div id="fixed"></div>
- <button class="secondary full" onclick="addFixed()">＋ 新增固定支出</button>
-</div>
+   <label>其他資產</label>
+   <input id="sAsset" type="number">
 
-<div class="sectionTitle">🎨 外觀</div>
-<div class="card">
- <div class="switch">
-  <span>🌙 深色模式</span>
-  <input type="checkbox" id="darkSwitch" onchange="toggleDark(this.checked)">
+   <label>其他負債</label>
+   <input id="sDebt" type="number">
+
+   <button class="full" onclick="saveSettings()">
+    儲存設定
+   </button>
+
+  </div>
+
+
+  <div class="sectionTitle">
+   🏠 固定支出
+  </div>
+
+  <div class="card">
+
+   <div id="fixed"></div>
+
+   <button class="secondary full" onclick="addFixed()">
+    ＋ 新增固定支出
+   </button>
+
+  </div>
+
+
+  <div class="sectionTitle">
+   🎨 外觀
+  </div>
+
+  <div class="card">
+
+   <div class="switch">
+    <span>🌙 深色模式</span>
+    <input
+     type="checkbox"
+     id="darkSwitch"
+     onchange="toggleDark(this.checked)"
+    >
+   </div>
+
+  </div>
+
  </div>
-</div>
 
 </div>
-</div>
+
+
+<!-- ==================== 底部導航 ==================== -->
 
 <nav class="tabs">
- <button class="tab active" onclick="go('home',this)"><span>🏠</span>總覽</button>
- <button class="tab" onclick="go('record',this)"><span>📝</span>記帳</button>
- <button class="tab" onclick="go('loan',this)"><span>💳</span>貸款</button>
- <button class="tab" onclick="go('stats',this)"><span>📊</span>統計</button>
- <button class="tab" onclick="go('settings',this)"><span>⚙️</span>設定</button>
+
+ <button class="tab active" onclick="go('home',this)">
+  <span>🏠</span>
+  總覽
+ </button>
+
+ <button class="tab" onclick="go('record',this)">
+  <span>📝</span>
+  記帳
+ </button>
+
+ <button class="tab" onclick="go('loan',this)">
+  <span>💳</span>
+  貸款
+ </button>
+
+ <button class="tab" onclick="go('stats',this)">
+  <span>📊</span>
+  統計
+ </button>
+
+ <button class="tab" onclick="go('settings',this)">
+  <span>⚙️</span>
+  設定
+ </button>
+
 </nav>
 
 </div>
 
+
+<!-- ==================== 彈出視窗 ==================== -->
+
 <div class="modal" id="modal">
+
  <div class="sheet">
+
   <h2 id="modalTitle"></h2>
+
   <div id="modalBody"></div>
+
   <div class="modalActions">
-   <button class="secondary" onclick="closeModal()">取消</button>
-   <button onclick="saveEdit()">儲存</button>
+
+   <button class="secondary" onclick="closeModal()">
+    取消
+   </button>
+
+   <button onclick="saveEdit()">
+    儲存
+   </button>
+
   </div>
+
  </div>
+
 </div>
+
 
 <script>
 
+/* =========================================================
+   資料
+========================================================= */
+
 const KEY="MY_FINANCE_DATA";
 
-let data=JSON.parse(localStorage.getItem(KEY)||"null")||{
+let oldData=null;
+
+try{
+ oldData=JSON.parse(localStorage.getItem(KEY)||"null");
+}catch(e){
+ oldData=null;
+}
+
+
+let data=oldData||{
+
  salary:30000,
+
  budget:10000,
+
  reserve:110000,
+
  cash:0,
+
  asset:0,
+
  debt:0,
+
  fixed:[
-  {id:"f1",name:"房租＋水電",amount:5000},
-  {id:"f2",name:"其他固定費用",amount:8000}
+  {
+   id:"f1",
+   name:"房租＋水電",
+   amount:5000
+  },
+  {
+   id:"f2",
+   name:"其他固定費用",
+   amount:8000
+  }
  ],
+
  loan:{
   principal:160000,
   rate:2.1,
   terms:36,
-  payment:4586,
-  paid:0
+
+  /* 自動計算月付 */
+  payment:0,
+
+  /* 如果沒有首次扣款日，使用手動期數 */
+  paid:0,
+
+  /* 使用者可以自行設定 */
+  firstPaymentDate:""
  },
+
  records:[]
+
 };
+
+
+/* 舊資料如果沒有新欄位，自動補上 */
+
+if(!data.loan){
+ data.loan={
+  principal:160000,
+  rate:2.1,
+  terms:36,
+  payment:0,
+  paid:0,
+  firstPaymentDate:""
+ };
+}
+
+if(data.loan.firstPaymentDate===undefined){
+ data.loan.firstPaymentDate="";
+}
+
+if(data.loan.paid===undefined){
+ data.loan.paid=0;
+}
+
+
+/* =========================================================
+   工具
+========================================================= */
 
 let editId=null;
 let editMode=null;
 
+
 function save(){
- localStorage.setItem(KEY,JSON.stringify(data));
+
+ localStorage.setItem(
+  KEY,
+  JSON.stringify(data)
+ );
+
 }
+
 
 function money(n){
- return "NT$"+Math.round(Number(n)||0).toLocaleString("zh-TW");
+
+ return "NT$"+
+ Math.round(Number(n)||0)
+ .toLocaleString("zh-TW");
+
 }
+
 
 function today(){
- return new Date().toISOString().slice(0,10);
+
+ return new Date()
+ .toISOString()
+ .slice(0,10);
+
 }
+
 
 function monthKey(){
+
  return today().slice(0,7);
+
 }
 
-document.getElementById("date").value=today();
 
-function go(id,btn){
- document.querySelectorAll(".page").forEach(x=>x.classList.remove("active"));
- document.getElementById(id).classList.add("active");
+/* =========================================================
+   貸款月付金
+========================================================= */
 
- document.querySelectorAll(".tab").forEach(x=>x.classList.remove("active"));
- if(btn)btn.classList.add("active");
- else{
-  document.querySelectorAll(".tab").forEach(x=>{
-   if(x.getAttribute("onclick")?.includes("'"+id+"'"))x.classList.add("active");
-  });
+function calculatePayment(){
+
+ let P=Number(data.loan.principal)||0;
+
+ let annualRate=Number(data.loan.rate)||0;
+
+ let n=Number(data.loan.terms)||0;
+
+ if(P<=0||n<=0){
+  return 0;
  }
 
- render();
+ let r=annualRate/100/12;
+
+ if(r===0){
+  return P/n;
+ }
+
+ return P*r/(1-Math.pow(1+r,-n));
+
 }
+
+
+/*
+  如果使用者原本沒有設定月付，
+  自動算出正確月付。
+
+  16萬 / 2.1% / 36期
+  約 NT$4,590
+*/
+
+if(
+ !data.loan.payment ||
+ data.loan.payment===4586
+){
+ data.loan.payment=
+  Math.round(calculatePayment());
+}
+
+
+/* =========================================================
+   自動計算已繳期數
+========================================================= */
+
+function calculatePaidPeriods(){
+
+ let first=data.loan.firstPaymentDate;
+
+ /*
+   沒有設定首次扣款日
+   → 使用原本手動的 paid
+ */
+ if(!first){
+  return Number(data.loan.paid)||0;
+ }
+
+
+ let start=new Date(first+"T00:00:00");
+
+ let now=new Date();
+
+
+ /*
+   還沒到首次扣款日
+ */
+ if(now<start){
+  return 0;
+ }
+
+
+ /*
+   計算相差幾個月
+ */
+ let months=
+ (now.getFullYear()-start.getFullYear())*12+
+ (now.getMonth()-start.getMonth());
+
+
+ /*
+   如果這個月還沒到扣款日
+   就不能算這一期
+ */
+ if(now.getDate()<start.getDate()){
+  months--;
+ }
+
+
+ return Math.min(
+  Number(data.loan.terms)||0,
+  Math.max(0,months+1)
+ );
+
+}
+
+
+/* =========================================================
+   剩餘本金
+========================================================= */
+
+function remainingLoan(){
+
+ let P=Number(data.loan.principal)||0;
+
+ let rate=Number(data.loan.rate)||0;
+
+ let n=Number(data.loan.terms)||0;
+
+ let payment=Number(data.loan.payment)||0;
+
+ let paid;
+
+ /*
+   有設定首次扣款日
+   → 自動計算
+ */
+ if(data.loan.firstPaymentDate){
+  paid=calculatePaidPeriods();
+ }else{
+  paid=Number(data.loan.paid)||0;
+ }
+
+
+ paid=Math.min(
+  Math.max(0,paid),
+  n
+ );
+
+
+ /*
+   0期 = 原始本金
+ */
+ if(paid<=0){
+  return P;
+ }
+
+
+ /*
+   全部繳完
+ */
+ if(paid>=n){
+  return 0;
+ }
+
+
+ let r=rate/100/12;
+
+
+ /*
+   0利率
+ */
+ if(r===0){
+
+  return Math.max(
+   0,
+   P-payment*paid
+  );
+
+ }
+
+
+ /*
+   標準本息攤還剩餘本金
+ */
+ let balance=
+ P*Math.pow(1+r,paid)
+ -
+ payment*
+ (
+  (Math.pow(1+r,paid)-1)/r
+ );
+
+
+ return Math.max(
+  0,
+  balance
+ );
+
+}
+
+
+/* =========================================================
+   日期
+========================================================= */
+
+function formatDate(date){
+
+ if(!date)return "尚未設定";
+
+ return new Date(date+"T00:00:00")
+ .toLocaleDateString(
+  "zh-TW",
+  {
+   year:"numeric",
+   month:"2-digit",
+   day:"2-digit"
+  }
+ );
+
+}
+
+
+/*
+  計算下一次扣款日
+*/
+
+function nextPaymentDate(){
+
+ let first=data.loan.firstPaymentDate;
+
+ if(!first){
+  return null;
+ }
+
+ let start=new Date(first+"T00:00:00");
+
+ let now=new Date();
+
+ let paid=calculatePaidPeriods();
+
+ /*
+   第一次還沒到
+ */
+ if(now<start){
+  return start;
+ }
+
+ /*
+   已經繳完
+ */
+ if(paid>=Number(data.loan.terms)){
+  return null;
+ }
+
+ /*
+   下一期 = 首次扣款日 + paid 個月
+ */
+ let next=new Date(start);
+
+ next.setMonth(
+  next.getMonth()+paid
+ );
+
+ return next;
+
+}
+
+
+/* =========================================================
+   導航
+========================================================= */
+
+function go(id,btn){
+
+ document
+ .querySelectorAll(".page")
+ .forEach(x=>x.classList.remove("active"));
+
+ document
+ .getElementById(id)
+ .classList.add("active");
+
+
+ document
+ .querySelectorAll(".tab")
+ .forEach(x=>x.classList.remove("active"));
+
+
+ if(btn){
+
+  btn.classList.add("active");
+
+ }else{
+
+  document
+  .querySelectorAll(".tab")
+  .forEach(x=>{
+
+   let click=x.getAttribute("onclick")||"";
+
+   if(click.includes("'"+id+"'")){
+    x.classList.add("active");
+   }
+
+  });
+
+ }
+
+
+ render();
+
+}
+
+
+/* =========================================================
+   類別
+========================================================= */
 
 function updateCats(){
- let income=document.getElementById("type").value==="income";
- let list=income
- ?["薪資","獎金","其他收入"]
- :["飲食","交通","約會","購物","房租／水電","保險","其他"];
 
- document.getElementById("cat").innerHTML=list.map(x=>`<option>${x}</option>`).join("");
+ let income=
+ document.getElementById("type").value==="income";
+
+
+ let list=income
+ ?[
+   "薪資",
+   "獎金",
+   "其他收入"
+  ]
+ :[
+   "飲食",
+   "交通",
+   "約會",
+   "購物",
+   "房租／水電",
+   "保險",
+   "其他"
+  ];
+
+
+ document.getElementById("cat").innerHTML=
+ list
+ .map(x=>`<option>${x}</option>`)
+ .join("");
+
 }
+
 
 updateCats();
 
+
+document.getElementById("date").value=today();
+
+
+/* =========================================================
+   本月資料
+========================================================= */
+
 function monthRecords(){
- return data.records.filter(x=>x.date.slice(0,7)===monthKey());
+
+ return data.records.filter(
+  x=>x.date.slice(0,7)===monthKey()
+ );
+
 }
+
 
 function fixedTotal(){
- return data.fixed.reduce((s,x)=>s+Number(x.amount),0);
+
+ return data.fixed.reduce(
+  (sum,x)=>sum+Number(x.amount||0),
+  0
+ );
+
 }
+
 
 function variableExpenses(){
+
  return monthRecords()
  .filter(x=>x.type==="expense")
- .reduce((s,x)=>s+Number(x.amount),0);
+ .reduce(
+  (sum,x)=>sum+Number(x.amount||0),
+  0
+ );
+
 }
 
+
 function incomeTotal(){
+
  return data.salary+
  monthRecords()
  .filter(x=>x.type==="income")
- .reduce((s,x)=>s+Number(x.amount),0);
+ .reduce(
+  (sum,x)=>sum+Number(x.amount||0),
+  0
+ );
+
 }
 
-function remainingLoan(){
- let l=data.loan;
- let paid=Math.min(Number(l.paid)||0,l.terms);
 
- if(paid>=l.terms)return 0;
-
- let r=l.rate/1200;
-
- if(r===0){
-  return l.principal*(l.terms-paid)/l.terms;
- }
-
- return l.payment*
- (1-Math.pow(1+r,-(l.terms-paid)))/r;
-}
+/* =========================================================
+   首頁
+========================================================= */
 
 function renderHome(){
 
  let income=incomeTotal();
+
  let fixed=fixedTotal();
+
  let variable=variableExpenses();
- let totalExpense=fixed+variable;
+
+ let totalExpense=
+  fixed+variable;
+
 
  /*
-  生活費只計算可變生活支出。
-  固定支出與貸款不會吃掉生活費預算。
+   生活費只計算：
+   飲食、交通、約會、購物、其他
+
+   不會把房租、保險算進生活費。
  */
+
  let life=monthRecords()
- .filter(x=>x.type==="expense"&&
- ["飲食","交通","約會","購物","其他"].includes(x.cat))
- .reduce((s,x)=>s+Number(x.amount),0);
+ .filter(
+  x=>
+   x.type==="expense" &&
+   [
+    "飲食",
+    "交通",
+    "約會",
+    "購物",
+    "其他"
+   ].includes(x.cat)
+ )
+ .reduce(
+  (sum,x)=>sum+Number(x.amount||0),
+  0
+ );
 
- let free=data.budget-life;
 
- document.getElementById("monthText").textContent=
- new Date().toLocaleDateString("zh-TW",{year:"numeric",month:"long"});
+ let free=
+  Number(data.budget||0)-life;
 
- document.getElementById("freeMoney").textContent=money(Math.max(0,free));
- document.getElementById("lifeUsed").textContent=
- money(life)+" / "+money(data.budget);
 
- let pct=data.budget?Math.min(100,life/data.budget*100):0;
+ document.getElementById("monthText")
+ .textContent=
+ new Date()
+ .toLocaleDateString(
+  "zh-TW",
+  {
+   year:"numeric",
+   month:"long"
+  }
+ );
 
- document.getElementById("lifePct").textContent=Math.round(pct)+"%";
- document.getElementById("lifeBar").style.width=pct+"%";
 
- document.getElementById("income").textContent=money(income);
- document.getElementById("expense").textContent=money(totalExpense);
+ document.getElementById("freeMoney")
+ .textContent=
+ money(Math.max(0,free));
 
- let balance=income-totalExpense-data.loan.payment;
 
- document.getElementById("balance").textContent=money(balance);
- document.getElementById("balance").className=
+ document.getElementById("lifeUsed")
+ .textContent=
+ money(life)+
+ " / "+
+ money(data.budget);
+
+
+ let pct=
+ data.budget
+ ?Math.min(100,life/data.budget*100)
+ :0;
+
+
+ document.getElementById("lifePct")
+ .textContent=
+ Math.round(pct)+"%";
+
+
+ document.getElementById("lifeBar")
+ .style.width=
+ pct+"%";
+
+
+ document.getElementById("income")
+ .textContent=
+ money(income);
+
+
+ document.getElementById("expense")
+ .textContent=
+ money(totalExpense);
+
+
+ let balance=
+ income-
+ totalExpense-
+ Number(data.loan.payment||0);
+
+
+ document.getElementById("balance")
+ .textContent=
+ money(balance);
+
+
+ document.getElementById("balance")
+ .className=
  "big "+(balance>=0?"green":"red");
 
- document.getElementById("assets").textContent=
- money(data.reserve+data.cash+data.asset);
 
- document.getElementById("reserve").textContent=money(data.reserve);
+ /*
+   資產
+ */
+ document.getElementById("assets")
+ .textContent=
+ money(
+  Number(data.reserve||0)+
+  Number(data.cash||0)+
+  Number(data.asset||0)
+ );
 
- let reservePct=Math.min(100,data.reserve/110000*100);
- document.getElementById("reserveBar").style.width=reservePct+"%";
 
- document.getElementById("loanRemain").textContent=money(remainingLoan());
+ /*
+   緊急預備金
+ */
+ document.getElementById("reserve")
+ .textContent=
+ money(data.reserve);
 
- let lp=data.loan.terms?
- Math.round(data.loan.paid/data.loan.terms*100):0;
 
- document.getElementById("loanBar").style.width=lp+"%";
- document.getElementById("loanProgress").textContent=
- data.loan.paid+" / "+data.loan.terms+" 期";
+ let reservePct=
+ Math.min(
+  100,
+  Number(data.reserve||0)/110000*100
+ );
 
- document.getElementById("loanPayment").textContent=
+
+ document.getElementById("reserveBar")
+ .style.width=
+ reservePct+"%";
+
+
+ /*
+   貸款
+ */
+ document.getElementById("loanRemain")
+ .textContent=
+ money(remainingLoan());
+
+
+ let paid=data.loan.firstPaymentDate
+ ?calculatePaidPeriods()
+ :Number(data.loan.paid)||0;
+
+
+ let terms=
+ Number(data.loan.terms)||0;
+
+
+ let loanPct=
+ terms
+ ?Math.min(100,paid/terms*100)
+ :0;
+
+
+ document.getElementById("loanBar")
+ .style.width=
+ loanPct+"%";
+
+
+ document.getElementById("loanProgress")
+ .textContent=
+ paid+" / "+terms+" 期";
+
+
+ document.getElementById("loanPayment")
+ .textContent=
  "月付 "+money(data.loan.payment);
 
- let recent=[...data.records].reverse().slice(0,5);
 
- document.getElementById("recent").innerHTML=
- recent.map(recordHTML).join("")||
+ document.getElementById("firstPaymentDisplay")
+ .textContent=
+ data.loan.firstPaymentDate
+ ?formatDate(data.loan.firstPaymentDate)
+ :"尚未設定";
+
+
+ let next=nextPaymentDate();
+
+
+ document.getElementById("nextPaymentDisplay")
+ .textContent=
+ next
+ ?next.toLocaleDateString(
+  "zh-TW",
+  {
+   year:"numeric",
+   month:"2-digit",
+   day:"2-digit"
+  }
+ )
+ :"已繳清";
+
+
+ /*
+   最近紀錄
+ */
+ let recent=
+ [...data.records]
+ .sort(
+  (a,b)=>
+   new Date(b.date)-new Date(a.date)
+ )
+ .slice(0,5);
+
+
+ document.getElementById("recent")
+ .innerHTML=
+ recent
+ .map(recordHTML)
+ .join("")
+ ||
  '<div class="empty">目前還沒有記帳紀錄</div>';
+
 }
+
+
+/* =========================================================
+   圖示
+========================================================= */
 
 function icon(cat){
+
  const icons={
-  "飲食":"🍜","交通":"🚗","約會":"❤️","購物":"🛍️",
-  "房租／水電":"🏠","保險":"🛡️","薪資":"💰",
-  "獎金":"🎁","其他收入":"💵","其他":"📦"
+  "飲食":"🍜",
+  "交通":"🚗",
+  "約會":"❤️",
+  "購物":"🛍️",
+  "房租／水電":"🏠",
+  "保險":"🛡️",
+  "薪資":"💰",
+  "獎金":"🎁",
+  "其他收入":"💵",
+  "其他":"📦"
  };
+
  return icons[cat]||"💰";
+
 }
 
+
+/* =========================================================
+   記帳 HTML
+========================================================= */
+
 function recordHTML(x){
+
  return `
  <div class="item">
+
   <div class="itemLeft">
-   <div class="itemIcon">${icon(x.cat)}</div>
+
+   <div class="itemIcon">
+    ${icon(x.cat)}
+   </div>
+
    <div>
     <b>${x.cat}</b>
-    <small>${x.date}${x.note?" ・ "+x.note:""}</small>
+
+    <small>
+     ${x.date}
+     ${x.note?" ・ "+x.note:""}
+    </small>
+
    </div>
+
   </div>
+
+
   <div>
+
    <div class="amount ${x.type==="income"?"green":"red"}">
-    ${x.type==="income"?"+":"-"}${money(x.amount)}
+
+    ${x.type==="income"?"+":"-"}
+    ${money(x.amount)}
+
    </div>
+
+
    <div class="actions">
-    <button class="secondary" onclick="editRecord('${x.id}')">修改</button>
-    <button class="danger" onclick="deleteRecord('${x.id}')">刪除</button>
+
+    <button
+     class="secondary"
+     onclick="editRecord('${x.id}')"
+    >
+     修改
+    </button>
+
+    <button
+     class="danger"
+     onclick="deleteRecord('${x.id}')"
+    >
+     刪除
+    </button>
+
    </div>
+
   </div>
- </div>`;
+
+ </div>
+ `;
+
 }
+
+
+/* =========================================================
+   新增記帳
+========================================================= */
 
 function addRecord(){
 
- let amount=Number(document.getElementById("amount").value);
+ let amount=
+ Number(
+  document.getElementById("amount").value
+ );
+
 
  if(!amount||amount<0){
+
   alert("請輸入正確金額");
+
   return;
+
  }
 
+
  data.records.push({
+
   id:Date.now().toString(),
-  type:document.getElementById("type").value,
+
+  type:
+   document.getElementById("type").value,
+
   amount:amount,
-  date:document.getElementById("date").value||today(),
-  cat:document.getElementById("cat").value,
-  note:document.getElementById("note").value
+
+  date:
+   document.getElementById("date").value||
+   today(),
+
+  cat:
+   document.getElementById("cat").value,
+
+  note:
+   document.getElementById("note").value
+
  });
 
+
  document.getElementById("amount").value="";
+
  document.getElementById("note").value="";
 
+
  render();
+
 }
+
+
+/* =========================================================
+   記帳列表
+========================================================= */
 
 function renderRecords(){
 
- let list=[...data.records].reverse();
+ let list=
+ [...data.records]
+ .sort(
+  (a,b)=>
+   new Date(b.date)-new Date(a.date)
+ );
 
- document.getElementById("records").innerHTML=
- list.map(recordHTML).join("")||
+
+ document.getElementById("records")
+ .innerHTML=
+ list
+ .map(recordHTML)
+ .join("")
+ ||
  '<div class="empty">目前還沒有記帳紀錄</div>';
+
 }
+
+
+/* =========================================================
+   修改記帳
+========================================================= */
 
 function editRecord(id){
 
- let x=data.records.find(x=>x.id===id);
+ let x=
+ data.records.find(x=>x.id===id);
+
 
  editId=id;
+
  editMode="record";
 
- document.getElementById("modalTitle").textContent="📝 修改記帳";
 
- document.getElementById("modalBody").innerHTML=`
+ document.getElementById("modalTitle")
+ .textContent=
+ "📝 修改記帳";
+
+
+ document.getElementById("modalBody")
+ .innerHTML=`
+
  <label>類型</label>
+
  <select id="eType">
-  <option value="expense">支出</option>
-  <option value="income">收入</option>
+
+  <option value="expense">
+   支出
+  </option>
+
+  <option value="income">
+   收入
+  </option>
+
  </select>
 
+
  <label>金額</label>
- <input id="eAmount" type="number" value="${x.amount}">
+
+ <input
+  id="eAmount"
+  type="number"
+  value="${x.amount}"
+ >
+
 
  <label>日期</label>
- <input id="eDate" type="date" value="${x.date}">
+
+ <input
+  id="eDate"
+  type="date"
+  value="${x.date}"
+ >
+
 
  <label>類別</label>
- <input id="eCat" value="${x.cat}">
+
+ <input
+  id="eCat"
+  value="${x.cat}"
+ >
+
 
  <label>備註</label>
- <input id="eNote" value="${x.note||""}">
+
+ <input
+  id="eNote"
+  value="${x.note||""}"
+ >
+
  `;
 
- document.getElementById("eType").value=x.type;
- document.getElementById("modal").style.display="flex";
+
+ document.getElementById("eType")
+ .value=x.type;
+
+
+ document.getElementById("modal")
+ .style.display="flex";
+
 }
+
+
+/* =========================================================
+   刪除記帳
+========================================================= */
 
 function deleteRecord(id){
 
- if(confirm("確定要刪除這筆紀錄嗎？")){
-  data.records=data.records.filter(x=>x.id!==id);
+ if(
+  confirm("確定要刪除這筆紀錄嗎？")
+ ){
+
+  data.records=
+   data.records.filter(
+    x=>x.id!==id
+   );
+
   render();
+
  }
+
 }
+
+
+/* =========================================================
+   修改貸款
+========================================================= */
 
 function editLoan(){
 
  editMode="loan";
 
+
  let l=data.loan;
 
- document.getElementById("modalTitle").textContent="💳 修改貸款";
 
- document.getElementById("modalBody").innerHTML=`
+ document.getElementById("modalTitle")
+ .textContent=
+ "💳 修改貸款";
+
+
+ document.getElementById("modalBody")
+ .innerHTML=`
+
  <label>貸款本金</label>
- <input id="ePrincipal" type="number" value="${l.principal}">
+
+ <input
+  id="ePrincipal"
+  type="number"
+  value="${l.principal}"
+ >
+
 
  <label>年利率 %</label>
- <input id="eRate" type="number" step="0.01" value="${l.rate}">
+
+ <input
+  id="eRate"
+  type="number"
+  step="0.01"
+  value="${l.rate}"
+ >
+
 
  <label>期數</label>
- <input id="eTerms" type="number" value="${l.terms}">
+
+ <input
+  id="eTerms"
+  type="number"
+  value="${l.terms}"
+ >
+
 
  <label>每月還款</label>
- <input id="ePayment" type="number" value="${l.payment}">
 
- <label>已繳期數</label>
- <input id="ePaid" type="number" value="${l.paid}">
+ <input
+  id="ePayment"
+  type="number"
+  value="${Math.round(calculatePayment())}"
+ >
+
+
+ <button
+  class="secondary full"
+  onclick="autoPayment()"
+ >
+  🧮 依本金、利率、期數自動計算月付
+ </button>
+
+
+ <label style="display:block;margin-top:14px">
+  📅 首次扣款日
+ </label>
+
+ <input
+  id="eFirstPayment"
+  type="date"
+  value="${l.firstPaymentDate||""}"
+ >
+
+
+ <div class="notice">
+
+  <b>自動計算已繳期數</b>
+
+  <br>
+
+  設定首次扣款日後，
+  App 會依今天日期自動判斷已繳多少期。
+
+  <br><br>
+
+  如果尚未設定首次扣款日，
+  則可以手動設定已繳期數。
+
+ </div>
+
+
+ <label style="display:block;margin-top:14px">
+  手動已繳期數
+ </label>
+
+ <input
+  id="ePaid"
+  type="number"
+  min="0"
+  value="${l.paid||0}"
+ >
+
  `;
 
- document.getElementById("modal").style.display="flex";
+
+ document.getElementById("modal")
+ .style.display="flex";
+
 }
 
-function renderLoan(){
 
- let l=data.loan;
+/* =========================================================
+   自動算月付
+========================================================= */
 
- document.getElementById("lp").textContent=money(l.principal);
- document.getElementById("lr").textContent=l.rate+"%";
- document.getElementById("lt").textContent=l.terms+" 期";
- document.getElementById("lm").textContent=money(l.payment);
- document.getElementById("lpaid").textContent=l.paid+" 期";
+function autoPayment(){
 
- let pct=l.terms?Math.round(l.paid/l.terms*100):0;
+ let P=
+ Number(
+  document.getElementById("ePrincipal").value
+ )||0;
 
- document.getElementById("lbar").style.width=pct+"%";
- document.getElementById("lpct").textContent=pct+"% 已完成";
- document.getElementById("lleft").textContent=
- Math.max(0,l.terms-l.paid)+" 期剩餘";
 
- document.getElementById("lremain").textContent=
- money(remainingLoan());
-}
+ let rate=
+ Number(
+  document.getElementById("eRate").value
+ )||0;
 
-function renderStats(){
 
- let arr=[];
+ let n=
+ Number(
+  document.getElementById("eTerms").value
+ )||0;
 
- for(let i=5;i>=0;i--){
 
-  let d=new Date();
-  d.setDate(1);
-  d.setMonth(d.getMonth()-i);
+ if(P<=0||n<=0){
 
-  let key=d.getFullYear()+"-"+
-  String(d.getMonth()+1).padStart(2,"0");
+  alert("請先輸入本金與期數");
 
-  let val=data.records
-  .filter(x=>x.type==="expense"&&x.date.slice(0,7)===key)
-  .reduce((s,x)=>s+Number(x.amount),0)+fixedTotal();
+  return;
 
-  arr.push({
-   label:(d.getMonth()+1)+"月",
-   value:val
-  });
  }
 
- let max=Math.max(1,...arr.map(x=>x.value));
 
- document.getElementById("chart").innerHTML=
- arr.map(x=>`
- <div class="barCol">
-  <div>${Math.round(x.value/1000)}k</div>
-  <i style="height:${Math.max(3,x.value/max*145)}px"></i>
-  ${x.label}
- </div>
- `).join("");
+ let r=rate/100/12;
 
- let cats={};
+ let payment;
 
- monthRecords()
- .filter(x=>x.type==="expense")
- .forEach(x=>{
-  cats[x.cat]=(cats[x.cat]||0)+Number(x.amount);
- });
+ if(r===0){
 
- document.getElementById("catStats").innerHTML=
- Object.entries(cats)
- .sort((a,b)=>b[1]-a[1])
- .map(x=>`
- <div class="item">
-  <div class="itemLeft">
-   <div class="itemIcon">${icon(x[0])}</div>
-   <b>${x[0]}</b>
-  </div>
-  <b>${money(x[1])}</b>
- </div>
- `).join("")||
- '<div class="empty">本月尚無支出</div>';
-}
+  payment=P/n;
 
-function renderSettings(){
+ }else{
 
- document.getElementById("sSalary").value=data.salary;
- document.getElementById("sBudget").value=data.budget;
- document.getElementById("sReserve").value=data.reserve;
- document.getElementById("sCash").value=data.cash;
- document.getElementById("sAsset").value=data.asset;
- document.getElementById("sDebt").value=data.debt;
+  payment=
+   P*r/
+   (1-Math.pow(1+r,-n));
 
- document.getElementById("fixed").innerHTML=
- data.fixed.map(x=>`
- <div class="item">
-  <div class="itemLeft">
-   <div class="itemIcon">📌</div>
-   <div>
-    <b>${x.name}</b>
-    <small>${money(x.amount)}／月</small>
-   </div>
-  </div>
-  <div class="actions">
-   <button class="secondary" onclick="editFixed('${x.id}')">修改</button>
-   <button class="danger" onclick="deleteFixed('${x.id}')">刪除</button>
-  </div>
- </div>
- `).join("");
-}
-
-function saveSettings(){
-
- data.salary=Number(document.getElementById("sSalary").value)||0;
- data.budget=Number(document.getElementById("sBudget").value)||0;
- data.reserve=Number(document.getElementById("sReserve").value)||0;
- data.cash=Number(document.getElementById("sCash").value)||0;
- data.asset=Number(document.getElementById("sAsset").value)||0;
- data.debt=Number(document.getElementById("sDebt").value)||0;
-
- render();
-
- alert("設定已儲存");
-}
-
-function addFixed(){
-
- let x={
-  id:Date.now().toString(),
-  name:"新固定支出",
-  amount:0
- };
-
- data.fixed.push(x);
- editFixed(x.id);
-}
-
-function editFixed(id){
-
- let x=data.fixed.find(x=>x.id===id);
-
- editId=id;
- editMode="fixed";
-
- document.getElementById("modalTitle").textContent="📌 修改固定支出";
-
- document.getElementById("modalBody").innerHTML=`
- <label>名稱</label>
- <input id="eName" value="${x.name}">
-
- <label>每月金額</label>
- <input id="eFixedAmount" type="number" value="${x.amount}">
- `;
-
- document.getElementById("modal").style.display="flex";
-}
-
-function deleteFixed(id){
-
- if(confirm("確定刪除這項固定支出？")){
-  data.fixed=data.fixed.filter(x=>x.id!==id);
-  render();
  }
+
+
+ document.getElementById("ePayment")
+ .value=
+ Math.round(payment);
+
 }
+
+
+/* =========================================================
+   儲存修改
+========================================================= */
 
 function saveEdit(){
 
  if(editMode==="record"){
 
-  let x=data.records.find(x=>x.id===editId);
+  let x=
+   data.records.find(
+    x=>x.id===editId
+   );
 
-  x.type=document.getElementById("eType").value;
-  x.amount=Number(document.getElementById("eAmount").value)||0;
-  x.date=document.getElementById("eDate").value;
-  x.cat=document.getElementById("eCat").value;
-  x.note=document.getElementById("eNote").value;
+
+  x.type=
+   document.getElementById("eType").value;
+
+
+  x.amount=
+   Number(
+    document.getElementById("eAmount").value
+   )||0;
+
+
+  x.date=
+   document.getElementById("eDate").value;
+
+
+  x.cat=
+   document.getElementById("eCat").value;
+
+
+  x.note=
+   document.getElementById("eNote").value;
+
  }
+
 
  if(editMode==="fixed"){
 
-  let x=data.fixed.find(x=>x.id===editId);
+  let x=
+   data.fixed.find(
+    x=>x.id===editId
+   );
 
-  x.name=document.getElementById("eName").value||"固定支出";
-  x.amount=Number(document.getElementById("eFixedAmount").value)||0;
+
+  x.name=
+   document.getElementById("eName").value||
+   "固定支出";
+
+
+  x.amount=
+   Number(
+    document.getElementById("eFixedAmount").value
+   )||0;
+
  }
+
 
  if(editMode==="loan"){
 
-  data.loan.principal=Number(document.getElementById("ePrincipal").value)||0;
-  data.loan.rate=Number(document.getElementById("eRate").value)||0;
-  data.loan.terms=Number(document.getElementById("eTerms").value)||1;
-  data.loan.payment=Number(document.getElementById("ePayment").value)||0;
+  data.loan.principal=
+   Number(
+    document.getElementById("ePrincipal").value
+   )||0;
 
-  data.loan.paid=Math.min(
-   data.loan.terms,
-   Math.max(0,Number(document.getElementById("ePaid").value)||0)
-  );
+
+  data.loan.rate=
+   Number(
+    document.getElementById("eRate").value
+   )||0;
+
+
+  data.loan.terms=
+   Number(
+    document.getElementById("eTerms").value
+   )||1;
+
+
+  data.loan.payment=
+   Number(
+    document.getElementById("ePayment").value
+   )||0;
+
+
+  data.loan.firstPaymentDate=
+   document.getElementById("eFirstPayment").value||
+   "";
+
+
+  /*
+    如果有首次扣款日
+    已繳期數自動計算
+  */
+  if(data.loan.firstPaymentDate){
+
+   data.loan.paid=
+    calculatePaidPeriods();
+
+  }else{
+
+   /*
+     沒有首次扣款日
+     使用手動已繳期數
+   */
+
+   data.loan.paid=
+    Math.min(
+     data.loan.terms,
+     Math.max(
+      0,
+      Number(
+       document.getElementById("ePaid").value
+      )||0
+     )
+    );
+
+  }
+
  }
 
+
  closeModal();
+
  render();
+
 }
 
+
+/* =========================================================
+   關閉視窗
+========================================================= */
+
 function closeModal(){
- document.getElementById("modal").style.display="none";
+
+ document.getElementById("modal")
+ .style.display="none";
+
 }
+
+
+/* =========================================================
+   貸款頁
+========================================================= */
+
+function renderLoan(){
+
+ let l=data.loan;
+
+
+ /*
+   有首次扣款日
+   → 自動計算
+ */
+ if(l.firstPaymentDate){
+
+  l.paid=
+   calculatePaidPeriods();
+
+ }
+
+
+ document.getElementById("lp")
+ .textContent=
+ money(l.principal);
+
+
+ document.getElementById("lr")
+ .textContent=
+ l.rate+"%";
+
+
+ document.getElementById("lt")
+ .textContent=
+ l.terms+" 期";
+
+
+ document.getElementById("lm")
+ .textContent=
+ money(l.payment);
+
+
+ document.getElementById("lpaid")
+ .textContent=
+ l.paid+" 期";
+
+
+ let pct=
+ l.terms
+ ?Math.min(
+   100,
+   l.paid/l.terms*100
+  )
+ :0;
+
+
+ document.getElementById("lbar")
+ .style.width=
+ pct+"%";
+
+
+ document.getElementById("lpct")
+ .textContent=
+ Math.round(pct)+"% 已完成";
+
+
+ document.getElementById("lleft")
+ .textContent=
+ Math.max(
+  0,
+  l.terms-l.paid
+ )+" 期剩餘";
+
+
+ document.getElementById("lremain")
+ .textContent=
+ money(
+  remainingLoan()
+ );
+
+}
+
+
+/* =========================================================
+   統計
+========================================================= */
+
+function renderStats(){
+
+ let arr=[];
+
+
+ for(let i=5;i>=0;i--){
+
+  let d=new Date();
+
+  d.setDate(1);
+
+  d.setMonth(
+   d.getMonth()-i
+  );
+
+
+  let key=
+   d.getFullYear()+
+   "-" +
+   String(
+    d.getMonth()+1
+   ).padStart(2,"0");
+
+
+  let val=
+   data.records
+   .filter(
+    x=>
+     x.type==="expense" &&
+     x.date.slice(0,7)===key
+   )
+   .reduce(
+    (sum,x)=>
+     sum+Number(x.amount||0),
+    0
+   );
+
+
+  /*
+    只在本月加入固定支出，
+    避免歷史月份全部重複套用。
+  */
+
+  if(key===monthKey()){
+   val+=fixedTotal();
+  }
+
+
+  arr.push({
+
+   label:
+    (d.getMonth()+1)+"月",
+
+   value:val
+
+  });
+
+ }
+
+
+ let max=
+  Math.max(
+   1,
+   ...arr.map(x=>x.value)
+  );
+
+
+ document.getElementById("chart")
+ .innerHTML=
+ arr
+ .map(x=>`
+
+  <div class="barCol">
+
+   <div>
+    ${Math.round(x.value/1000)}k
+   </div>
+
+   <i
+    style="
+     height:${Math.max(
+      3,
+      x.value/max*145
+     )}px
+    "
+   ></i>
+
+   ${x.label}
+
+  </div>
+
+ `)
+ .join("");
+
+
+ let cats={};
+
+
+ monthRecords()
+ .filter(
+  x=>x.type==="expense"
+ )
+ .forEach(x=>{
+
+  cats[x.cat]=
+   (cats[x.cat]||0)+
+   Number(x.amount||0);
+
+ });
+
+
+ document.getElementById("catStats")
+ .innerHTML=
+ Object.entries(cats)
+ .sort(
+  (a,b)=>b[1]-a[1]
+ )
+ .map(x=>`
+
+  <div class="item">
+
+   <div class="itemLeft">
+
+    <div class="itemIcon">
+     ${icon(x[0])}
+    </div>
+
+    <b>${x[0]}</b>
+
+   </div>
+
+   <b>${money(x[1])}</b>
+
+  </div>
+
+ `)
+ .join("")
+ ||
+ '<div class="empty">本月尚無支出</div>';
+
+}
+
+
+/* =========================================================
+   設定
+========================================================= */
+
+function renderSettings(){
+
+ document.getElementById("sSalary")
+ .value=
+ data.salary;
+
+
+ document.getElementById("sBudget")
+ .value=
+ data.budget;
+
+
+ document.getElementById("sReserve")
+ .value=
+ data.reserve;
+
+
+ document.getElementById("sCash")
+ .value=
+ data.cash;
+
+
+ document.getElementById("sAsset")
+ .value=
+ data.asset;
+
+
+ document.getElementById("sDebt")
+ .value=
+ data.debt;
+
+
+ document.getElementById("fixed")
+ .innerHTML=
+ data.fixed
+ .map(x=>`
+
+  <div class="item">
+
+   <div class="itemLeft">
+
+    <div class="itemIcon">
+     📌
+    </div>
+
+    <div>
+
+     <b>${x.name}</b>
+
+     <small>
+      ${money(x.amount)}／月
+     </small>
+
+    </div>
+
+   </div>
+
+
+   <div class="actions">
+
+    <button
+     class="secondary"
+     onclick="editFixed('${x.id}')"
+    >
+     修改
+    </button>
+
+    <button
+     class="danger"
+     onclick="deleteFixed('${x.id}')"
+    >
+     刪除
+    </button>
+
+   </div>
+
+  </div>
+
+ `)
+ .join("");
+
+}
+
+
+/* =========================================================
+   儲存設定
+========================================================= */
+
+function saveSettings(){
+
+ data.salary=
+  Number(
+   document.getElementById("sSalary").value
+  )||0;
+
+
+ data.budget=
+  Number(
+   document.getElementById("sBudget").value
+  )||0;
+
+
+ data.reserve=
+  Number(
+   document.getElementById("sReserve").value
+  )||0;
+
+
+ data.cash=
+  Number(
+   document.getElementById("sCash").value
+  )||0;
+
+
+ data.asset=
+  Number(
+   document.getElementById("sAsset").value
+  )||0;
+
+
+ data.debt=
+  Number(
+   document.getElementById("sDebt").value
+  )||0;
+
+
+ render();
+
+
+ alert("設定已儲存");
+
+}
+
+
+/* =========================================================
+   固定支出
+========================================================= */
+
+function addFixed(){
+
+ let x={
+
+  id:
+   Date.now().toString(),
+
+  name:
+   "新固定支出",
+
+  amount:0
+
+ };
+
+
+ data.fixed.push(x);
+
+ editFixed(x.id);
+
+}
+
+
+function editFixed(id){
+
+ let x=
+  data.fixed.find(
+   x=>x.id===id
+  );
+
+
+ editId=id;
+
+ editMode="fixed";
+
+
+ document.getElementById("modalTitle")
+ .textContent=
+ "📌 修改固定支出";
+
+
+ document.getElementById("modalBody")
+ .innerHTML=`
+
+ <label>名稱</label>
+
+ <input
+  id="eName"
+  value="${x.name}"
+ >
+
+
+ <label>每月金額</label>
+
+ <input
+  id="eFixedAmount"
+  type="number"
+  value="${x.amount}"
+ >
+
+ `;
+
+
+ document.getElementById("modal")
+ .style.display="flex";
+
+}
+
+
+function deleteFixed(id){
+
+ if(
+  confirm("確定刪除這項固定支出？")
+ ){
+
+  data.fixed=
+   data.fixed.filter(
+    x=>x.id!==id
+   );
+
+  render();
+
+ }
+
+}
+
+
+/* =========================================================
+   深色模式
+========================================================= */
 
 function toggleDark(force){
 
- let on=typeof force==="boolean"
- ?force
- :!document.body.classList.contains("dark");
+ let on;
 
- document.body.classList.toggle("dark",on);
+ if(typeof force==="boolean"){
 
- let sw=document.getElementById("darkSwitch");
- if(sw)sw.checked=on;
+  on=force;
 
- localStorage.setItem("MY_FINANCE_DARK",on?"1":"0");
+ }else{
+
+  on=
+   !document.body
+   .classList
+   .contains("dark");
+
+ }
+
+
+ document.body
+ .classList
+ .toggle("dark",on);
+
+
+ let sw=
+  document.getElementById(
+   "darkSwitch"
+  );
+
+
+ if(sw){
+  sw.checked=on;
+ }
+
+
+ localStorage.setItem(
+  "MY_FINANCE_DARK",
+  on?"1":"0"
+ );
+
 }
 
-if(localStorage.getItem("MY_FINANCE_DARK")==="1"){
+
+if(
+ localStorage.getItem(
+  "MY_FINANCE_DARK"
+ )==="1"
+){
+
  toggleDark(true);
+
 }
+
+
+/* =========================================================
+   總 render
+========================================================= */
 
 function render(){
 
+ /*
+   如果有首次扣款日，
+   每次開啟 App 都重新計算已繳期數
+ */
+ if(data.loan.firstPaymentDate){
+
+  data.loan.paid=
+   calculatePaidPeriods();
+
+ }
+
+
  renderHome();
+
  renderRecords();
+
  renderLoan();
+
  renderStats();
+
  renderSettings();
 
  save();
+
 }
+
+
+/* =========================================================
+   啟動
+========================================================= */
 
 render();
 
