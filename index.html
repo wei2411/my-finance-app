@@ -13,7 +13,7 @@
 
 :root{
  --bg:#f3f4f7;
- --card:rgba(255,255,255,.92);
+ --card:rgba(255,255,255,.94);
  --text:#15161a;
  --muted:#858994;
  --line:#e5e6ea;
@@ -25,7 +25,7 @@
 
 body.dark{
  --bg:#101114;
- --card:rgba(29,30,35,.94);
+ --card:rgba(29,30,35,.96);
  --text:#f5f5f7;
  --muted:#999ba4;
  --line:#383940;
@@ -40,7 +40,8 @@ body{
  radial-gradient(circle at 90% 15%,rgba(40,190,140,.14),transparent 28%),
  var(--bg);
  color:var(--text);
- font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Noto Sans TC",sans-serif;
+ font-family:-apple-system,BlinkMacSystemFont,
+ "SF Pro Display","Noto Sans TC",sans-serif;
 }
 
 .app{
@@ -139,6 +140,7 @@ body{
  justify-content:space-between;
  font-size:13px;
  color:#c7c9d0;
+ gap:10px;
 }
 
 .progress{
@@ -520,6 +522,34 @@ body.dark .notice{
  margin:0;
 }
 
+/* ================= 手動資產提示 ================= */
+
+.manualAsset{
+ border:1px solid #b9e8d1;
+ background:rgba(25,164,99,.08);
+}
+
+body.dark .manualAsset{
+ border-color:#276b4d;
+ background:rgba(25,164,99,.12);
+}
+
+.manualAssetTitle{
+ display:flex;
+ justify-content:space-between;
+ align-items:center;
+ gap:8px;
+}
+
+.manualBadge{
+ font-size:10px;
+ color:var(--green);
+ background:rgba(25,164,99,.12);
+ padding:4px 8px;
+ border-radius:20px;
+ white-space:nowrap;
+}
+
 /* ================= MOBILE ================= */
 
 @media(max-width:380px){
@@ -687,10 +717,18 @@ body.dark .notice{
   </div>
 
 
-  <div class="card">
+  <div class="card manualAsset">
 
-   <div class="label">
-    📊 淨資產
+   <div class="manualAssetTitle">
+
+    <div class="label">
+     📊 淨資產
+    </div>
+
+    <span class="manualBadge">
+     手動
+    </span>
+
    </div>
 
    <div
@@ -1110,8 +1148,8 @@ body.dark .notice{
 
     <br><br>
 
-    貸款本身屬於負債，
-    不會直接當成你的自有資產。
+    貸款資金與你的「實際帳戶總額」
+    分開計算。
 
    </div>
 
@@ -1177,47 +1215,92 @@ body.dark .notice{
 
   <div class="card">
 
-   <label>每月薪資</label>
+   <label>
+    每月薪資
+   </label>
 
    <input
     id="sSalary"
     type="number"
    >
 
-   <label>生活費預算</label>
+
+   <label>
+    生活費預算
+   </label>
 
    <input
     id="sBudget"
     type="number"
    >
 
-   <label>緊急預備金</label>
+
+   <label>
+    📊 實際帳戶總額
+   </label>
+
+   <input
+    id="sNetWorth"
+    type="number"
+    placeholder="例如 68500"
+   >
+
+   <div class="notice">
+
+    這個金額由你手動輸入。
+
+    <br>
+
+    請直接填入目前實際查看銀行帳戶、
+    現金、電子支付等後，
+    你認為目前實際擁有的總金額。
+
+    <br><br>
+
+    記帳、生活費與貸款不會自動修改這個數字。
+
+   </div>
+
+
+   <label>
+    緊急預備金
+   </label>
 
    <input
     id="sReserve"
     type="number"
    >
 
-   <label>自有現金／存款</label>
+
+   <label>
+    自有現金／存款
+   </label>
 
    <input
     id="sCash"
     type="number"
    >
 
-   <label>其他資產</label>
+
+   <label>
+    其他資產
+   </label>
 
    <input
     id="sAsset"
     type="number"
    >
 
-   <label>其他負債</label>
+
+   <label>
+    其他負債
+   </label>
 
    <input
     id="sDebt"
     type="number"
    >
+
 
    <button
     class="full"
@@ -1389,6 +1472,11 @@ if(!data){
 
   budget:10000,
 
+  /*
+   * 手動輸入的實際帳戶總額
+   */
+  netWorth:0,
+
   reserve:0,
 
   cash:0,
@@ -1434,6 +1522,20 @@ if(!data){
   loanFundRecords:[]
 
  };
+
+}
+
+
+/*
+ * 舊版本沒有 netWorth 時，
+ * 自動建立為 0。
+ */
+if(
+ data.netWorth===undefined ||
+ data.netWorth===null
+){
+
+ data.netWorth=0;
 
 }
 
@@ -1813,7 +1915,8 @@ function go(id,btn){
 function updateCats(){
 
  let income=
-  document.getElementById("type")
+  document
+  .getElementById("type")
   .value==="income";
 
  let list=income
@@ -1954,22 +2057,15 @@ function loanFundReserve(){
 
 
 /* =========================================================
-   淨資產
+   注意：
+   淨資產不再自動計算
 ========================================================= */
 
 function netWorth(){
 
- return Number(data.cash||0)
-  +
-  Number(data.asset||0)
-  +
-  Number(data.reserve||0)
-  +
-  loanFundReserve()
-  -
-  remainingLoan()
-  -
-  Number(data.debt||0);
+ return Number(
+  data.netWorth
+ )||0;
 
 }
 
@@ -1992,6 +2088,7 @@ function renderHome(){
   data.loan.payment||0
  );
 
+
  /*
   預計月底剩餘：
 
@@ -2010,6 +2107,7 @@ function renderHome(){
    Number(data.budget||0)
   );
 
+
  /*
   實際目前結餘：
 
@@ -2024,6 +2122,7 @@ function renderHome(){
   fixed-
   variable-
   loanPay;
+
 
  let pct=
   data.budget
@@ -2057,7 +2156,7 @@ function renderHome(){
  money(projected);
 
 
- /* 大卡片：生活費 */
+ /* 生活費 */
 
  document
  .getElementById("lifeBudget")
@@ -2118,10 +2217,14 @@ function renderHome(){
  );
 
 
+ /*
+  這裡直接使用你手動輸入的實際帳戶總額
+ */
+
  document
  .getElementById("netWorth")
  .textContent=
- money(netWorth());
+ money(data.netWorth);
 
 
  /* 現金流 */
@@ -3255,6 +3358,15 @@ function renderSettings(){
  .value=
  data.budget;
 
+ /*
+  * 顯示手動輸入的實際帳戶總額
+  */
+
+ document
+ .getElementById("sNetWorth")
+ .value=
+ data.netWorth;
+
  document
  .getElementById("sReserve")
  .value=
@@ -3351,6 +3463,18 @@ function saveSettings(){
    .value
   )||0;
 
+ /*
+  * 這裡是新的「手動實際帳戶總額」
+  * 不再使用公式計算
+  */
+
+ data.netWorth=
+  Number(
+   document
+   .getElementById("sNetWorth")
+   .value
+  )||0;
+
  data.reserve=
   Number(
    document
@@ -3381,7 +3505,9 @@ function saveSettings(){
 
  render();
 
- alert("設定已儲存");
+ alert(
+  "設定已儲存，首頁淨資產已更新"
+ );
 
 }
 
