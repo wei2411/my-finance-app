@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#111">
+<title>我的財務</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#f5f5f7;color:#111;font-family:-apple-system,BlinkMacSystemFont,"Noto Sans TC",sans-serif}
+.app{max-width:600px;margin:auto;padding-bottom:80px}
+header{background:#111;color:white;padding:25px 18px}
+h1{margin:0;font-size:25px}h2{font-size:18px;margin:18px 0 10px}
+.tabs{display:flex;overflow:auto;background:white;padding:10px;gap:7px;position:sticky;top:0;z-index:5}
+.tabs button{border:0;border-radius:12px;padding:10px 14px;white-space:nowrap}
+.tabs .on{background:#111;color:white}
+.page{display:none;padding:14px}.page.on{display:block}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.card{background:white;border-radius:17px;padding:15px;margin-bottom:10px;box-shadow:0 2px 10px #0000000b}
+.label{font-size:12px;color:#777}.big{font-size:21px;font-weight:750;margin-top:5px}
+.green{color:#087f23}.red{color:#b00020}
+.row{display:flex;justify-content:space-between;align-items:center;margin:9px 0;font-size:14px}
+input,select,button{font:inherit}
+input,select{width:100%;padding:11px;border:1px solid #ddd;border-radius:11px;background:white;margin:5px 0 10px}
+button{border:0;border-radius:11px;padding:10px 13px;background:#111;color:white;font-weight:700}
+.gray{background:#eee;color:#111}.danger{background:#eee;color:#b00020}
+.full{width:100%}.formgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.fullcol{grid-column:1/-1}
+.bar{height:9px;background:#eee;border-radius:20px;overflow:hidden}.bar i{display:block;height:100%;background:#111;width:0}
+.item{background:white;border-radius:14px;padding:12px;margin:7px 0;display:flex;justify-content:space-between;gap:8px;align-items:center}
+.item small{display:block;color:#777;margin-top:3px}
+.item button{padding:7px 9px;font-size:12px}
+.actions{display:flex;gap:5px}
+.chart{height:190px;display:flex;align-items:flex-end;gap:7px;border-bottom:1px solid #ddd;padding:10px 3px}
+.col{flex:1;text-align:center;font-size:10px;color:#777}.col i{display:block;background:#111;border-radius:6px 6px 0 0;min-height:2px;margin-bottom:4px}
+.modal{display:none;position:fixed;inset:0;background:#0008;align-items:flex-end;z-index:20}
+.sheet{width:100%;max-width:600px;margin:auto;background:#f5f5f7;border-radius:22px 22px 0 0;padding:18px;max-height:90vh;overflow:auto}
+.modalActions{display:flex;gap:8px}.modalActions button{flex:1}
+@media(max-width:380px){.grid,.formgrid{grid-template-columns:1fr}.fullcol{grid-column:auto}}
+</style>
+</head>
+
+<body>
+<div class="app">
+
+<header>
+<h1>我的財務</h1>
+<div style="color:#aaa;font-size:13px">收入・支出・貸款・資產</div>
+</header>
+
+<div class="tabs">
+<button class="on" onclick="page('home',this)">總覽</button>
+<button onclick="page('record',this)">記帳</button>
+<button onclick="page('loan',this)">貸款</button>
+<button onclick="page('stats',this)">統計</button>
+<button onclick="page('settings',this)">設定</button>
+</div>
+
+<section id="home" class="page on">
+<div class="grid">
+<div class="card"><div class="label">本月收入</div><div class="big" id="income"></div></div>
+<div class="card"><div class="label">本月支出</div><div class="big" id="expense"></div></div>
+<div class="card"><div class="label">本月結餘</div><div class="big" id="balance"></div></div>
+<div class="card"><div class="label">資產總額</div><div class="big" id="assets"></div></div>
+</div>
+
+<div class="card">
+<div class="row"><b>生活費預算</b><b id="budgetPct">0%</b></div>
+<div class="bar"><i id="budgetBar"></i></div>
+<div class="row"><span id="budgetUsed"></span><span id="budgetLeft"></span></div>
+</div>
+
+<h2>財務狀態</h2>
+<div class="grid">
+<div class="card"><div class="label">現金／存款</div><div class="big" id="cash"></div></div>
+<div class="card"><div class="label">剩餘貸款</div><div class="big" id="debt"></div></div>
+<div class="card"><div class="label">淨資產</div><div class="big" id="net"></div></div>
+<div class="card"><div class="label">貸款月付</div><div class="big" id="payment"></div></div>
+</div>
+</section>
+
+<section id="record" class="page">
+<h2>新增記帳</h2>
+<div class="card">
+<div class="formgrid">
+<div><label>類型</label><select id="type" onchange="cats()"><option value="expense">支出</option><option value="income">收入</option></select></div>
+<div><label>日期</label><input id="date" type="date"></div>
+<div><label>金額</label><input id="amount" type="number" placeholder="0"></div>
+<div><label>類別</label><select id="cat"></select></div>
+<div class="fullcol"><label>備註</label><input id="note" placeholder="例如：晚餐"></div>
+<div class="fullcol"><button class="full" onclick="add()">＋ 新增</button></div>
+</div>
+</div>
+<h2>所有紀錄</h2>
+<div id="records"></div>
+</section>
+
+<section id="loan" class="page">
+<h2>貸款進度</h2>
+<div class="card">
+<div class="row"><span>本金</span><b id="lp"></b></div>
+<div class="row"><span>年利率</span><b id="lr"></b></div>
+<div class="row"><span>期數</span><b id="lt"></b></div>
+<div class="row"><span>每月還款</span><b id="lm"></b></div>
+<div class="row"><span>已繳期數</span><b id="lpaid"></b></div>
+<div class="bar"><i id="loanbar"></i></div>
+<div class="row"><span id="loanpct"></span><span id="loanleft"></span></div>
+<div class="row"><span>估算剩餘本金</span><b id="lremain"></b></div>
+</div>
+<button class="full" onclick="editLoan()">修改貸款</button>
+</section>
+
+<section id="stats" class="page">
+<h2>近六個月支出</h2>
+<div class="card"><div class="chart" id="chart"></div></div>
+<h2>本月分類</h2>
+<div id="catStats"></div>
+</section>
+
+<section id="settings" class="page">
+<h2>基本設定</h2>
+<div class="card">
+<label>每月薪資</label>
+<input id="salary" type="number">
+<label>生活費預算</label>
+<input id="budget" type="number">
+<label>現金／存款</label>
+<input id="cashSet" type="number">
+<label>其他資產</label>
+<input id="otherAsset" type="number">
+<label>其他負債</label>
+<input id="otherDebt" type="number">
+<button class="full" onclick="saveSet()">儲存設定</button>
+</div>
+
+<h2>固定支出</h2>
+<div class="card">
+<div id="fixed"></div>
+<button class="gray full" onclick="addFixed()">＋ 新增固定支出</button>
+</div>
+</section>
+
+</div>
+
+<div class="modal" id="modal">
+<div class="sheet">
+<h2 id="modalTitle">修改</h2>
+<div id="modalBody"></div>
+<div class="modalActions">
+<button class="gray" onclick="closeModal()">取消</button>
+<button onclick="saveEdit()">儲存</button>
+</div>
+</div>
+</div>
+
+<script>
+const KEY="MY_FINANCE_DATA";
+
+let data=JSON.parse(localStorage.getItem(KEY)||"null")||{
+salary:30000,
+budget:10000,
+cash:110000,
+otherAsset:0,
+otherDebt:0,
+fixed:[
+{id:"f1",name:"房租＋水電",amount:5000},
+{id:"f2",name:"保險／其他固定費用",amount:8000}
+],
+loan:{
+principal:160000,
+rate:2.1,
+terms:36,
+payment:4586,
+paid:0
+},
+records:[]
+};
+
+let editId=null;
+let editType=null;
+
+function saveData(){
+localStorage.setItem(KEY,JSON.stringify(data));
+}
+
+function money(n){
+return "NT$"+Math.round(Number(n)||0).toLocaleString("zh-TW");
+}
+
+function today(){
+return new Date().toISOString().slice(0,10);
+}
+
+document.getElementById("date").value=today();
+
+function page(id,btn){
+document.querySelectorAll(".page").forEach(x=>x.classList.remove("on"));
+document.querySelectorAll(".tabs button").forEach(x=>x.classList.remove("on"));
+document.getElementById(id).classList.add("on");
+btn.classList.add("on");
+render();
+}
+
+function cats(){
+let income=document.getElementById("type").value==="income";
+let list=income?["薪資","獎金","其他收入"]:["飲食","交通","約會","購物","房租／水電","保險","其他"];
+document.getElementById("cat").innerHTML=list.map(x=>"<option>"+x+"</option>").join("");
+}
+cats();
+
+function month(){
+return today().slice(0,7);
+}
+
+function monthRecords(){
+return data.records.filter(x=>x.date.slice(0,7)===month());
+}
+
+function fixedTotal(){
+return data.fixed.reduce((s,x)=>s+Number(x.amount),0);
+}
+
+function expenseTotal(){
+return monthRecords().filter(x=>x.type==="expense").reduce((s,x)=>s+Number(x.amount),0)+fixedTotal();
+}
+
+function incomeTotal(){
+return data.salary+monthRecords().filter(x=>x.type==="income").reduce((s,x)=>s+Number(x.amount),0);
+}
+
+function remainingLoan(){
+let l=data.loan;
+let paid=Math.min(l.paid,l.terms);
+if(paid>=l.terms)return 0;
+let r=l.rate/1200;
+if(r===0)return l.principal*(l.terms-paid)/l.terms;
+return l.payment*(1-Math.pow(1+r,-(l.terms-paid)))/r;
+}
+
+function render(){
+let inc=incomeTotal();
+let exp=expenseTotal();
+let bal=inc-exp;
+let life=monthRecords().filter(x=>x.type==="expense"&&["飲食","交通","約會","購物","其他"].includes(x.cat)).reduce((s,x)=>s+Number(x.amount),0);
+
+document.getElementById("income").textContent=money(inc);
+document.getElementById("expense").textContent=money(exp);
+document.getElementById("balance").textContent=money(bal);
+document.getElementById("balance").className="big "+(bal>=0?"green":"red");
+
+document.getElementById("assets").textContent=money(data.cash+data.otherAsset);
+document.getElementById("cash").textContent=money(data.cash);
+document.getElementById("debt").textContent=money(remainingLoan());
+document.getElementById("net").textContent=money(data.cash+data.otherAsset-remainingLoan()-data.otherDebt);
+document.getElementById("payment").textContent=money(data.loan.payment);
+
+let pct=data.budget?Math.min(100,life/data.budget*100):0;
+document.getElementById("budgetPct").textContent=Math.round(pct)+"%";
+document.getElementById("budgetBar").style.width=pct+"%";
+document.getElementById("budgetUsed").textContent="已用 "+money(life);
+document.getElementById("budgetLeft").textContent="剩餘 "+money(Math.max(0,data.budget-life));
+
+renderRecords();
+renderLoan();
+renderStats();
+renderSettings();
+saveData();
+}
+
+function add(){
+let a=Number(document.getElementById("amount").value);
+if(!a||a<0){alert("請輸入金額");return}
+
+data.records.push({
+id:Date.now().toString(),
+type:document.getElementById("type").value,
+amount:a,
+date:document.getElementById("date").value||today(),
+cat:document.getElementById("cat").value,
+note:document.getElementById("note").value
+});
+
+document.getElementById("amount").value="";
+document.getElementById("note").value="";
+render();
+}
+
+function renderRecords(){
+let list=[...data.records].reverse();
+
+document.getElementById("records").innerHTML=list.map(x=>`
+<div class="item">
+<div>
+<b>${x.type==="income"?"+":"-"}${money(x.amount)}</b>
+<small>${x.date} ・ ${x.cat}${x.note?" ・ "+x.note:""}</small>
+</div>
+<div class="actions">
+<button class="gray" onclick="editRecord('${x.id}')">修改</button>
+<button class="danger" onclick="delRecord('${x.id}')">刪除</button>
+</div>
+</div>`).join("")||'<div style="color:#777">目前沒有記帳紀錄</div>';
+}
+
+function editRecord(id){
+let x=data.records.find(x=>x.id===id);
+editId=id;
+editType="record";
+
+document.getElementById("modalTitle").textContent="修改記帳";
+document.getElementById("modalBody").innerHTML=`
+<label>類型</label>
+<select id="eType">
+<option value="expense">支出</option>
+<option value="income">收入</option>
+</select>
+<label>金額</label>
+<input id="eAmount" type="number" value="${x.amount}">
+<label>日期</label>
+<input id="eDate" type="date" value="${x.date}">
+<label>類別</label>
+<input id="eCat" value="${x.cat}">
+<label>備註</label>
+<input id="eNote" value="${x.note||""}">
+`;
+
+document.getElementById("eType").value=x.type;
+document.getElementById("modal").style.display="flex";
+}
+
+function delRecord(id){
+if(confirm("確定刪除這筆紀錄？")){
+data.records=data.records.filter(x=>x.id!==id);
+render();
+}
+}
+
+function editLoan(){
+editType="loan";
+document.getElementById("modalTitle").textContent="修改貸款";
+
+let l=data.loan;
+
+document.getElementById("modalBody").innerHTML=`
+<label>貸款本金</label>
+<input id="ePrincipal" type="number" value="${l.principal}">
+<label>年利率 %</label>
+<input id="eRate" type="number" step="0.01" value="${l.rate}">
+<label>期數</label>
+<input id="eTerms" type="number" value="${l.terms}">
+<label>每月還款</label>
+<input id="ePayment" type="number" value="${l.payment}">
+<label>已繳期數</label>
+<input id="ePaid" type="number" value="${l.paid}">
+`;
+
+document.getElementById("modal").style.display="flex";
+}
+
+function saveEdit(){
+if(editType==="record"){
+let x=data.records.find(x=>x.id===editId);
+x.type=document.getElementById("eType").value;
+x.amount=Number(document.getElementById("eAmount").value)||0;
+x.date=document.getElementById("eDate").value;
+x.cat=document.getElementById("eCat").value;
+x.note=document.getElementById("eNote").value;
+}
+
+if(editType==="loan"){
+data.loan.principal=Number(document.getElementById("ePrincipal").value)||0;
+data.loan.rate=Number(document.getElementById("eRate").value)||0;
+data.loan.terms=Number(document.getElementById("eTerms").value)||1;
+data.loan.payment=Number(document.getElementById("ePayment").value)||0;
+data.loan.paid=Math.min(data.loan.terms,Number(document.getElementById("ePaid").value)||0);
+}
+
+if(editType==="fixed"){
+let x=data.fixed.find(x=>x.id===editId);
+x.name=document.getElementById("eName").value;
+x.amount=Number(document.getElementById("eFixedAmount").value)||0;
+}
+
+closeModal();
+render();
+}
+
+function closeModal(){
+document.getElementById("modal").style.display="none";
+}
+
+function renderLoan(){
+let l=data.loan;
+let pct=l.terms?Math.round(l.paid/l.terms*100):0;
+
+document.getElementById("lp").textContent=money(l.principal);
+document.getElementById("lr").textContent=l.rate+"%";
+document.getElementById("lt").textContent=l.terms+"期";
+document.getElementById("lm").textContent=money(l.payment);
+document.getElementById("lpaid").textContent=l.paid+"期";
+document.getElementById("loanbar").style.width=pct+"%";
+document.getElementById("loanpct").textContent=pct+"%";
+document.getElementById("loanleft").textContent=Math.max(0,l.terms-l.paid)+"期剩餘";
+document.getElementById("lremain").textContent=money(remainingLoan());
+}
+
+function renderStats(){
+let arr=[];
+
+for(let i=5;i>=0;i--){
+let d=new Date();
+d.setMonth(d.getMonth()-i);
+let key=d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0");
+
+let val=data.records
+.filter(x=>x.type==="expense"&&x.date.slice(0,7)===key)
+.reduce((s,x)=>s+Number(x.amount),0)+fixedTotal();
+
+arr.push({
+label:(d.getMonth()+1)+"月",
+value:val
+});
+}
+
+let max=Math.max(1,...arr.map(x=>x.value));
+
+document.getElementById("chart").innerHTML=arr.map(x=>`
+<div class="col">
+<div>${Math.round(x.value/1000)}k</div>
+<i style="height:${Math.max(2,x.value/max*145)}px"></i>
+${x.label}
+</div>`).join("");
+
+let cats={};
+
+monthRecords().filter(x=>x.type==="expense").forEach(x=>{
+cats[x.cat]=(cats[x.cat]||0)+Number(x.amount);
+});
+
+document.getElementById("catStats").innerHTML=
+Object.entries(cats).sort((a,b)=>b[1]-a[1]).map(x=>`
+<div class="item"><span>${x[0]}</span><b>${money(x[1])}</b></div>
+`).join("")||'<div style="color:#777">本月尚無支出紀錄</div>';
+}
+
+function renderSettings(){
+document.getElementById("salary").value=data.salary;
+document.getElementById("budget").value=data.budget;
+document.getElementById("cashSet").value=data.cash;
+document.getElementById("otherAsset").value=data.otherAsset;
+document.getElementById("otherDebt").value=data.otherDebt;
+
+document.getElementById("fixed").innerHTML=data.fixed.map(x=>`
+<div class="item">
+<div><b>${x.name}</b><small>${money(x.amount)}／月</small></div>
+<div class="actions">
+<button class="gray" onclick="editFixed('${x.id}')">修改</button>
+<button class="danger" onclick="delFixed('${x.id}')">刪除</button>
+</div>
+</div>`).join("");
+}
+
+function saveSet(){
+data.salary=Number(document.getElementById("salary").value)||0;
+data.budget=Number(document.getElementById("budget").value)||0;
+data.cash=Number(document.getElementById("cashSet").value)||0;
+data.otherAsset=Number(document.getElementById("otherAsset").value)||0;
+data.otherDebt=Number(document.getElementById("otherDebt").value)||0;
+render();
+alert("設定已儲存");
+}
+
+function addFixed(){
+let x={id:Date.now().toString(),name:"新固定支出",amount:0};
+data.fixed.push(x);
+editFixed(x.id);
+}
+
+function editFixed(id){
+let x=data.fixed.find(x=>x.id===id);
+editId=id;
+editType="fixed";
+
+document.getElementById("modalTitle").textContent="修改固定支出";
+
+document.getElementById("modalBody").innerHTML=`
+<label>名稱</label>
+<input id="eName" value="${x.name}">
+<label>每月金額</label>
+<input id="eFixedAmount" type="number" value="${x.amount}">
+`;
+
+document.getElementById("modal").style.display="flex";
+}
+
+function delFixed(id){
+if(confirm("確定刪除這項固定支出？")){
+data.fixed=data.fixed.filter(x=>x.id!==id);
+render();
+}
+}
+
+render();
+</script>
+</body>
+</html>
