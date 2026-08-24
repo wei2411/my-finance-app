@@ -7,11 +7,13 @@
 <title>我的財務</title>
 
 <style>
-*{box-sizing:border-box}
+*{
+ box-sizing:border-box;
+}
 
 :root{
  --bg:#f3f4f7;
- --card:rgba(255,255,255,.9);
+ --card:rgba(255,255,255,.92);
  --text:#15161a;
  --muted:#858994;
  --line:#e5e6ea;
@@ -48,8 +50,10 @@ body{
  padding-bottom:105px;
 }
 
+/* ================= HEADER ================= */
+
 .header{
- padding:27px 20px 21px;
+ padding:27px 20px 20px;
  color:white;
  background:linear-gradient(135deg,#101114,#292d36);
  border-radius:0 0 30px 30px;
@@ -58,7 +62,7 @@ body{
 .headerTop{
  display:flex;
  justify-content:space-between;
- align-items:center;
+ align-items:flex-start;
 }
 
 .header small{
@@ -71,6 +75,13 @@ body{
  font-size:28px;
 }
 
+.headerRight{
+ display:flex;
+ flex-direction:column;
+ align-items:flex-end;
+ gap:8px;
+}
+
 .iconBtn{
  width:44px;
  height:44px;
@@ -80,6 +91,28 @@ body{
  color:white;
  font-size:21px;
 }
+
+.headerProjected{
+ text-align:right;
+ margin-right:2px;
+}
+
+.headerProjected small{
+ display:block;
+ color:#bfc2cb;
+ font-size:12px;
+ margin-bottom:2px;
+}
+
+.headerProjected strong{
+ display:block;
+ color:#42c98a;
+ font-size:20px;
+ font-weight:850;
+ white-space:nowrap;
+}
+
+/* ================= HERO ================= */
 
 .hero{
  margin:14px;
@@ -91,7 +124,7 @@ body{
 }
 
 .heroLabel{
- font-size:13px;
+ font-size:14px;
  color:#bfc2cb;
 }
 
@@ -124,6 +157,8 @@ body{
  background:linear-gradient(90deg,#55d49b,#77a2ff);
  transition:.3s;
 }
+
+/* ================= CARDS ================= */
 
 .grid{
  display:grid;
@@ -272,6 +307,8 @@ body.dark .tabs{
  display:block;
 }
 
+/* ================= FORM ================= */
+
 input,
 select,
 button{
@@ -327,6 +364,8 @@ body.dark .secondary{
  grid-column:1/-1;
 }
 
+/* ================= LOAN ================= */
+
 .loanBox{
  background:linear-gradient(135deg,#242832,#111216);
  color:white;
@@ -359,6 +398,53 @@ body.dark .notice{
  background:#292b31;
 }
 
+.infoGrid{
+ display:grid;
+ grid-template-columns:1fr 1fr;
+ gap:8px;
+ margin-top:10px;
+}
+
+.infoBox{
+ background:#ffffff10;
+ border-radius:13px;
+ padding:10px;
+}
+
+.infoBox small{
+ display:block;
+ color:#aaa;
+ font-size:11px;
+}
+
+.infoBox b{
+ display:block;
+ margin-top:4px;
+}
+
+/* ================= FLOW ================= */
+
+.flowRow{
+ display:flex;
+ justify-content:space-between;
+ padding:8px 0;
+ border-bottom:1px solid var(--line);
+}
+
+.flowRow:last-child{
+ border-bottom:0;
+}
+
+.negative{
+ color:var(--red);
+}
+
+.positive{
+ color:var(--green);
+}
+
+/* ================= CHART ================= */
+
 .chart{
  height:190px;
  display:flex;
@@ -382,6 +468,8 @@ body.dark .notice{
  min-height:3px;
  margin-bottom:5px;
 }
+
+/* ================= MODAL ================= */
 
 .modal{
  display:none;
@@ -414,6 +502,12 @@ body.dark .notice{
  flex:1;
 }
 
+.empty{
+ text-align:center;
+ color:var(--muted);
+ padding:25px;
+}
+
 .switch{
  display:flex;
  justify-content:space-between;
@@ -426,54 +520,7 @@ body.dark .notice{
  margin:0;
 }
 
-.empty{
- text-align:center;
- color:var(--muted);
- padding:25px;
-}
-
-.infoGrid{
- display:grid;
- grid-template-columns:1fr 1fr;
- gap:8px;
- margin-top:10px;
-}
-
-.infoBox{
- background:#ffffff10;
- border-radius:13px;
- padding:10px;
-}
-
-.infoBox small{
- display:block;
- color:#aaa;
- font-size:11px;
-}
-
-.infoBox b{
- display:block;
- margin-top:4px;
-}
-
-.flowRow{
- display:flex;
- justify-content:space-between;
- padding:7px 0;
- border-bottom:1px solid var(--line);
-}
-
-.flowRow:last-child{
- border-bottom:0;
-}
-
-.negative{
- color:var(--red);
-}
-
-.positive{
- color:var(--green);
-}
+/* ================= MOBILE ================= */
 
 @media(max-width:380px){
 
@@ -486,6 +533,10 @@ body.dark .notice{
   grid-column:auto;
  }
 
+ .headerProjected strong{
+  font-size:17px;
+ }
+
 }
 </style>
 </head>
@@ -493,6 +544,8 @@ body.dark .notice{
 <body>
 
 <div class="app">
+
+<!-- ================= HEADER ================= -->
 
 <header class="header">
 
@@ -508,12 +561,26 @@ body.dark .notice{
 
   </div>
 
-  <button
-   class="iconBtn"
-   onclick="toggleDark()"
-  >
-   ☾
-  </button>
+  <div class="headerRight">
+
+   <button
+    class="iconBtn"
+    onclick="toggleDark()"
+   >
+    ☾
+   </button>
+
+   <div class="headerProjected">
+
+    <small>預計月底剩餘</small>
+
+    <strong id="headerProjected">
+     NT$0
+    </strong>
+
+   </div>
+
+  </div>
 
  </div>
 
@@ -527,14 +594,14 @@ body.dark .notice{
  <div class="hero">
 
   <div class="heroLabel">
-   本月預計月底剩餘
+   💰 本月生活費預算
   </div>
 
   <div
    class="heroMoney"
-   id="freeMoney"
+   id="lifeBudget"
   >
-   NT$0
+   NT$10,000
   </div>
 
   <div class="heroRow">
@@ -543,7 +610,9 @@ body.dark .notice{
     生活費已使用
    </span>
 
-   <span id="lifeUsed"></span>
+   <span id="lifeUsed">
+    NT$0 / NT$10,000
+   </span>
 
   </div>
 
@@ -579,7 +648,9 @@ body.dark .notice{
    <div
     class="big green"
     id="income"
-   ></div>
+   >
+    NT$0
+   </div>
 
   </div>
 
@@ -593,7 +664,9 @@ body.dark .notice{
    <div
     class="big"
     id="expense"
-   ></div>
+   >
+    NT$0
+   </div>
 
   </div>
 
@@ -605,9 +678,11 @@ body.dark .notice{
    </div>
 
    <div
-    class="big"
+    class="big green"
     id="balance"
-   ></div>
+   >
+    NT$0
+   </div>
 
   </div>
 
@@ -621,7 +696,9 @@ body.dark .notice{
    <div
     class="big"
     id="netWorth"
-   ></div>
+   >
+    NT$0
+   </div>
 
   </div>
 
@@ -629,9 +706,6 @@ body.dark .notice{
 
 
  <div class="section">
-
-
-  <!-- 現金流 -->
 
   <div class="sectionTitle">
    💵 本月現金流
@@ -642,8 +716,6 @@ body.dark .notice{
    id="cashflow"
   ></div>
 
-
-  <!-- 貸款資金 -->
 
   <div class="sectionTitle">
    🏦 貸款資金
@@ -689,8 +761,6 @@ body.dark .notice{
   </div>
 
 
-  <!-- 緊急預備金 -->
-
   <div class="sectionTitle">
    🛡️ 緊急預備金
   </div>
@@ -720,8 +790,6 @@ body.dark .notice{
 
   </div>
 
-
-  <!-- 貸款 -->
 
   <div class="sectionTitle">
    💳 信貸
@@ -782,8 +850,6 @@ body.dark .notice{
   </div>
 
 
-  <!-- 最近紀錄 -->
-
   <div class="sectionTitle">
 
    最近紀錄
@@ -820,9 +886,7 @@ body.dark .notice{
 
     <div>
 
-     <label>
-      類型
-     </label>
+     <label>類型</label>
 
      <select
       id="type"
@@ -844,9 +908,7 @@ body.dark .notice{
 
     <div>
 
-     <label>
-      日期
-     </label>
+     <label>日期</label>
 
      <input
       id="date"
@@ -858,9 +920,7 @@ body.dark .notice{
 
     <div>
 
-     <label>
-      金額
-     </label>
+     <label>金額</label>
 
      <input
       id="amount"
@@ -873,9 +933,7 @@ body.dark .notice{
 
     <div>
 
-     <label>
-      類別
-     </label>
+     <label>類別</label>
 
      <select id="cat"></select>
 
@@ -884,9 +942,7 @@ body.dark .notice{
 
     <div class="fullCol">
 
-     <label>
-      備註
-     </label>
+     <label>備註</label>
 
      <input
       id="note"
@@ -936,62 +992,33 @@ body.dark .notice{
   <div class="loanBox">
 
    <div class="loanRow">
-    <span class="muted">
-     原始本金
-    </span>
-
+    <span class="muted">原始本金</span>
     <strong id="lp"></strong>
    </div>
 
-
    <div class="loanRow">
-
-    <span class="muted">
-     年利率
-    </span>
-
+    <span class="muted">年利率</span>
     <strong id="lr"></strong>
-
    </div>
 
-
    <div class="loanRow">
-
-    <span class="muted">
-     期數
-    </span>
-
+    <span class="muted">期數</span>
     <strong id="lt"></strong>
-
    </div>
 
-
    <div class="loanRow">
-
-    <span class="muted">
-     每月還款
-    </span>
-
+    <span class="muted">每月還款</span>
     <strong id="lm"></strong>
-
    </div>
-
 
    <div class="loanRow">
-
-    <span class="muted">
-     已繳期數
-    </span>
-
+    <span class="muted">已繳期數</span>
     <strong id="lpaid"></strong>
-
    </div>
-
 
    <div class="progress">
     <i id="lbar"></i>
    </div>
-
 
    <div class="heroRow">
 
@@ -1000,7 +1027,6 @@ body.dark .notice{
     <span id="lleft"></span>
 
    </div>
-
 
    <div class="loanRow">
 
@@ -1054,47 +1080,28 @@ body.dark .notice{
    🏦 貸款資金
   </div>
 
-
   <div class="card">
 
    <div class="flowRow">
-
-    <span>
-     原始貸款
-    </span>
-
+    <span>原始貸款</span>
     <b id="lfOriginal"></b>
-
    </div>
 
-
    <div class="flowRow">
-
-    <span>
-     已使用
-    </span>
-
+    <span>已使用</span>
     <b
      class="negative"
      id="lfUsed"
     ></b>
-
    </div>
 
-
    <div class="flowRow">
-
-    <span>
-     保留資金
-    </span>
-
+    <span>保留資金</span>
     <b
      class="positive"
      id="lfReserve"
     ></b>
-
    </div>
-
 
    <div class="notice">
 
@@ -1110,14 +1117,11 @@ body.dark .notice{
 
   </div>
 
-
   <div class="sectionTitle">
    使用紀錄
   </div>
 
-
   <div id="fundRecords"></div>
-
 
   <button
    class="full"
@@ -1141,7 +1145,6 @@ body.dark .notice{
    📊 近六個月支出
   </div>
 
-
   <div class="card">
 
    <div
@@ -1151,11 +1154,9 @@ body.dark .notice{
 
   </div>
 
-
   <div class="sectionTitle">
    🧾 本月支出分類
   </div>
-
 
   <div id="catStats"></div>
 
@@ -1174,68 +1175,49 @@ body.dark .notice{
    ⚙️ 財務設定
   </div>
 
-
   <div class="card">
 
-   <label>
-    每月薪資
-   </label>
+   <label>每月薪資</label>
 
    <input
     id="sSalary"
     type="number"
    >
 
-
-   <label>
-    生活費預算
-   </label>
+   <label>生活費預算</label>
 
    <input
     id="sBudget"
     type="number"
    >
 
-
-   <label>
-    緊急預備金
-   </label>
+   <label>緊急預備金</label>
 
    <input
     id="sReserve"
     type="number"
    >
 
-
-   <label>
-    自有現金／存款
-   </label>
+   <label>自有現金／存款</label>
 
    <input
     id="sCash"
     type="number"
    >
 
-
-   <label>
-    其他資產
-   </label>
+   <label>其他資產</label>
 
    <input
     id="sAsset"
     type="number"
    >
 
-
-   <label>
-    其他負債
-   </label>
+   <label>其他負債</label>
 
    <input
     id="sDebt"
     type="number"
    >
-
 
    <button
     class="full"
@@ -1251,11 +1233,9 @@ body.dark .notice{
    🏠 固定支出
   </div>
 
-
   <div class="card">
 
    <div id="fixed"></div>
-
 
    <button
     class="secondary full"
@@ -1270,7 +1250,6 @@ body.dark .notice{
   <div class="sectionTitle">
    🎨 外觀
   </div>
-
 
   <div class="card">
 
@@ -1307,7 +1286,6 @@ body.dark .notice{
   總覽
  </button>
 
-
  <button
   class="tab"
   onclick="go('record',this)"
@@ -1315,7 +1293,6 @@ body.dark .notice{
   <span>📝</span>
   記帳
  </button>
-
 
  <button
   class="tab"
@@ -1325,7 +1302,6 @@ body.dark .notice{
   貸款
  </button>
 
-
  <button
   class="tab"
   onclick="go('stats',this)"
@@ -1333,7 +1309,6 @@ body.dark .notice{
   <span>📊</span>
   統計
  </button>
-
 
  <button
   class="tab"
@@ -1361,7 +1336,6 @@ body.dark .notice{
 
   <div id="modalBody"></div>
 
-
   <div class="modalActions">
 
    <button
@@ -1370,7 +1344,6 @@ body.dark .notice{
    >
     取消
    </button>
-
 
    <button
     onclick="saveEdit()"
@@ -1388,7 +1361,7 @@ body.dark .notice{
 <script>
 
 /* =========================================================
-   資料
+   資料初始化
 ========================================================= */
 
 const KEY="MY_FINANCE_DATA";
@@ -1397,10 +1370,9 @@ let data=null;
 
 try{
 
- data=
-  JSON.parse(
-   localStorage.getItem(KEY)||"null"
-  );
+ data=JSON.parse(
+  localStorage.getItem(KEY)||"null"
+ );
 
 }catch(e){
 
@@ -1417,14 +1389,13 @@ if(!data){
 
   budget:10000,
 
-  reserve:110000,
+  reserve:0,
 
   cash:0,
 
   asset:0,
 
   debt:0,
-
 
   fixed:[
 
@@ -1442,7 +1413,6 @@ if(!data){
 
   ],
 
-
   loan:{
 
    principal:160000,
@@ -1458,7 +1428,6 @@ if(!data){
    firstPaymentDate:""
 
   },
-
 
   records:[],
 
@@ -1511,13 +1480,27 @@ if(!Array.isArray(data.loanFundRecords)){
 }
 
 
+if(!Array.isArray(data.fixed)){
+
+ data.fixed=[];
+
+}
+
+
+if(!Array.isArray(data.records)){
+
+ data.records=[];
+
+}
+
+
 let editId=null;
 
 let editMode=null;
 
 
 /* =========================================================
-   基本工具
+   工具
 ========================================================= */
 
 function save(){
@@ -1558,7 +1541,9 @@ function monthKey(){
 function formatDate(date){
 
  if(!date){
+
   return "尚未設定";
+
  }
 
  return new Date(
@@ -1577,7 +1562,7 @@ function formatDate(date){
 
 
 /* =========================================================
-   貸款月付計算
+   貸款月付
 ========================================================= */
 
 function paymentCalc(
@@ -1586,15 +1571,11 @@ function paymentCalc(
  terms
 ){
 
- let P=
-  Number(principal)||0;
+ let P=Number(principal)||0;
 
- let r=
-  Number(rate)||0;
+ let r=Number(rate)||0;
 
- let n=
-  Number(terms)||0;
-
+ let n=Number(terms)||0;
 
  if(P<=0||n<=0){
 
@@ -1602,10 +1583,7 @@ function paymentCalc(
 
  }
 
-
- r=
-  r/100/12;
-
+ r=r/100/12;
 
  if(r===0){
 
@@ -1613,28 +1591,26 @@ function paymentCalc(
 
  }
 
-
  return P*r/
-  (
-   1-Math.pow(
-    1+r,
-    -n
-   )
-  );
+ (
+  1-Math.pow(
+   1+r,
+   -n
+  )
+ );
 
 }
 
 
 if(!data.loan.payment){
 
- data.loan.payment=
-  Math.round(
-   paymentCalc(
-    data.loan.principal,
-    data.loan.rate,
-    data.loan.terms
-   )
-  );
+ data.loan.payment=Math.round(
+  paymentCalc(
+   data.loan.principal,
+   data.loan.rate,
+   data.loan.terms
+  )
+ );
 
 }
 
@@ -1645,35 +1621,25 @@ if(!data.loan.payment){
 
 function calculatePaidPeriods(){
 
- let first=
-  data.loan.firstPaymentDate;
-
+ let first=data.loan.firstPaymentDate;
 
  if(!first){
 
-  return Number(
-   data.loan.paid
-  )||0;
+  return Number(data.loan.paid)||0;
 
  }
 
+ let start=new Date(
+  first+"T00:00:00"
+ );
 
- let start=
-  new Date(
-   first+"T00:00:00"
-  );
-
-
- let now=
-  new Date();
-
+ let now=new Date();
 
  if(now<start){
 
   return 0;
 
  }
-
 
  let months=
   (
@@ -1685,23 +1651,15 @@ function calculatePaidPeriods(){
    start.getMonth()
   );
 
-
- if(
-  now.getDate()<
-  start.getDate()
- ){
+ if(now.getDate()<start.getDate()){
 
   months--;
 
  }
 
-
  return Math.min(
   Number(data.loan.terms)||0,
-  Math.max(
-   0,
-   months+1
-  )
+  Math.max(0,months+1)
  );
 
 }
@@ -1713,35 +1671,25 @@ function calculatePaidPeriods(){
 
 function remainingLoan(){
 
- let P=
-  Number(data.loan.principal)||0;
+ let P=Number(data.loan.principal)||0;
 
- let rate=
-  Number(data.loan.rate)||0;
+ let rate=Number(data.loan.rate)||0;
 
- let n=
-  Number(data.loan.terms)||0;
+ let n=Number(data.loan.terms)||0;
 
- let payment=
-  Number(data.loan.payment)||0;
-
+ let payment=Number(data.loan.payment)||0;
 
  let paid=
   data.loan.firstPaymentDate
-  ?calculatePaidPeriods()
-  :Number(data.loan.paid)||0;
+  ?
+  calculatePaidPeriods()
+  :
+  Number(data.loan.paid)||0;
 
-
- paid=
-  Math.min(
-   Math.max(0,paid),
-   n
-  );
-
-
- /*
-  0期 = 原始本金
- */
+ paid=Math.min(
+  Math.max(0,paid),
+  n
+ );
 
  if(paid<=0){
 
@@ -1749,21 +1697,13 @@ function remainingLoan(){
 
  }
 
-
- /*
-  已經繳清
- */
-
  if(paid>=n){
 
   return 0;
 
  }
 
-
- let r=
-  rate/100/12;
-
+ let r=rate/100/12;
 
  if(r===0){
 
@@ -1774,23 +1714,15 @@ function remainingLoan(){
 
  }
 
-
  let balance=
-  P*Math.pow(
-   1+r,
-   paid
-  )
+  P*Math.pow(1+r,paid)
   -
   payment*
   (
    (
-    Math.pow(
-     1+r,
-     paid
-    )-1
+    Math.pow(1+r,paid)-1
    )/r
   );
-
 
  return Math.max(
   0,
@@ -1801,14 +1733,12 @@ function remainingLoan(){
 
 
 /* =========================================================
-   下一次扣款
+   下一次扣款日
 ========================================================= */
 
 function nextPaymentDate(){
 
- let first=
-  data.loan.firstPaymentDate;
-
+ let first=data.loan.firstPaymentDate;
 
  if(!first){
 
@@ -1816,40 +1746,27 @@ function nextPaymentDate(){
 
  }
 
+ let date=new Date(
+  first+"T00:00:00"
+ );
 
- let date=
-  new Date(
-   first+"T00:00:00"
-  );
+ let paid=calculatePaidPeriods();
 
-
- let paid=
-  calculatePaidPeriods();
-
-
- if(
-  new Date()<date
- ){
+ if(new Date()<date){
 
   return date;
 
  }
 
-
- if(
-  paid>=
-  Number(data.loan.terms)
- ){
+ if(paid>=Number(data.loan.terms)){
 
   return null;
 
  }
 
-
  date.setMonth(
   date.getMonth()+paid
  );
-
 
  return date;
 
@@ -1868,11 +1785,9 @@ function go(id,btn){
   x=>x.classList.remove("active")
  );
 
-
  document
  .getElementById(id)
  .classList.add("active");
-
 
  document
  .querySelectorAll(".tab")
@@ -1880,13 +1795,11 @@ function go(id,btn){
   x=>x.classList.remove("active")
  );
 
-
  if(btn){
 
   btn.classList.add("active");
 
  }
-
 
  render();
 
@@ -1903,9 +1816,7 @@ function updateCats(){
   document.getElementById("type")
   .value==="income";
 
-
- let list=
-  income
+ let list=income
   ?
   [
    "薪資",
@@ -1923,20 +1834,16 @@ function updateCats(){
    "其他"
   ];
 
-
  document.getElementById("cat")
  .innerHTML=
- list
- .map(
+ list.map(
   x=>`<option>${x}</option>`
- )
- .join("");
+ ).join("");
 
 }
 
 
 updateCats();
-
 
 document
  .getElementById("date")
@@ -1944,7 +1851,7 @@ document
 
 
 /* =========================================================
-   月份資料
+   本月資料
 ========================================================= */
 
 function monthRecords(){
@@ -1962,8 +1869,7 @@ function fixedTotal(){
 
  return data.fixed.reduce(
   (sum,x)=>
-   sum+
-   Number(x.amount||0),
+   sum+Number(x.amount||0),
   0
  );
 
@@ -1978,8 +1884,7 @@ function variableExpenses(){
  )
  .reduce(
   (sum,x)=>
-   sum+
-   Number(x.amount||0),
+   sum+Number(x.amount||0),
   0
  );
 
@@ -1989,16 +1894,15 @@ function variableExpenses(){
 function incomeTotal(){
 
  return data.salary+
- monthRecords()
- .filter(
-  x=>x.type==="income"
- )
- .reduce(
-  (sum,x)=>
-   sum+
-   Number(x.amount||0),
-  0
- );
+  monthRecords()
+  .filter(
+   x=>x.type==="income"
+  )
+  .reduce(
+   (sum,x)=>
+    sum+Number(x.amount||0),
+   0
+  );
 
 }
 
@@ -2016,8 +1920,7 @@ function lifeSpent(){
  )
  .reduce(
   (sum,x)=>
-   sum+
-   Number(x.amount||0),
+   sum+Number(x.amount||0),
   0
  );
 
@@ -2030,11 +1933,9 @@ function lifeSpent(){
 
 function loanFundUsed(){
 
- return data.loanFundRecords
- .reduce(
+ return data.loanFundRecords.reduce(
   (sum,x)=>
-   sum+
-   Number(x.amount||0),
+   sum+Number(x.amount||0),
   0
  );
 
@@ -2058,19 +1959,6 @@ function loanFundReserve(){
 
 function netWorth(){
 
- /*
-  自有現金
-  +其他資產
-  +緊急預備金
-  +尚未使用的貸款資金
-  -剩餘貸款
-  -其他負債
-
-  注意：
-  緊急預備金若已經包含在自有現金中，
-  使用者應避免重複填寫。
- */
-
  return Number(data.cash||0)
   +
   Number(data.asset||0)
@@ -2092,25 +1980,17 @@ function netWorth(){
 
 function renderHome(){
 
- let income=
-  incomeTotal();
+ let income=incomeTotal();
 
+ let fixed=fixedTotal();
 
- let fixed=
-  fixedTotal();
+ let variable=variableExpenses();
 
+ let life=lifeSpent();
 
- let variable=
-  variableExpenses();
-
-
- let life=
-  lifeSpent();
-
-
- let loanPay=
-  Number(data.loan.payment||0);
-
+ let loanPay=Number(
+  data.loan.payment||0
+ );
 
  /*
   預計月底剩餘：
@@ -2130,14 +2010,13 @@ function renderHome(){
    Number(data.budget||0)
   );
 
-
  /*
-  目前實際結餘：
+  實際目前結餘：
 
   收入
+  - 固定支出
   - 已發生支出
   - 貸款
-
  */
 
  let actualBalance=
@@ -2145,7 +2024,6 @@ function renderHome(){
   fixed-
   variable-
   loanPay;
-
 
  let pct=
   data.budget
@@ -2171,10 +2049,20 @@ function renderHome(){
  );
 
 
+ /* 右上角預計月底剩餘 */
+
  document
- .getElementById("freeMoney")
+ .getElementById("headerProjected")
  .textContent=
  money(projected);
+
+
+ /* 大卡片：生活費 */
+
+ document
+ .getElementById("lifeBudget")
+ .textContent=
+ money(data.budget);
 
 
  document
@@ -2197,6 +2085,8 @@ function renderHome(){
  pct+"%";
 
 
+ /* 四個統計卡 */
+
  document
  .getElementById("income")
  .textContent=
@@ -2207,8 +2097,7 @@ function renderHome(){
  .getElementById("expense")
  .textContent=
  money(
-  fixed+
-  variable
+  fixed+variable
  );
 
 
@@ -2232,9 +2121,7 @@ function renderHome(){
  document
  .getElementById("netWorth")
  .textContent=
- money(
-  netWorth()
- );
+ money(netWorth());
 
 
  /* 現金流 */
@@ -2272,6 +2159,7 @@ function renderHome(){
  </div>
 
  <div class="flowRow">
+
   <span>
    <b>預計月底剩餘</b>
   </span>
@@ -2281,7 +2169,9 @@ function renderHome(){
    ?"positive"
    :"negative"
   }">
+
    ${money(projected)}
+
   </b>
 
  </div>
@@ -2294,25 +2184,19 @@ function renderHome(){
  document
  .getElementById("borrowed")
  .textContent=
- money(
-  data.loan.principal
- );
+ money(data.loan.principal);
 
 
  document
  .getElementById("loanUsed")
  .textContent=
- money(
-  loanFundUsed()
- );
+ money(loanFundUsed());
 
 
  document
  .getElementById("loanReserve")
  .textContent=
- money(
-  loanFundReserve()
- );
+ money(loanFundReserve());
 
 
  document
@@ -2333,9 +2217,7 @@ function renderHome(){
  document
  .getElementById("reserve")
  .textContent=
- money(
-  data.reserve
- );
+ money(data.reserve);
 
 
  document
@@ -2343,11 +2225,12 @@ function renderHome(){
  .style.width=
  Math.min(
   100,
-  data.reserve/110000*100
+  Number(data.reserve||0)/
+  110000*100
  )+"%";
 
 
- /* 貸款 */
+ /* 貸款進度 */
 
  let paid=
   data.loan.firstPaymentDate
@@ -2356,15 +2239,12 @@ function renderHome(){
   :
   Number(data.loan.paid)||0;
 
-
  let loanPct=
   data.loan.terms
   ?
   Math.min(
    100,
-   paid/
-   data.loan.terms*
-   100
+   paid/data.loan.terms*100
   )
   :
   0;
@@ -2373,9 +2253,7 @@ function renderHome(){
  document
  .getElementById("loanRemain")
  .textContent=
- money(
-  remainingLoan()
- );
+ money(remainingLoan());
 
 
  document
@@ -2397,9 +2275,7 @@ function renderHome(){
  .getElementById("loanPayment")
  .textContent=
  "月付 "+
- money(
-  data.loan.payment
- );
+ money(data.loan.payment);
 
 
  document
@@ -2414,8 +2290,7 @@ function renderHome(){
  "尚未設定";
 
 
- let next=
-  nextPaymentDate();
+ let next=nextPaymentDate();
 
 
  document
@@ -2450,9 +2325,7 @@ function renderHome(){
  document
  .getElementById("recent")
  .innerHTML=
- recent
- .map(recordHTML)
- .join("")
+ recent.map(recordHTML).join("")
  ||
  '<div class="empty">目前還沒有記帳紀錄</div>';
 
@@ -2468,27 +2341,17 @@ function icon(cat){
  const icons={
 
   "飲食":"🍜",
-
   "交通":"🚗",
-
   "約會":"❤️",
-
   "購物":"🛍️",
-
   "房租／水電":"🏠",
-
   "保險":"🛡️",
-
   "薪資":"💰",
-
   "獎金":"🎁",
-
   "其他收入":"💵",
-
   "其他":"📦"
 
  };
-
 
  return icons[cat]||"💰";
 
@@ -2567,7 +2430,6 @@ function recordHTML(x){
      修改
     </button>
 
-
     <button
      class="danger"
      onclick="deleteRecord('${x.id}')"
@@ -2592,38 +2454,30 @@ function recordHTML(x){
 
 function addRecord(){
 
- let amount=
-  Number(
-   document
-   .getElementById("amount")
-   .value
-  );
-
+ let amount=Number(
+  document
+  .getElementById("amount")
+  .value
+ );
 
  if(!amount||amount<0){
 
-  alert(
-   "請輸入正確金額"
-  );
+  alert("請輸入正確金額");
 
   return;
 
  }
 
-
  data.records.push({
 
-  id:
-   Date.now().toString(),
+  id:Date.now().toString(),
 
   type:
    document
    .getElementById("type")
    .value,
 
-  amount:
-
-   amount,
+  amount:amount,
 
   date:
    document
@@ -2643,16 +2497,13 @@ function addRecord(){
 
  });
 
-
  document
  .getElementById("amount")
  .value="";
 
-
  document
  .getElementById("note")
  .value="";
-
 
  render();
 
@@ -2677,9 +2528,7 @@ function renderRecords(){
  document
  .getElementById("records")
  .innerHTML=
- list
- .map(recordHTML)
- .join("")
+ list.map(recordHTML).join("")
  ||
  '<div class="empty">目前還沒有記帳紀錄</div>';
 
@@ -2692,30 +2541,24 @@ function renderRecords(){
 
 function editRecord(id){
 
- let x=
-  data.records.find(
-   x=>x.id===id
-  );
-
+ let x=data.records.find(
+  x=>x.id===id
+ );
 
  editId=id;
 
  editMode="record";
-
 
  document
  .getElementById("modalTitle")
  .textContent=
  "📝 修改記帳";
 
-
  document
  .getElementById("modalBody")
  .innerHTML=`
 
- <label>
-  類型
- </label>
+ <label>類型</label>
 
  <select id="eType">
 
@@ -2729,10 +2572,7 @@ function editRecord(id){
 
  </select>
 
-
- <label>
-  金額
- </label>
+ <label>金額</label>
 
  <input
   id="eAmount"
@@ -2740,10 +2580,7 @@ function editRecord(id){
   value="${x.amount}"
  >
 
-
- <label>
-  日期
- </label>
+ <label>日期</label>
 
  <input
   id="eDate"
@@ -2751,20 +2588,14 @@ function editRecord(id){
   value="${x.date}"
  >
 
-
- <label>
-  類別
- </label>
+ <label>類別</label>
 
  <input
   id="eCat"
   value="${x.cat}"
  >
 
-
- <label>
-  備註
- </label>
+ <label>備註</label>
 
  <input
   id="eNote"
@@ -2773,38 +2604,27 @@ function editRecord(id){
 
  `;
 
-
  document
  .getElementById("eType")
- .value=
- x.type;
-
+ .value=x.type;
 
  document
  .getElementById("modal")
- .style.display=
- "flex";
+ .style.display="flex";
 
 }
 
 
-/* =========================================================
-   刪除記帳
-========================================================= */
-
 function deleteRecord(id){
 
- if(
-  confirm(
-   "確定要刪除這筆紀錄嗎？"
-  )
- ){
+ if(confirm(
+  "確定要刪除這筆紀錄嗎？"
+ )){
 
   data.records=
    data.records.filter(
     x=>x.id!==id
    );
-
 
   render();
 
@@ -2821,24 +2641,18 @@ function editLoan(){
 
  editMode="loan";
 
-
- let l=
-  data.loan;
-
+ let l=data.loan;
 
  document
  .getElementById("modalTitle")
  .textContent=
  "💳 修改貸款";
 
-
  document
  .getElementById("modalBody")
  .innerHTML=`
 
- <label>
-  貸款本金
- </label>
+ <label>貸款本金</label>
 
  <input
   id="ePrincipal"
@@ -2846,10 +2660,7 @@ function editLoan(){
   value="${l.principal}"
  >
 
-
- <label>
-  年利率 %
- </label>
+ <label>年利率 %</label>
 
  <input
   id="eRate"
@@ -2858,10 +2669,7 @@ function editLoan(){
   value="${l.rate}"
  >
 
-
- <label>
-  期數
- </label>
+ <label>期數</label>
 
  <input
   id="eTerms"
@@ -2869,10 +2677,7 @@ function editLoan(){
   value="${l.terms}"
  >
 
-
- <label>
-  每月還款
- </label>
+ <label>每月還款</label>
 
  <input
   id="ePayment"
@@ -2888,7 +2693,6 @@ function editLoan(){
   }"
  >
 
-
  <button
   class="secondary full"
   onclick="autoPayment()"
@@ -2896,23 +2700,15 @@ function editLoan(){
   🧮 自動計算月付
  </button>
 
-
- <label>
-  📅 首次扣款日
- </label>
+ <label>📅 首次扣款日</label>
 
  <input
   id="eFirstPayment"
   type="date"
-  value="${
-   l.firstPaymentDate||""
-  }"
+  value="${l.firstPaymentDate||""}"
  >
 
-
- <label>
-  手動已繳期數
- </label>
+ <label>手動已繳期數</label>
 
  <input
   id="ePaid"
@@ -2920,7 +2716,6 @@ function editLoan(){
   min="0"
   value="${l.paid||0}"
  >
-
 
  <div class="notice">
 
@@ -2936,49 +2731,38 @@ function editLoan(){
 
  `;
 
-
  document
  .getElementById("modal")
- .style.display=
- "flex";
+ .style.display="flex";
 
 }
 
 
 /* =========================================================
-   自動計算月付
+   自動月付
 ========================================================= */
 
 function autoPayment(){
 
- let P=
-  Number(
-   document
-   .getElementById("ePrincipal")
-   .value
-  )||0;
+ let P=Number(
+  document
+  .getElementById("ePrincipal")
+  .value
+ )||0;
 
+ let rate=Number(
+  document
+  .getElementById("eRate")
+  .value
+ )||0;
 
- let rate=
-  Number(
-   document
-   .getElementById("eRate")
-   .value
-  )||0;
+ let n=Number(
+  document
+  .getElementById("eTerms")
+  .value
+ )||0;
 
-
- let n=
-  Number(
-   document
-   .getElementById("eTerms")
-   .value
-  )||0;
-
-
- if(
-  P<=0||
-  n<=0
- ){
+ if(P<=0||n<=0){
 
   alert(
    "請先輸入本金與期數"
@@ -2987,7 +2771,6 @@ function autoPayment(){
   return;
 
  }
-
 
  document
  .getElementById("ePayment")
@@ -3009,77 +2792,59 @@ function autoPayment(){
 
 function renderLoan(){
 
- if(
-  data.loan.firstPaymentDate
- ){
+ if(data.loan.firstPaymentDate){
 
   data.loan.paid=
    calculatePaidPeriods();
 
  }
 
-
- let l=
-  data.loan;
-
+ let l=data.loan;
 
  document
  .getElementById("lp")
  .textContent=
  money(l.principal);
 
-
  document
  .getElementById("lr")
  .textContent=
  l.rate+"%";
 
-
  document
  .getElementById("lt")
  .textContent=
- l.terms+
- " 期";
-
+ l.terms+" 期";
 
  document
  .getElementById("lm")
  .textContent=
  money(l.payment);
 
-
  document
  .getElementById("lpaid")
  .textContent=
- l.paid+
- " 期";
-
+ l.paid+" 期";
 
  let pct=
   l.terms
   ?
   Math.min(
    100,
-   l.paid/
-   l.terms*
-   100
+   l.paid/l.terms*100
   )
   :
   0;
-
 
  document
  .getElementById("lbar")
  .style.width=
  pct+"%";
 
-
  document
  .getElementById("lpct")
  .textContent=
- Math.round(pct)+
- "% 已完成";
-
+ Math.round(pct)+"% 已完成";
 
  document
  .getElementById("lleft")
@@ -3087,9 +2852,7 @@ function renderLoan(){
  Math.max(
   0,
   l.terms-l.paid
- )+
- " 期剩餘";
-
+ )+" 期剩餘";
 
  document
  .getElementById("lremain")
@@ -3111,20 +2874,16 @@ function addFund(){
 
  editId=null;
 
-
  document
  .getElementById("modalTitle")
  .textContent=
  "🏦 新增貸款資金使用";
 
-
  document
  .getElementById("modalBody")
  .innerHTML=`
 
- <label>
-  使用金額
- </label>
+ <label>使用金額</label>
 
  <input
   id="eFundAmount"
@@ -3132,10 +2891,7 @@ function addFund(){
   placeholder="例如 50000"
  >
 
-
- <label>
-  日期
- </label>
+ <label>日期</label>
 
  <input
   id="eFundDate"
@@ -3143,16 +2899,12 @@ function addFund(){
   value="${today()}"
  >
 
-
- <label>
-  用途
- </label>
+ <label>用途</label>
 
  <input
   id="eFundNote"
   placeholder="例如：繳款、購買設備"
  >
-
 
  <div class="notice">
 
@@ -3164,42 +2916,33 @@ function addFund(){
 
  `;
 
-
  document
  .getElementById("modal")
- .style.display=
- "flex";
+ .style.display="flex";
 
 }
 
 
 function editFund(id){
 
- let x=
-  data.loanFundRecords
-  .find(
-   x=>x.id===id
-  );
-
+ let x=data.loanFundRecords.find(
+  x=>x.id===id
+ );
 
  editMode="fund";
 
  editId=id;
-
 
  document
  .getElementById("modalTitle")
  .textContent=
  "🏦 修改貸款資金";
 
-
  document
  .getElementById("modalBody")
  .innerHTML=`
 
- <label>
-  使用金額
- </label>
+ <label>使用金額</label>
 
  <input
   id="eFundAmount"
@@ -3207,10 +2950,7 @@ function editFund(id){
   value="${x.amount}"
  >
 
-
- <label>
-  日期
- </label>
+ <label>日期</label>
 
  <input
   id="eFundDate"
@@ -3218,10 +2958,7 @@ function editFund(id){
   value="${x.date}"
  >
 
-
- <label>
-  用途
- </label>
+ <label>用途</label>
 
  <input
   id="eFundNote"
@@ -3230,28 +2967,23 @@ function editFund(id){
 
  `;
 
-
  document
  .getElementById("modal")
- .style.display=
- "flex";
+ .style.display="flex";
 
 }
 
 
 function deleteFund(id){
 
- if(
-  confirm(
-   "確定刪除這筆貸款資金使用？"
-  )
- ){
+ if(confirm(
+  "確定刪除這筆貸款資金使用？"
+ )){
 
   data.loanFundRecords=
    data.loanFundRecords.filter(
     x=>x.id!==id
    );
-
 
   render();
 
@@ -3262,33 +2994,24 @@ function deleteFund(id){
 
 function renderLoanFund(){
 
- let total=
-  loanFundUsed();
+ let total=loanFundUsed();
 
-
- let reserve=
-  loanFundReserve();
-
+ let reserve=loanFundReserve();
 
  document
  .getElementById("lfOriginal")
  .textContent=
- money(
-  data.loan.principal
- );
-
+ money(data.loan.principal);
 
  document
  .getElementById("lfUsed")
  .textContent=
  money(total);
 
-
  document
  .getElementById("lfReserve")
  .textContent=
  money(reserve);
-
 
  document
  .getElementById("fundRecords")
@@ -3326,13 +3049,11 @@ function renderLoanFund(){
 
    </div>
 
-
    <div>
 
     <b class="negative">
      −${money(x.amount)}
     </b>
-
 
     <div class="actions">
 
@@ -3342,7 +3063,6 @@ function renderLoanFund(){
      >
       修改
      </button>
-
 
      <button
       class="danger"
@@ -3376,36 +3096,22 @@ function renderStats(){
 
  let arr=[];
 
+ for(let i=5;i>=0;i--){
 
- for(
-  let i=5;
-  i>=0;
-  i--
- ){
-
-  let d=
-   new Date();
-
+  let d=new Date();
 
   d.setDate(1);
-
 
   d.setMonth(
    d.getMonth()-i
   );
-
 
   let key=
    d.getFullYear()+
    "-" +
    String(
     d.getMonth()+1
-   )
-   .padStart(
-    2,
-    "0"
-   );
-
+   ).padStart(2,"0");
 
   let val=
    data.records
@@ -3416,26 +3122,20 @@ function renderStats(){
    )
    .reduce(
     (sum,x)=>
-     sum+
-     Number(x.amount||0),
+     sum+Number(x.amount||0),
     0
    );
 
-
-  if(
-   key===monthKey()
-  ){
+  if(key===monthKey()){
 
    val+=fixedTotal();
 
   }
 
-
   arr.push({
 
    label:
-    (d.getMonth()+1)+
-    "月",
+    (d.getMonth()+1)+"月",
 
    value:val
 
@@ -3443,30 +3143,23 @@ function renderStats(){
 
  }
 
-
- let max=
-  Math.max(
-   1,
-   ...arr.map(
-    x=>x.value
-   )
-  );
-
+ let max=Math.max(
+  1,
+  ...arr.map(
+   x=>x.value
+  )
+ );
 
  document
  .getElementById("chart")
  .innerHTML=
-
- arr
- .map(
+ arr.map(
   x=>`
 
   <div class="barCol">
 
    <div>
-    ${Math.round(
-     x.value/1000
-    )}k
+    ${Math.round(x.value/1000)}k
    </div>
 
    <i
@@ -3490,7 +3183,6 @@ function renderStats(){
 
 
  let cats={};
-
 
  monthRecords()
  .filter(
@@ -3558,30 +3250,25 @@ function renderSettings(){
  .value=
  data.salary;
 
-
  document
  .getElementById("sBudget")
  .value=
  data.budget;
-
 
  document
  .getElementById("sReserve")
  .value=
  data.reserve;
 
-
  document
  .getElementById("sCash")
  .value=
  data.cash;
 
-
  document
  .getElementById("sAsset")
  .value=
  data.asset;
-
 
  document
  .getElementById("sDebt")
@@ -3592,9 +3279,7 @@ function renderSettings(){
  document
  .getElementById("fixed")
  .innerHTML=
-
- data.fixed
- .map(
+ data.fixed.map(
   x=>`
 
   <div class="item">
@@ -3619,7 +3304,6 @@ function renderSettings(){
 
    </div>
 
-
    <div class="actions">
 
     <button
@@ -3628,7 +3312,6 @@ function renderSettings(){
     >
      修改
     </button>
-
 
     <button
      class="danger"
@@ -3661,14 +3344,12 @@ function saveSettings(){
    .value
   )||0;
 
-
  data.budget=
   Number(
    document
    .getElementById("sBudget")
    .value
   )||0;
-
 
  data.reserve=
   Number(
@@ -3677,14 +3358,12 @@ function saveSettings(){
    .value
   )||0;
 
-
  data.cash=
   Number(
    document
    .getElementById("sCash")
    .value
   )||0;
-
 
  data.asset=
   Number(
@@ -3693,7 +3372,6 @@ function saveSettings(){
    .value
   )||0;
 
-
  data.debt=
   Number(
    document
@@ -3701,13 +3379,9 @@ function saveSettings(){
    .value
   )||0;
 
-
  render();
 
-
- alert(
-  "設定已儲存"
- );
+ alert("設定已儲存");
 
 }
 
@@ -3720,19 +3394,15 @@ function addFixed(){
 
  let x={
 
-  id:
-   Date.now().toString(),
+  id:Date.now().toString(),
 
-  name:
-   "新固定支出",
+  name:"新固定支出",
 
   amount:0
 
  };
 
-
  data.fixed.push(x);
-
 
  editFixed(x.id);
 
@@ -3741,40 +3411,31 @@ function addFixed(){
 
 function editFixed(id){
 
- let x=
-  data.fixed.find(
-   x=>x.id===id
-  );
-
+ let x=data.fixed.find(
+  x=>x.id===id
+ );
 
  editId=id;
 
  editMode="fixed";
-
 
  document
  .getElementById("modalTitle")
  .textContent=
  "📌 修改固定支出";
 
-
  document
  .getElementById("modalBody")
  .innerHTML=`
 
- <label>
-  名稱
- </label>
+ <label>名稱</label>
 
  <input
   id="eName"
   value="${x.name}"
  >
 
-
- <label>
-  每月金額
- </label>
+ <label>每月金額</label>
 
  <input
   id="eFixedAmount"
@@ -3784,28 +3445,23 @@ function editFixed(id){
 
  `;
 
-
  document
  .getElementById("modal")
- .style.display=
- "flex";
+ .style.display="flex";
 
 }
 
 
 function deleteFixed(id){
 
- if(
-  confirm(
-   "確定刪除這項固定支出？"
-  )
- ){
+ if(confirm(
+  "確定刪除這項固定支出？"
+ )){
 
   data.fixed=
    data.fixed.filter(
     x=>x.id!==id
    );
-
 
   render();
 
@@ -3815,28 +3471,23 @@ function deleteFixed(id){
 
 
 /* =========================================================
-   儲存所有修改
+   儲存修改
 ========================================================= */
 
 function saveEdit(){
 
- /* 記帳 */
+ /* ===== 記帳 ===== */
 
- if(
-  editMode==="record"
- ){
+ if(editMode==="record"){
 
-  let x=
-   data.records.find(
-    x=>x.id===editId
-   );
-
+  let x=data.records.find(
+   x=>x.id===editId
+  );
 
   x.type=
    document
    .getElementById("eType")
    .value;
-
 
   x.amount=
    Number(
@@ -3845,18 +3496,15 @@ function saveEdit(){
     .value
    )||0;
 
-
   x.date=
    document
    .getElementById("eDate")
    .value;
 
-
   x.cat=
    document
    .getElementById("eCat")
    .value;
-
 
   x.note=
    document
@@ -3866,24 +3514,19 @@ function saveEdit(){
  }
 
 
- /* 固定支出 */
+ /* ===== 固定支出 ===== */
 
- if(
-  editMode==="fixed"
- ){
+ if(editMode==="fixed"){
 
-  let x=
-   data.fixed.find(
-    x=>x.id===editId
-   );
-
+  let x=data.fixed.find(
+   x=>x.id===editId
+  );
 
   x.name=
    document
    .getElementById("eName")
    .value||
    "固定支出";
-
 
   x.amount=
    Number(
@@ -3895,11 +3538,9 @@ function saveEdit(){
  }
 
 
- /* 貸款 */
+ /* ===== 貸款 ===== */
 
- if(
-  editMode==="loan"
- ){
+ if(editMode==="loan"){
 
   data.loan.principal=
    Number(
@@ -3908,14 +3549,12 @@ function saveEdit(){
     .value
    )||0;
 
-
   data.loan.rate=
    Number(
     document
     .getElementById("eRate")
     .value
    )||0;
-
 
   data.loan.terms=
    Number(
@@ -3924,7 +3563,6 @@ function saveEdit(){
     .value
    )||1;
 
-
   data.loan.payment=
    Number(
     document
@@ -3932,17 +3570,13 @@ function saveEdit(){
     .value
    )||0;
 
-
   data.loan.firstPaymentDate=
    document
    .getElementById("eFirstPayment")
    .value||
    "";
 
-
-  if(
-   data.loan.firstPaymentDate
-  ){
+  if(data.loan.firstPaymentDate){
 
    data.loan.paid=
     calculatePaidPeriods();
@@ -3967,11 +3601,9 @@ function saveEdit(){
  }
 
 
- /* 貸款資金 */
+ /* ===== 貸款資金 ===== */
 
- if(
-  editMode==="fund"
- ){
+ if(editMode==="fund"){
 
   let amount=
    Number(
@@ -3979,7 +3611,6 @@ function saveEdit(){
     .getElementById("eFundAmount")
     .value
    )||0;
-
 
   if(amount<=0){
 
@@ -3999,16 +3630,13 @@ function saveEdit(){
      x=>x.id===editId
     );
 
-
    let oldAmount=
     Number(x.amount)||0;
-
 
    let newTotal=
     loanFundUsed()-
     oldAmount+
     amount;
-
 
    if(
     newTotal>
@@ -4022,7 +3650,6 @@ function saveEdit(){
     return;
 
    }
-
 
    x.amount=amount;
 
@@ -4051,11 +3678,9 @@ function saveEdit(){
 
    }
 
-
    data.loanFundRecords.push({
 
-    id:
-     Date.now().toString(),
+    id:Date.now().toString(),
 
     amount:amount,
 
@@ -4091,8 +3716,11 @@ function closeModal(){
 
  document
  .getElementById("modal")
- .style.display=
- "none";
+ .style.display="none";
+
+ editId=null;
+
+ editMode=null;
 
 }
 
@@ -4108,23 +3736,15 @@ function toggleDark(force){
   ?
   force
   :
-  !document.body
-  .classList
-  .contains("dark");
-
+  !document.body.classList.contains("dark");
 
  document.body
  .classList
- .toggle(
-  "dark",
-  on
- );
-
+ .toggle("dark",on);
 
  let sw=
   document
   .getElementById("darkSwitch");
-
 
  if(sw){
 
@@ -4132,13 +3752,9 @@ function toggleDark(force){
 
  }
 
-
  localStorage.setItem(
   "MY_FINANCE_DARK",
-  on
-  ?"1"
-  :
-  "0"
+  on?"1":"0"
  );
 
 }
@@ -4156,20 +3772,17 @@ if(
 
 
 /* =========================================================
-   總 Render
+   Render
 ========================================================= */
 
 function render(){
 
- if(
-  data.loan.firstPaymentDate
- ){
+ if(data.loan.firstPaymentDate){
 
   data.loan.paid=
    calculatePaidPeriods();
 
  }
-
 
  renderHome();
 
