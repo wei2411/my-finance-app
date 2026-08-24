@@ -11,14 +11,13 @@
 
 :root{
  --bg:#f3f4f7;
- --card:rgba(255,255,255,.88);
+ --card:rgba(255,255,255,.9);
  --text:#15161a;
  --muted:#858994;
  --line:#e5e6ea;
  --green:#19a463;
  --red:#e14d5b;
  --blue:#547cf0;
- --gold:#d59b35;
  --dark:#111216;
 }
 
@@ -153,8 +152,13 @@ body{
  margin-top:6px;
 }
 
-.green{color:var(--green)}
-.red{color:var(--red)}
+.green{
+ color:var(--green);
+}
+
+.red{
+ color:var(--red);
+}
 
 .section{
  padding:0 14px;
@@ -452,7 +456,27 @@ body.dark .notice{
  margin-top:4px;
 }
 
+.flowRow{
+ display:flex;
+ justify-content:space-between;
+ padding:7px 0;
+ border-bottom:1px solid var(--line);
+}
+
+.flowRow:last-child{
+ border-bottom:0;
+}
+
+.negative{
+ color:var(--red);
+}
+
+.positive{
+ color:var(--green);
+}
+
 @media(max-width:380px){
+
  .grid,
  .formGrid{
   grid-template-columns:1fr;
@@ -461,6 +485,7 @@ body.dark .notice{
  .fullCol{
   grid-column:auto;
  }
+
 }
 </style>
 </head>
@@ -474,42 +499,70 @@ body.dark .notice{
  <div class="headerTop">
 
   <div>
+
    <small>PERSONAL FINANCE</small>
+
    <h1>我的財務</h1>
+
    <small id="monthText"></small>
+
   </div>
 
-  <button class="iconBtn" onclick="toggleDark()">☾</button>
+  <button
+   class="iconBtn"
+   onclick="toggleDark()"
+  >
+   ☾
+  </button>
 
  </div>
 
 </header>
 
 
-<!-- ==================== 首頁 ==================== -->
+<!-- ================= 首頁 ================= -->
 
 <div class="page active" id="home">
 
  <div class="hero">
 
-  <div class="heroLabel">本月還能花</div>
+  <div class="heroLabel">
+   本月預計月底剩餘
+  </div>
 
-  <div class="heroMoney" id="freeMoney">
+  <div
+   class="heroMoney"
+   id="freeMoney"
+  >
    NT$0
   </div>
 
   <div class="heroRow">
-   <span>生活費預算</span>
+
+   <span>
+    生活費已使用
+   </span>
+
    <span id="lifeUsed"></span>
+
   </div>
 
   <div class="progress">
+
    <i id="lifeBar"></i>
+
   </div>
 
   <div class="heroRow">
-   <span>預算使用率</span>
-   <span id="lifePct">0%</span>
+
+   <span>
+    生活費預算使用率
+   </span>
+
+   <span id="lifePct">
+    0%
+   </span>
+
   </div>
 
  </div>
@@ -518,29 +571,125 @@ body.dark .notice{
  <div class="grid">
 
   <div class="card">
-   <div class="label">💰 本月收入</div>
-   <div class="big green" id="income"></div>
+
+   <div class="label">
+    💰 本月收入
+   </div>
+
+   <div
+    class="big green"
+    id="income"
+   ></div>
+
   </div>
 
-  <div class="card">
-   <div class="label">💸 本月支出</div>
-   <div class="big" id="expense"></div>
-  </div>
 
   <div class="card">
-   <div class="label">💵 本月結餘</div>
-   <div class="big" id="balance"></div>
+
+   <div class="label">
+    💸 本月支出
+   </div>
+
+   <div
+    class="big"
+    id="expense"
+   ></div>
+
   </div>
 
+
   <div class="card">
-   <div class="label">🏦 資產總額</div>
-   <div class="big" id="assets"></div>
+
+   <div class="label">
+    💵 預計月底結餘
+   </div>
+
+   <div
+    class="big"
+    id="balance"
+   ></div>
+
+  </div>
+
+
+  <div class="card">
+
+   <div class="label">
+    📊 淨資產
+   </div>
+
+   <div
+    class="big"
+    id="netWorth"
+   ></div>
+
   </div>
 
  </div>
 
 
  <div class="section">
+
+
+  <!-- 現金流 -->
+
+  <div class="sectionTitle">
+   💵 本月現金流
+  </div>
+
+  <div
+   class="card"
+   id="cashflow"
+  ></div>
+
+
+  <!-- 貸款資金 -->
+
+  <div class="sectionTitle">
+   🏦 貸款資金
+  </div>
+
+  <div class="card">
+
+   <div class="flowRow">
+    <span>原始貸款</span>
+    <b id="borrowed"></b>
+   </div>
+
+   <div class="flowRow">
+    <span>已使用</span>
+    <b
+     class="negative"
+     id="loanUsed"
+    ></b>
+   </div>
+
+   <div class="flowRow">
+    <span>目前保留</span>
+    <b
+     class="positive"
+     id="loanReserve"
+    ></b>
+   </div>
+
+   <div
+    class="progress"
+    style="background:#ddd"
+   >
+    <i id="loanReserveBar"></i>
+   </div>
+
+   <button
+    class="secondary full"
+    onclick="go('loanfund')"
+   >
+    管理貸款資金
+   </button>
+
+  </div>
+
+
+  <!-- 緊急預備金 -->
 
   <div class="sectionTitle">
    🛡️ 緊急預備金
@@ -549,20 +698,30 @@ body.dark .notice{
   <div class="card">
 
    <div class="loanRow">
-    <span>目前金額</span>
+
+    <span>
+     目前金額
+    </span>
+
     <strong id="reserve"></strong>
+
    </div>
 
-   <div class="progress" style="background:#ddd">
+   <div
+    class="progress"
+    style="background:#ddd"
+   >
     <i id="reserveBar"></i>
    </div>
 
    <div class="label">
-    建議盡量保留作為緊急預備金
+    與貸款保留資金分開管理
    </div>
 
   </div>
 
+
+  <!-- 貸款 -->
 
   <div class="sectionTitle">
    💳 信貸
@@ -571,8 +730,13 @@ body.dark .notice{
   <div class="loanBox">
 
    <div class="loanRow">
-    <span class="muted">剩餘本金</span>
+
+    <span class="muted">
+     剩餘本金
+    </span>
+
     <strong id="loanRemain"></strong>
+
    </div>
 
    <div class="progress">
@@ -580,20 +744,37 @@ body.dark .notice{
    </div>
 
    <div class="heroRow">
+
     <span id="loanProgress"></span>
+
     <span id="loanPayment"></span>
+
    </div>
 
    <div class="infoGrid">
 
     <div class="infoBox">
-     <small>首次扣款</small>
-     <b id="firstPaymentDisplay">尚未設定</b>
+
+     <small>
+      首次扣款
+     </small>
+
+     <b id="firstPaymentDisplay">
+      尚未設定
+     </b>
+
     </div>
 
     <div class="infoBox">
-     <small>下次扣款</small>
-     <b id="nextPaymentDisplay">尚未設定</b>
+
+     <small>
+      下次扣款
+     </small>
+
+     <b id="nextPaymentDisplay">
+      尚未設定
+     </b>
+
     </div>
 
    </div>
@@ -601,11 +782,19 @@ body.dark .notice{
   </div>
 
 
+  <!-- 最近紀錄 -->
+
   <div class="sectionTitle">
+
    最近紀錄
-   <button class="secondary" onclick="go('record')">
+
+   <button
+    class="secondary"
+    onclick="go('record')"
+   >
     查看全部
    </button>
+
   </div>
 
   <div id="recent"></div>
@@ -615,7 +804,7 @@ body.dark .notice{
 </div>
 
 
-<!-- ==================== 記帳 ==================== -->
+<!-- ================= 記帳 ================= -->
 
 <div class="page" id="record">
 
@@ -630,44 +819,92 @@ body.dark .notice{
    <div class="formGrid">
 
     <div>
-     <label>類型</label>
 
-     <select id="type" onchange="updateCats()">
-      <option value="expense">支出</option>
-      <option value="income">收入</option>
+     <label>
+      類型
+     </label>
+
+     <select
+      id="type"
+      onchange="updateCats()"
+     >
+
+      <option value="expense">
+       支出
+      </option>
+
+      <option value="income">
+       收入
+      </option>
+
      </select>
 
     </div>
 
 
     <div>
-     <label>日期</label>
-     <input id="date" type="date">
+
+     <label>
+      日期
+     </label>
+
+     <input
+      id="date"
+      type="date"
+     >
+
     </div>
 
 
     <div>
-     <label>金額</label>
-     <input id="amount" type="number" placeholder="0">
+
+     <label>
+      金額
+     </label>
+
+     <input
+      id="amount"
+      type="number"
+      placeholder="0"
+     >
+
     </div>
 
 
     <div>
-     <label>類別</label>
+
+     <label>
+      類別
+     </label>
+
      <select id="cat"></select>
+
     </div>
 
 
     <div class="fullCol">
-     <label>備註</label>
-     <input id="note" placeholder="例如：午餐">
+
+     <label>
+      備註
+     </label>
+
+     <input
+      id="note"
+      placeholder="例如：午餐"
+     >
+
     </div>
 
 
     <div class="fullCol">
-     <button class="full" onclick="addRecord()">
+
+     <button
+      class="full"
+      onclick="addRecord()"
+     >
       ＋ 新增紀錄
      </button>
+
     </div>
 
    </div>
@@ -686,7 +923,7 @@ body.dark .notice{
 </div>
 
 
-<!-- ==================== 貸款 ==================== -->
+<!-- ================= 貸款 ================= -->
 
 <div class="page" id="loan">
 
@@ -696,80 +933,110 @@ body.dark .notice{
    💳 貸款管理
   </div>
 
-
   <div class="loanBox">
 
    <div class="loanRow">
-    <span class="muted">原始本金</span>
+    <span class="muted">
+     原始本金
+    </span>
+
     <strong id="lp"></strong>
    </div>
 
+
    <div class="loanRow">
-    <span class="muted">年利率</span>
+
+    <span class="muted">
+     年利率
+    </span>
+
     <strong id="lr"></strong>
+
    </div>
 
+
    <div class="loanRow">
-    <span class="muted">期數</span>
+
+    <span class="muted">
+     期數
+    </span>
+
     <strong id="lt"></strong>
+
    </div>
 
+
    <div class="loanRow">
-    <span class="muted">每月還款</span>
+
+    <span class="muted">
+     每月還款
+    </span>
+
     <strong id="lm"></strong>
+
    </div>
 
+
    <div class="loanRow">
-    <span class="muted">已繳期數</span>
+
+    <span class="muted">
+     已繳期數
+    </span>
+
     <strong id="lpaid"></strong>
+
    </div>
+
 
    <div class="progress">
     <i id="lbar"></i>
    </div>
 
+
    <div class="heroRow">
+
     <span id="lpct"></span>
+
     <span id="lleft"></span>
+
    </div>
 
+
    <div class="loanRow">
-    <span class="muted">估算剩餘本金</span>
+
+    <span class="muted">
+     估算剩餘本金
+    </span>
+
     <strong id="lremain"></strong>
+
    </div>
 
   </div>
 
 
   <div style="margin-top:10px">
-   <button class="full" onclick="editLoan()">
+
+   <button
+    class="full"
+    onclick="editLoan()"
+   >
     ⚙️ 修改貸款資料
    </button>
+
   </div>
 
 
   <div class="notice">
 
-   <b>自動還款進度</b><br>
-
    設定「首次扣款日」後，
-   App 會依照日期自動判斷已繳期數。
-
-   <br><br>
-
-   例如首次扣款日為 2026/09/05：
-
-   <br>
-   2026/09/05 → 第1期
-   <br>
-   2026/10/05 → 第2期
-   <br>
-   2026/11/05 → 第3期
+   App 會依日期自動判斷已繳期數。
 
    <br><br>
 
    如果尚未設定首次扣款日，
    可以手動設定已繳期數。
+
   </div>
 
  </div>
@@ -777,7 +1044,94 @@ body.dark .notice{
 </div>
 
 
-<!-- ==================== 統計 ==================== -->
+<!-- ================= 貸款資金 ================= -->
+
+<div class="page" id="loanfund">
+
+ <div class="section">
+
+  <div class="sectionTitle">
+   🏦 貸款資金
+  </div>
+
+
+  <div class="card">
+
+   <div class="flowRow">
+
+    <span>
+     原始貸款
+    </span>
+
+    <b id="lfOriginal"></b>
+
+   </div>
+
+
+   <div class="flowRow">
+
+    <span>
+     已使用
+    </span>
+
+    <b
+     class="negative"
+     id="lfUsed"
+    ></b>
+
+   </div>
+
+
+   <div class="flowRow">
+
+    <span>
+     保留資金
+    </span>
+
+    <b
+     class="positive"
+     id="lfReserve"
+    ></b>
+
+   </div>
+
+
+   <div class="notice">
+
+    這裡只追蹤「借來的16萬元」
+    如何使用。
+
+    <br><br>
+
+    貸款本身屬於負債，
+    不會直接當成你的自有資產。
+
+   </div>
+
+  </div>
+
+
+  <div class="sectionTitle">
+   使用紀錄
+  </div>
+
+
+  <div id="fundRecords"></div>
+
+
+  <button
+   class="full"
+   onclick="addFund()"
+  >
+   ＋ 新增資金使用
+  </button>
+
+ </div>
+
+</div>
+
+
+<!-- ================= 統計 ================= -->
 
 <div class="page" id="stats">
 
@@ -787,14 +1141,21 @@ body.dark .notice{
    📊 近六個月支出
   </div>
 
+
   <div class="card">
-   <div class="chart" id="chart"></div>
+
+   <div
+    class="chart"
+    id="chart"
+   ></div>
+
   </div>
 
 
   <div class="sectionTitle">
    🧾 本月支出分類
   </div>
+
 
   <div id="catStats"></div>
 
@@ -803,7 +1164,7 @@ body.dark .notice{
 </div>
 
 
-<!-- ==================== 設定 ==================== -->
+<!-- ================= 設定 ================= -->
 
 <div class="page" id="settings">
 
@@ -816,25 +1177,70 @@ body.dark .notice{
 
   <div class="card">
 
-   <label>每月薪資</label>
-   <input id="sSalary" type="number">
+   <label>
+    每月薪資
+   </label>
 
-   <label>生活費預算</label>
-   <input id="sBudget" type="number">
+   <input
+    id="sSalary"
+    type="number"
+   >
 
-   <label>緊急預備金</label>
-   <input id="sReserve" type="number">
 
-   <label>其他現金／存款</label>
-   <input id="sCash" type="number">
+   <label>
+    生活費預算
+   </label>
 
-   <label>其他資產</label>
-   <input id="sAsset" type="number">
+   <input
+    id="sBudget"
+    type="number"
+   >
 
-   <label>其他負債</label>
-   <input id="sDebt" type="number">
 
-   <button class="full" onclick="saveSettings()">
+   <label>
+    緊急預備金
+   </label>
+
+   <input
+    id="sReserve"
+    type="number"
+   >
+
+
+   <label>
+    自有現金／存款
+   </label>
+
+   <input
+    id="sCash"
+    type="number"
+   >
+
+
+   <label>
+    其他資產
+   </label>
+
+   <input
+    id="sAsset"
+    type="number"
+   >
+
+
+   <label>
+    其他負債
+   </label>
+
+   <input
+    id="sDebt"
+    type="number"
+   >
+
+
+   <button
+    class="full"
+    onclick="saveSettings()"
+   >
     儲存設定
    </button>
 
@@ -845,11 +1251,16 @@ body.dark .notice{
    🏠 固定支出
   </div>
 
+
   <div class="card">
 
    <div id="fixed"></div>
 
-   <button class="secondary full" onclick="addFixed()">
+
+   <button
+    class="secondary full"
+    onclick="addFixed()"
+   >
     ＋ 新增固定支出
    </button>
 
@@ -860,15 +1271,21 @@ body.dark .notice{
    🎨 外觀
   </div>
 
+
   <div class="card">
 
    <div class="switch">
-    <span>🌙 深色模式</span>
+
+    <span>
+     🌙 深色模式
+    </span>
+
     <input
      type="checkbox"
      id="darkSwitch"
      onchange="toggleDark(this.checked)"
     >
+
    </div>
 
   </div>
@@ -878,31 +1295,50 @@ body.dark .notice{
 </div>
 
 
-<!-- ==================== 底部導航 ==================== -->
+<!-- ================= 底部 ================= -->
 
 <nav class="tabs">
 
- <button class="tab active" onclick="go('home',this)">
+ <button
+  class="tab active"
+  onclick="go('home',this)"
+ >
   <span>🏠</span>
   總覽
  </button>
 
- <button class="tab" onclick="go('record',this)">
+
+ <button
+  class="tab"
+  onclick="go('record',this)"
+ >
   <span>📝</span>
   記帳
  </button>
 
- <button class="tab" onclick="go('loan',this)">
+
+ <button
+  class="tab"
+  onclick="go('loan',this)"
+ >
   <span>💳</span>
   貸款
  </button>
 
- <button class="tab" onclick="go('stats',this)">
+
+ <button
+  class="tab"
+  onclick="go('stats',this)"
+ >
   <span>📊</span>
   統計
  </button>
 
- <button class="tab" onclick="go('settings',this)">
+
+ <button
+  class="tab"
+  onclick="go('settings',this)"
+ >
   <span>⚙️</span>
   設定
  </button>
@@ -912,9 +1348,12 @@ body.dark .notice{
 </div>
 
 
-<!-- ==================== 彈出視窗 ==================== -->
+<!-- ================= 彈窗 ================= -->
 
-<div class="modal" id="modal">
+<div
+ class="modal"
+ id="modal"
+>
 
  <div class="sheet">
 
@@ -922,13 +1361,20 @@ body.dark .notice{
 
   <div id="modalBody"></div>
 
+
   <div class="modalActions">
 
-   <button class="secondary" onclick="closeModal()">
+   <button
+    class="secondary"
+    onclick="closeModal()"
+   >
     取消
    </button>
 
-   <button onclick="saveEdit()">
+
+   <button
+    onclick="saveEdit()"
+   >
     儲存
    </button>
 
@@ -947,91 +1393,132 @@ body.dark .notice{
 
 const KEY="MY_FINANCE_DATA";
 
-let oldData=null;
+let data=null;
 
 try{
- oldData=JSON.parse(localStorage.getItem(KEY)||"null");
+
+ data=
+  JSON.parse(
+   localStorage.getItem(KEY)||"null"
+  );
+
 }catch(e){
- oldData=null;
+
+ data=null;
+
 }
 
 
-let data=oldData||{
+if(!data){
 
- salary:30000,
+ data={
 
- budget:10000,
+  salary:30000,
 
- reserve:110000,
+  budget:10000,
 
- cash:0,
+  reserve:110000,
 
- asset:0,
+  cash:0,
 
- debt:0,
+  asset:0,
 
- fixed:[
-  {
-   id:"f1",
-   name:"房租＋水電",
-   amount:5000
+  debt:0,
+
+
+  fixed:[
+
+   {
+    id:"f1",
+    name:"房租＋水電",
+    amount:5000
+   },
+
+   {
+    id:"f2",
+    name:"其他固定費用",
+    amount:8000
+   }
+
+  ],
+
+
+  loan:{
+
+   principal:160000,
+
+   rate:2.1,
+
+   terms:36,
+
+   payment:4590,
+
+   paid:0,
+
+   firstPaymentDate:""
+
   },
-  {
-   id:"f2",
-   name:"其他固定費用",
-   amount:8000
-  }
- ],
-
- loan:{
-  principal:160000,
-  rate:2.1,
-  terms:36,
-
-  /* 自動計算月付 */
-  payment:0,
-
-  /* 如果沒有首次扣款日，使用手動期數 */
-  paid:0,
-
-  /* 使用者可以自行設定 */
-  firstPaymentDate:""
- },
-
- records:[]
-
-};
 
 
-/* 舊資料如果沒有新欄位，自動補上 */
+  records:[],
+
+  loanFundRecords:[]
+
+ };
+
+}
+
 
 if(!data.loan){
+
  data.loan={
+
   principal:160000,
+
   rate:2.1,
+
   terms:36,
-  payment:0,
+
+  payment:4590,
+
   paid:0,
+
   firstPaymentDate:""
+
  };
+
 }
+
 
 if(data.loan.firstPaymentDate===undefined){
+
  data.loan.firstPaymentDate="";
+
 }
 
+
 if(data.loan.paid===undefined){
+
  data.loan.paid=0;
+
 }
+
+
+if(!Array.isArray(data.loanFundRecords)){
+
+ data.loanFundRecords=[];
+
+}
+
+
+let editId=null;
+
+let editMode=null;
 
 
 /* =========================================================
-   工具
+   基本工具
 ========================================================= */
-
-let editId=null;
-let editMode=null;
-
 
 function save(){
 
@@ -1068,199 +1555,15 @@ function monthKey(){
 }
 
 
-/* =========================================================
-   貸款月付金
-========================================================= */
-
-function calculatePayment(){
-
- let P=Number(data.loan.principal)||0;
-
- let annualRate=Number(data.loan.rate)||0;
-
- let n=Number(data.loan.terms)||0;
-
- if(P<=0||n<=0){
-  return 0;
- }
-
- let r=annualRate/100/12;
-
- if(r===0){
-  return P/n;
- }
-
- return P*r/(1-Math.pow(1+r,-n));
-
-}
-
-
-/*
-  如果使用者原本沒有設定月付，
-  自動算出正確月付。
-
-  16萬 / 2.1% / 36期
-  約 NT$4,590
-*/
-
-if(
- !data.loan.payment ||
- data.loan.payment===4586
-){
- data.loan.payment=
-  Math.round(calculatePayment());
-}
-
-
-/* =========================================================
-   自動計算已繳期數
-========================================================= */
-
-function calculatePaidPeriods(){
-
- let first=data.loan.firstPaymentDate;
-
- /*
-   沒有設定首次扣款日
-   → 使用原本手動的 paid
- */
- if(!first){
-  return Number(data.loan.paid)||0;
- }
-
-
- let start=new Date(first+"T00:00:00");
-
- let now=new Date();
-
-
- /*
-   還沒到首次扣款日
- */
- if(now<start){
-  return 0;
- }
-
-
- /*
-   計算相差幾個月
- */
- let months=
- (now.getFullYear()-start.getFullYear())*12+
- (now.getMonth()-start.getMonth());
-
-
- /*
-   如果這個月還沒到扣款日
-   就不能算這一期
- */
- if(now.getDate()<start.getDate()){
-  months--;
- }
-
-
- return Math.min(
-  Number(data.loan.terms)||0,
-  Math.max(0,months+1)
- );
-
-}
-
-
-/* =========================================================
-   剩餘本金
-========================================================= */
-
-function remainingLoan(){
-
- let P=Number(data.loan.principal)||0;
-
- let rate=Number(data.loan.rate)||0;
-
- let n=Number(data.loan.terms)||0;
-
- let payment=Number(data.loan.payment)||0;
-
- let paid;
-
- /*
-   有設定首次扣款日
-   → 自動計算
- */
- if(data.loan.firstPaymentDate){
-  paid=calculatePaidPeriods();
- }else{
-  paid=Number(data.loan.paid)||0;
- }
-
-
- paid=Math.min(
-  Math.max(0,paid),
-  n
- );
-
-
- /*
-   0期 = 原始本金
- */
- if(paid<=0){
-  return P;
- }
-
-
- /*
-   全部繳完
- */
- if(paid>=n){
-  return 0;
- }
-
-
- let r=rate/100/12;
-
-
- /*
-   0利率
- */
- if(r===0){
-
-  return Math.max(
-   0,
-   P-payment*paid
-  );
-
- }
-
-
- /*
-   標準本息攤還剩餘本金
- */
- let balance=
- P*Math.pow(1+r,paid)
- -
- payment*
- (
-  (Math.pow(1+r,paid)-1)/r
- );
-
-
- return Math.max(
-  0,
-  balance
- );
-
-}
-
-
-/* =========================================================
-   日期
-========================================================= */
-
 function formatDate(date){
 
- if(!date)return "尚未設定";
+ if(!date){
+  return "尚未設定";
+ }
 
- return new Date(date+"T00:00:00")
+ return new Date(
+  date+"T00:00:00"
+ )
  .toLocaleDateString(
   "zh-TW",
   {
@@ -1273,48 +1576,282 @@ function formatDate(date){
 }
 
 
-/*
-  計算下一次扣款日
-*/
+/* =========================================================
+   貸款月付計算
+========================================================= */
+
+function paymentCalc(
+ principal,
+ rate,
+ terms
+){
+
+ let P=
+  Number(principal)||0;
+
+ let r=
+  Number(rate)||0;
+
+ let n=
+  Number(terms)||0;
+
+
+ if(P<=0||n<=0){
+
+  return 0;
+
+ }
+
+
+ r=
+  r/100/12;
+
+
+ if(r===0){
+
+  return P/n;
+
+ }
+
+
+ return P*r/
+  (
+   1-Math.pow(
+    1+r,
+    -n
+   )
+  );
+
+}
+
+
+if(!data.loan.payment){
+
+ data.loan.payment=
+  Math.round(
+   paymentCalc(
+    data.loan.principal,
+    data.loan.rate,
+    data.loan.terms
+   )
+  );
+
+}
+
+
+/* =========================================================
+   自動計算已繳期數
+========================================================= */
+
+function calculatePaidPeriods(){
+
+ let first=
+  data.loan.firstPaymentDate;
+
+
+ if(!first){
+
+  return Number(
+   data.loan.paid
+  )||0;
+
+ }
+
+
+ let start=
+  new Date(
+   first+"T00:00:00"
+  );
+
+
+ let now=
+  new Date();
+
+
+ if(now<start){
+
+  return 0;
+
+ }
+
+
+ let months=
+  (
+   now.getFullYear()-
+   start.getFullYear()
+  )*12+
+  (
+   now.getMonth()-
+   start.getMonth()
+  );
+
+
+ if(
+  now.getDate()<
+  start.getDate()
+ ){
+
+  months--;
+
+ }
+
+
+ return Math.min(
+  Number(data.loan.terms)||0,
+  Math.max(
+   0,
+   months+1
+  )
+ );
+
+}
+
+
+/* =========================================================
+   剩餘本金
+========================================================= */
+
+function remainingLoan(){
+
+ let P=
+  Number(data.loan.principal)||0;
+
+ let rate=
+  Number(data.loan.rate)||0;
+
+ let n=
+  Number(data.loan.terms)||0;
+
+ let payment=
+  Number(data.loan.payment)||0;
+
+
+ let paid=
+  data.loan.firstPaymentDate
+  ?calculatePaidPeriods()
+  :Number(data.loan.paid)||0;
+
+
+ paid=
+  Math.min(
+   Math.max(0,paid),
+   n
+  );
+
+
+ /*
+  0期 = 原始本金
+ */
+
+ if(paid<=0){
+
+  return P;
+
+ }
+
+
+ /*
+  已經繳清
+ */
+
+ if(paid>=n){
+
+  return 0;
+
+ }
+
+
+ let r=
+  rate/100/12;
+
+
+ if(r===0){
+
+  return Math.max(
+   0,
+   P-payment*paid
+  );
+
+ }
+
+
+ let balance=
+  P*Math.pow(
+   1+r,
+   paid
+  )
+  -
+  payment*
+  (
+   (
+    Math.pow(
+     1+r,
+     paid
+    )-1
+   )/r
+  );
+
+
+ return Math.max(
+  0,
+  balance
+ );
+
+}
+
+
+/* =========================================================
+   下一次扣款
+========================================================= */
 
 function nextPaymentDate(){
 
- let first=data.loan.firstPaymentDate;
+ let first=
+  data.loan.firstPaymentDate;
+
 
  if(!first){
+
   return null;
+
  }
 
- let start=new Date(first+"T00:00:00");
 
- let now=new Date();
+ let date=
+  new Date(
+   first+"T00:00:00"
+  );
 
- let paid=calculatePaidPeriods();
 
- /*
-   第一次還沒到
- */
- if(now<start){
-  return start;
+ let paid=
+  calculatePaidPeriods();
+
+
+ if(
+  new Date()<date
+ ){
+
+  return date;
+
  }
 
- /*
-   已經繳完
- */
- if(paid>=Number(data.loan.terms)){
+
+ if(
+  paid>=
+  Number(data.loan.terms)
+ ){
+
   return null;
+
  }
 
- /*
-   下一期 = 首次扣款日 + paid 個月
- */
- let next=new Date(start);
 
- next.setMonth(
-  next.getMonth()+paid
+ date.setMonth(
+  date.getMonth()+paid
  );
 
- return next;
+
+ return date;
 
 }
 
@@ -1327,7 +1864,10 @@ function go(id,btn){
 
  document
  .querySelectorAll(".page")
- .forEach(x=>x.classList.remove("active"));
+ .forEach(
+  x=>x.classList.remove("active")
+ );
+
 
  document
  .getElementById(id)
@@ -1336,26 +1876,14 @@ function go(id,btn){
 
  document
  .querySelectorAll(".tab")
- .forEach(x=>x.classList.remove("active"));
+ .forEach(
+  x=>x.classList.remove("active")
+ );
 
 
  if(btn){
 
   btn.classList.add("active");
-
- }else{
-
-  document
-  .querySelectorAll(".tab")
-  .forEach(x=>{
-
-   let click=x.getAttribute("onclick")||"";
-
-   if(click.includes("'"+id+"'")){
-    x.classList.add("active");
-   }
-
-  });
 
  }
 
@@ -1372,16 +1900,20 @@ function go(id,btn){
 function updateCats(){
 
  let income=
- document.getElementById("type").value==="income";
+  document.getElementById("type")
+  .value==="income";
 
 
- let list=income
- ?[
+ let list=
+  income
+  ?
+  [
    "薪資",
    "獎金",
    "其他收入"
   ]
- :[
+  :
+  [
    "飲食",
    "交通",
    "約會",
@@ -1392,9 +1924,12 @@ function updateCats(){
   ];
 
 
- document.getElementById("cat").innerHTML=
+ document.getElementById("cat")
+ .innerHTML=
  list
- .map(x=>`<option>${x}</option>`)
+ .map(
+  x=>`<option>${x}</option>`
+ )
  .join("");
 
 }
@@ -1403,17 +1938,21 @@ function updateCats(){
 updateCats();
 
 
-document.getElementById("date").value=today();
+document
+ .getElementById("date")
+ .value=today();
 
 
 /* =========================================================
-   本月資料
+   月份資料
 ========================================================= */
 
 function monthRecords(){
 
  return data.records.filter(
-  x=>x.date.slice(0,7)===monthKey()
+  x=>
+   x.date.slice(0,7)===
+   monthKey()
  );
 
 }
@@ -1422,7 +1961,9 @@ function monthRecords(){
 function fixedTotal(){
 
  return data.fixed.reduce(
-  (sum,x)=>sum+Number(x.amount||0),
+  (sum,x)=>
+   sum+
+   Number(x.amount||0),
   0
  );
 
@@ -1432,9 +1973,13 @@ function fixedTotal(){
 function variableExpenses(){
 
  return monthRecords()
- .filter(x=>x.type==="expense")
+ .filter(
+  x=>x.type==="expense"
+ )
  .reduce(
-  (sum,x)=>sum+Number(x.amount||0),
+  (sum,x)=>
+   sum+
+   Number(x.amount||0),
   0
  );
 
@@ -1445,11 +1990,98 @@ function incomeTotal(){
 
  return data.salary+
  monthRecords()
- .filter(x=>x.type==="income")
+ .filter(
+  x=>x.type==="income"
+ )
  .reduce(
-  (sum,x)=>sum+Number(x.amount||0),
+  (sum,x)=>
+   sum+
+   Number(x.amount||0),
   0
  );
+
+}
+
+
+function lifeSpent(){
+
+ return monthRecords()
+ .filter(
+  x=>
+   x.type==="expense" &&
+   ![
+    "房租／水電",
+    "保險"
+   ].includes(x.cat)
+ )
+ .reduce(
+  (sum,x)=>
+   sum+
+   Number(x.amount||0),
+  0
+ );
+
+}
+
+
+/* =========================================================
+   貸款資金
+========================================================= */
+
+function loanFundUsed(){
+
+ return data.loanFundRecords
+ .reduce(
+  (sum,x)=>
+   sum+
+   Number(x.amount||0),
+  0
+ );
+
+}
+
+
+function loanFundReserve(){
+
+ return Math.max(
+  0,
+  Number(data.loan.principal||0)-
+  loanFundUsed()
+ );
+
+}
+
+
+/* =========================================================
+   淨資產
+========================================================= */
+
+function netWorth(){
+
+ /*
+  自有現金
+  +其他資產
+  +緊急預備金
+  +尚未使用的貸款資金
+  -剩餘貸款
+  -其他負債
+
+  注意：
+  緊急預備金若已經包含在自有現金中，
+  使用者應避免重複填寫。
+ */
+
+ return Number(data.cash||0)
+  +
+  Number(data.asset||0)
+  +
+  Number(data.reserve||0)
+  +
+  loanFundReserve()
+  -
+  remainingLoan()
+  -
+  Number(data.debt||0);
 
 }
 
@@ -1460,46 +2092,74 @@ function incomeTotal(){
 
 function renderHome(){
 
- let income=incomeTotal();
+ let income=
+  incomeTotal();
 
- let fixed=fixedTotal();
 
- let variable=variableExpenses();
+ let fixed=
+  fixedTotal();
 
- let totalExpense=
-  fixed+variable;
+
+ let variable=
+  variableExpenses();
+
+
+ let life=
+  lifeSpent();
+
+
+ let loanPay=
+  Number(data.loan.payment||0);
 
 
  /*
-   生活費只計算：
-   飲食、交通、約會、購物、其他
+  預計月底剩餘：
 
-   不會把房租、保險算進生活費。
+  收入
+  - 固定支出
+  - 貸款
+  - 生活費預算
  */
 
- let life=monthRecords()
- .filter(
-  x=>
-   x.type==="expense" &&
-   [
-    "飲食",
-    "交通",
-    "約會",
-    "購物",
-    "其他"
-   ].includes(x.cat)
- )
- .reduce(
-  (sum,x)=>sum+Number(x.amount||0),
-  0
- );
+ let projected=
+  income-
+  fixed-
+  loanPay-
+  Math.max(
+   0,
+   Number(data.budget||0)
+  );
 
 
- let free=
-  Number(data.budget||0)-life;
+ /*
+  目前實際結餘：
+
+  收入
+  - 已發生支出
+  - 貸款
+
+ */
+
+ let actualBalance=
+  income-
+  fixed-
+  variable-
+  loanPay;
 
 
- document.getElementById("monthText")
+ let pct=
+  data.budget
+  ?
+  Math.min(
+   100,
+   life/data.budget*100
+  )
+  :
+  0;
+
+
+ document
+ .getElementById("monthText")
  .textContent=
  new Date()
  .toLocaleDateString(
@@ -1511,144 +2171,259 @@ function renderHome(){
  );
 
 
- document.getElementById("freeMoney")
+ document
+ .getElementById("freeMoney")
  .textContent=
- money(Math.max(0,free));
+ money(projected);
 
 
- document.getElementById("lifeUsed")
+ document
+ .getElementById("lifeUsed")
  .textContent=
  money(life)+
  " / "+
  money(data.budget);
 
 
- let pct=
- data.budget
- ?Math.min(100,life/data.budget*100)
- :0;
-
-
- document.getElementById("lifePct")
+ document
+ .getElementById("lifePct")
  .textContent=
  Math.round(pct)+"%";
 
 
- document.getElementById("lifeBar")
+ document
+ .getElementById("lifeBar")
  .style.width=
  pct+"%";
 
 
- document.getElementById("income")
+ document
+ .getElementById("income")
  .textContent=
  money(income);
 
 
- document.getElementById("expense")
- .textContent=
- money(totalExpense);
-
-
- let balance=
- income-
- totalExpense-
- Number(data.loan.payment||0);
-
-
- document.getElementById("balance")
- .textContent=
- money(balance);
-
-
- document.getElementById("balance")
- .className=
- "big "+(balance>=0?"green":"red");
-
-
- /*
-   資產
- */
- document.getElementById("assets")
+ document
+ .getElementById("expense")
  .textContent=
  money(
-  Number(data.reserve||0)+
-  Number(data.cash||0)+
-  Number(data.asset||0)
+  fixed+
+  variable
  );
 
 
- /*
-   緊急預備金
- */
- document.getElementById("reserve")
+ document
+ .getElementById("balance")
  .textContent=
- money(data.reserve);
+ money(actualBalance);
 
 
- let reservePct=
+ document
+ .getElementById("balance")
+ .className=
+ "big "+
+ (
+  actualBalance>=0
+  ?"green"
+  :"red"
+ );
+
+
+ document
+ .getElementById("netWorth")
+ .textContent=
+ money(
+  netWorth()
+ );
+
+
+ /* 現金流 */
+
+ document
+ .getElementById("cashflow")
+ .innerHTML=`
+
+ <div class="flowRow">
+  <span>薪資／收入</span>
+  <b class="positive">
+   +${money(income)}
+  </b>
+ </div>
+
+ <div class="flowRow">
+  <span>固定支出</span>
+  <b class="negative">
+   −${money(fixed)}
+  </b>
+ </div>
+
+ <div class="flowRow">
+  <span>貸款月付</span>
+  <b class="negative">
+   −${money(loanPay)}
+  </b>
+ </div>
+
+ <div class="flowRow">
+  <span>生活費預算</span>
+  <b class="negative">
+   −${money(data.budget)}
+  </b>
+ </div>
+
+ <div class="flowRow">
+  <span>
+   <b>預計月底剩餘</b>
+  </span>
+
+  <b class="${
+   projected>=0
+   ?"positive"
+   :"negative"
+  }">
+   ${money(projected)}
+  </b>
+
+ </div>
+
+ `;
+
+
+ /* 貸款資金 */
+
+ document
+ .getElementById("borrowed")
+ .textContent=
+ money(
+  data.loan.principal
+ );
+
+
+ document
+ .getElementById("loanUsed")
+ .textContent=
+ money(
+  loanFundUsed()
+ );
+
+
+ document
+ .getElementById("loanReserve")
+ .textContent=
+ money(
+  loanFundReserve()
+ );
+
+
+ document
+ .getElementById("loanReserveBar")
+ .style.width=
  Math.min(
   100,
-  Number(data.reserve||0)/110000*100
+  loanFundReserve()/
+  Math.max(
+   1,
+   data.loan.principal
+  )*100
+ )+"%";
+
+
+ /* 緊急預備金 */
+
+ document
+ .getElementById("reserve")
+ .textContent=
+ money(
+  data.reserve
  );
 
 
- document.getElementById("reserveBar")
+ document
+ .getElementById("reserveBar")
  .style.width=
- reservePct+"%";
+ Math.min(
+  100,
+  data.reserve/110000*100
+ )+"%";
 
 
- /*
-   貸款
- */
- document.getElementById("loanRemain")
- .textContent=
- money(remainingLoan());
+ /* 貸款 */
 
-
- let paid=data.loan.firstPaymentDate
- ?calculatePaidPeriods()
- :Number(data.loan.paid)||0;
-
-
- let terms=
- Number(data.loan.terms)||0;
+ let paid=
+  data.loan.firstPaymentDate
+  ?
+  calculatePaidPeriods()
+  :
+  Number(data.loan.paid)||0;
 
 
  let loanPct=
- terms
- ?Math.min(100,paid/terms*100)
- :0;
+  data.loan.terms
+  ?
+  Math.min(
+   100,
+   paid/
+   data.loan.terms*
+   100
+  )
+  :
+  0;
 
 
- document.getElementById("loanBar")
+ document
+ .getElementById("loanRemain")
+ .textContent=
+ money(
+  remainingLoan()
+ );
+
+
+ document
+ .getElementById("loanBar")
  .style.width=
  loanPct+"%";
 
 
- document.getElementById("loanProgress")
+ document
+ .getElementById("loanProgress")
  .textContent=
- paid+" / "+terms+" 期";
+ paid+
+ " / "+
+ data.loan.terms+
+ " 期";
 
 
- document.getElementById("loanPayment")
+ document
+ .getElementById("loanPayment")
  .textContent=
- "月付 "+money(data.loan.payment);
+ "月付 "+
+ money(
+  data.loan.payment
+ );
 
 
- document.getElementById("firstPaymentDisplay")
+ document
+ .getElementById("firstPaymentDisplay")
  .textContent=
  data.loan.firstPaymentDate
- ?formatDate(data.loan.firstPaymentDate)
- :"尚未設定";
+ ?
+ formatDate(
+  data.loan.firstPaymentDate
+ )
+ :
+ "尚未設定";
 
 
- let next=nextPaymentDate();
+ let next=
+  nextPaymentDate();
 
 
- document.getElementById("nextPaymentDisplay")
+ document
+ .getElementById("nextPaymentDisplay")
  .textContent=
  next
- ?next.toLocaleDateString(
+ ?
+ next.toLocaleDateString(
   "zh-TW",
   {
    year:"numeric",
@@ -1656,22 +2431,24 @@ function renderHome(){
    day:"2-digit"
   }
  )
- :"已繳清";
+ :
+ "已繳清";
 
 
- /*
-   最近紀錄
- */
+ /* 最近紀錄 */
+
  let recent=
- [...data.records]
- .sort(
-  (a,b)=>
-   new Date(b.date)-new Date(a.date)
- )
- .slice(0,5);
+  [...data.records]
+  .sort(
+   (a,b)=>
+    new Date(b.date)-
+    new Date(a.date)
+  )
+  .slice(0,5);
 
 
- document.getElementById("recent")
+ document
+ .getElementById("recent")
  .innerHTML=
  recent
  .map(recordHTML)
@@ -1689,17 +2466,29 @@ function renderHome(){
 function icon(cat){
 
  const icons={
+
   "飲食":"🍜",
+
   "交通":"🚗",
+
   "約會":"❤️",
+
   "購物":"🛍️",
+
   "房租／水電":"🏠",
+
   "保險":"🛡️",
+
   "薪資":"💰",
+
   "獎金":"🎁",
+
   "其他收入":"💵",
+
   "其他":"📦"
+
  };
+
 
  return icons[cat]||"💰";
 
@@ -1713,6 +2502,7 @@ function icon(cat){
 function recordHTML(x){
 
  return `
+
  <div class="item">
 
   <div class="itemLeft">
@@ -1722,11 +2512,20 @@ function recordHTML(x){
    </div>
 
    <div>
-    <b>${x.cat}</b>
+
+    <b>
+     ${x.cat}
+    </b>
 
     <small>
      ${x.date}
-     ${x.note?" ・ "+x.note:""}
+     ${
+      x.note
+      ?
+      " ・ "+x.note
+      :
+      ""
+     }
     </small>
 
    </div>
@@ -1736,9 +2535,24 @@ function recordHTML(x){
 
   <div>
 
-   <div class="amount ${x.type==="income"?"green":"red"}">
+   <div
+    class="amount ${
+     x.type==="income"
+     ?
+     "green"
+     :
+     "red"
+    }"
+   >
 
-    ${x.type==="income"?"+":"-"}
+    ${
+     x.type==="income"
+     ?
+     "+"
+     :
+     "-"
+    }
+
     ${money(x.amount)}
 
    </div>
@@ -1753,6 +2567,7 @@ function recordHTML(x){
      修改
     </button>
 
+
     <button
      class="danger"
      onclick="deleteRecord('${x.id}')"
@@ -1765,6 +2580,7 @@ function recordHTML(x){
   </div>
 
  </div>
+
  `;
 
 }
@@ -1777,14 +2593,18 @@ function recordHTML(x){
 function addRecord(){
 
  let amount=
- Number(
-  document.getElementById("amount").value
- );
+  Number(
+   document
+   .getElementById("amount")
+   .value
+  );
 
 
  if(!amount||amount<0){
 
-  alert("請輸入正確金額");
+  alert(
+   "請輸入正確金額"
+  );
 
   return;
 
@@ -1793,29 +2613,45 @@ function addRecord(){
 
  data.records.push({
 
-  id:Date.now().toString(),
+  id:
+   Date.now().toString(),
 
   type:
-   document.getElementById("type").value,
+   document
+   .getElementById("type")
+   .value,
 
-  amount:amount,
+  amount:
+
+   amount,
 
   date:
-   document.getElementById("date").value||
+   document
+   .getElementById("date")
+   .value||
    today(),
 
   cat:
-   document.getElementById("cat").value,
+   document
+   .getElementById("cat")
+   .value,
 
   note:
-   document.getElementById("note").value
+   document
+   .getElementById("note")
+   .value
 
  });
 
 
- document.getElementById("amount").value="";
+ document
+ .getElementById("amount")
+ .value="";
 
- document.getElementById("note").value="";
+
+ document
+ .getElementById("note")
+ .value="";
 
 
  render();
@@ -1830,14 +2666,16 @@ function addRecord(){
 function renderRecords(){
 
  let list=
- [...data.records]
- .sort(
-  (a,b)=>
-   new Date(b.date)-new Date(a.date)
- );
+  [...data.records]
+  .sort(
+   (a,b)=>
+    new Date(b.date)-
+    new Date(a.date)
+  );
 
 
- document.getElementById("records")
+ document
+ .getElementById("records")
  .innerHTML=
  list
  .map(recordHTML)
@@ -1855,7 +2693,9 @@ function renderRecords(){
 function editRecord(id){
 
  let x=
- data.records.find(x=>x.id===id);
+  data.records.find(
+   x=>x.id===id
+  );
 
 
  editId=id;
@@ -1863,15 +2703,19 @@ function editRecord(id){
  editMode="record";
 
 
- document.getElementById("modalTitle")
+ document
+ .getElementById("modalTitle")
  .textContent=
  "📝 修改記帳";
 
 
- document.getElementById("modalBody")
+ document
+ .getElementById("modalBody")
  .innerHTML=`
 
- <label>類型</label>
+ <label>
+  類型
+ </label>
 
  <select id="eType">
 
@@ -1886,7 +2730,9 @@ function editRecord(id){
  </select>
 
 
- <label>金額</label>
+ <label>
+  金額
+ </label>
 
  <input
   id="eAmount"
@@ -1895,7 +2741,9 @@ function editRecord(id){
  >
 
 
- <label>日期</label>
+ <label>
+  日期
+ </label>
 
  <input
   id="eDate"
@@ -1904,7 +2752,9 @@ function editRecord(id){
  >
 
 
- <label>類別</label>
+ <label>
+  類別
+ </label>
 
  <input
   id="eCat"
@@ -1912,7 +2762,9 @@ function editRecord(id){
  >
 
 
- <label>備註</label>
+ <label>
+  備註
+ </label>
 
  <input
   id="eNote"
@@ -1922,12 +2774,16 @@ function editRecord(id){
  `;
 
 
- document.getElementById("eType")
- .value=x.type;
+ document
+ .getElementById("eType")
+ .value=
+ x.type;
 
 
- document.getElementById("modal")
- .style.display="flex";
+ document
+ .getElementById("modal")
+ .style.display=
+ "flex";
 
 }
 
@@ -1939,13 +2795,16 @@ function editRecord(id){
 function deleteRecord(id){
 
  if(
-  confirm("確定要刪除這筆紀錄嗎？")
+  confirm(
+   "確定要刪除這筆紀錄嗎？"
+  )
  ){
 
   data.records=
    data.records.filter(
     x=>x.id!==id
    );
+
 
   render();
 
@@ -1963,18 +2822,23 @@ function editLoan(){
  editMode="loan";
 
 
- let l=data.loan;
+ let l=
+  data.loan;
 
 
- document.getElementById("modalTitle")
+ document
+ .getElementById("modalTitle")
  .textContent=
  "💳 修改貸款";
 
 
- document.getElementById("modalBody")
+ document
+ .getElementById("modalBody")
  .innerHTML=`
 
- <label>貸款本金</label>
+ <label>
+  貸款本金
+ </label>
 
  <input
   id="ePrincipal"
@@ -1983,7 +2847,9 @@ function editLoan(){
  >
 
 
- <label>年利率 %</label>
+ <label>
+  年利率 %
+ </label>
 
  <input
   id="eRate"
@@ -1993,7 +2859,9 @@ function editLoan(){
  >
 
 
- <label>期數</label>
+ <label>
+  期數
+ </label>
 
  <input
   id="eTerms"
@@ -2002,12 +2870,22 @@ function editLoan(){
  >
 
 
- <label>每月還款</label>
+ <label>
+  每月還款
+ </label>
 
  <input
   id="ePayment"
   type="number"
-  value="${Math.round(calculatePayment())}"
+  value="${
+   Math.round(
+    paymentCalc(
+     l.principal,
+     l.rate,
+     l.terms
+    )
+   )
+  }"
  >
 
 
@@ -2015,39 +2893,24 @@ function editLoan(){
   class="secondary full"
   onclick="autoPayment()"
  >
-  🧮 依本金、利率、期數自動計算月付
+  🧮 自動計算月付
  </button>
 
 
- <label style="display:block;margin-top:14px">
+ <label>
   📅 首次扣款日
  </label>
 
  <input
   id="eFirstPayment"
   type="date"
-  value="${l.firstPaymentDate||""}"
+  value="${
+   l.firstPaymentDate||""
+  }"
  >
 
 
- <div class="notice">
-
-  <b>自動計算已繳期數</b>
-
-  <br>
-
-  設定首次扣款日後，
-  App 會依今天日期自動判斷已繳多少期。
-
-  <br><br>
-
-  如果尚未設定首次扣款日，
-  則可以手動設定已繳期數。
-
- </div>
-
-
- <label style="display:block;margin-top:14px">
+ <label>
   手動已繳期數
  </label>
 
@@ -2058,209 +2921,84 @@ function editLoan(){
   value="${l.paid||0}"
  >
 
+
+ <div class="notice">
+
+  設定首次扣款日後，
+  App 會自動計算已繳期數。
+
+  <br><br>
+
+  如果沒有設定首次扣款日，
+  則使用手動已繳期數。
+
+ </div>
+
  `;
 
 
- document.getElementById("modal")
- .style.display="flex";
+ document
+ .getElementById("modal")
+ .style.display=
+ "flex";
 
 }
 
 
 /* =========================================================
-   自動算月付
+   自動計算月付
 ========================================================= */
 
 function autoPayment(){
 
  let P=
- Number(
-  document.getElementById("ePrincipal").value
- )||0;
+  Number(
+   document
+   .getElementById("ePrincipal")
+   .value
+  )||0;
 
 
  let rate=
- Number(
-  document.getElementById("eRate").value
- )||0;
+  Number(
+   document
+   .getElementById("eRate")
+   .value
+  )||0;
 
 
  let n=
- Number(
-  document.getElementById("eTerms").value
- )||0;
+  Number(
+   document
+   .getElementById("eTerms")
+   .value
+  )||0;
 
 
- if(P<=0||n<=0){
+ if(
+  P<=0||
+  n<=0
+ ){
 
-  alert("請先輸入本金與期數");
+  alert(
+   "請先輸入本金與期數"
+  );
 
   return;
 
  }
 
 
- let r=rate/100/12;
-
- let payment;
-
- if(r===0){
-
-  payment=P/n;
-
- }else{
-
-  payment=
-   P*r/
-   (1-Math.pow(1+r,-n));
-
- }
-
-
- document.getElementById("ePayment")
+ document
+ .getElementById("ePayment")
  .value=
- Math.round(payment);
-
-}
-
-
-/* =========================================================
-   儲存修改
-========================================================= */
-
-function saveEdit(){
-
- if(editMode==="record"){
-
-  let x=
-   data.records.find(
-    x=>x.id===editId
-   );
-
-
-  x.type=
-   document.getElementById("eType").value;
-
-
-  x.amount=
-   Number(
-    document.getElementById("eAmount").value
-   )||0;
-
-
-  x.date=
-   document.getElementById("eDate").value;
-
-
-  x.cat=
-   document.getElementById("eCat").value;
-
-
-  x.note=
-   document.getElementById("eNote").value;
-
- }
-
-
- if(editMode==="fixed"){
-
-  let x=
-   data.fixed.find(
-    x=>x.id===editId
-   );
-
-
-  x.name=
-   document.getElementById("eName").value||
-   "固定支出";
-
-
-  x.amount=
-   Number(
-    document.getElementById("eFixedAmount").value
-   )||0;
-
- }
-
-
- if(editMode==="loan"){
-
-  data.loan.principal=
-   Number(
-    document.getElementById("ePrincipal").value
-   )||0;
-
-
-  data.loan.rate=
-   Number(
-    document.getElementById("eRate").value
-   )||0;
-
-
-  data.loan.terms=
-   Number(
-    document.getElementById("eTerms").value
-   )||1;
-
-
-  data.loan.payment=
-   Number(
-    document.getElementById("ePayment").value
-   )||0;
-
-
-  data.loan.firstPaymentDate=
-   document.getElementById("eFirstPayment").value||
-   "";
-
-
-  /*
-    如果有首次扣款日
-    已繳期數自動計算
-  */
-  if(data.loan.firstPaymentDate){
-
-   data.loan.paid=
-    calculatePaidPeriods();
-
-  }else{
-
-   /*
-     沒有首次扣款日
-     使用手動已繳期數
-   */
-
-   data.loan.paid=
-    Math.min(
-     data.loan.terms,
-     Math.max(
-      0,
-      Number(
-       document.getElementById("ePaid").value
-      )||0
-     )
-    );
-
-  }
-
- }
-
-
- closeModal();
-
- render();
-
-}
-
-
-/* =========================================================
-   關閉視窗
-========================================================= */
-
-function closeModal(){
-
- document.getElementById("modal")
- .style.display="none";
+ Math.round(
+  paymentCalc(
+   P,
+   rate,
+   n
+  )
+ );
 
 }
 
@@ -2271,78 +3009,361 @@ function closeModal(){
 
 function renderLoan(){
 
- let l=data.loan;
+ if(
+  data.loan.firstPaymentDate
+ ){
 
-
- /*
-   有首次扣款日
-   → 自動計算
- */
- if(l.firstPaymentDate){
-
-  l.paid=
+  data.loan.paid=
    calculatePaidPeriods();
 
  }
 
 
- document.getElementById("lp")
+ let l=
+  data.loan;
+
+
+ document
+ .getElementById("lp")
  .textContent=
  money(l.principal);
 
 
- document.getElementById("lr")
+ document
+ .getElementById("lr")
  .textContent=
  l.rate+"%";
 
 
- document.getElementById("lt")
+ document
+ .getElementById("lt")
  .textContent=
- l.terms+" 期";
+ l.terms+
+ " 期";
 
 
- document.getElementById("lm")
+ document
+ .getElementById("lm")
  .textContent=
  money(l.payment);
 
 
- document.getElementById("lpaid")
+ document
+ .getElementById("lpaid")
  .textContent=
- l.paid+" 期";
+ l.paid+
+ " 期";
 
 
  let pct=
- l.terms
- ?Math.min(
+  l.terms
+  ?
+  Math.min(
    100,
-   l.paid/l.terms*100
+   l.paid/
+   l.terms*
+   100
   )
- :0;
+  :
+  0;
 
 
- document.getElementById("lbar")
+ document
+ .getElementById("lbar")
  .style.width=
  pct+"%";
 
 
- document.getElementById("lpct")
+ document
+ .getElementById("lpct")
  .textContent=
- Math.round(pct)+"% 已完成";
+ Math.round(pct)+
+ "% 已完成";
 
 
- document.getElementById("lleft")
+ document
+ .getElementById("lleft")
  .textContent=
  Math.max(
   0,
   l.terms-l.paid
- )+" 期剩餘";
+ )+
+ " 期剩餘";
 
 
- document.getElementById("lremain")
+ document
+ .getElementById("lremain")
  .textContent=
  money(
   remainingLoan()
  );
+
+}
+
+
+/* =========================================================
+   貸款資金
+========================================================= */
+
+function addFund(){
+
+ editMode="fund";
+
+ editId=null;
+
+
+ document
+ .getElementById("modalTitle")
+ .textContent=
+ "🏦 新增貸款資金使用";
+
+
+ document
+ .getElementById("modalBody")
+ .innerHTML=`
+
+ <label>
+  使用金額
+ </label>
+
+ <input
+  id="eFundAmount"
+  type="number"
+  placeholder="例如 50000"
+ >
+
+
+ <label>
+  日期
+ </label>
+
+ <input
+  id="eFundDate"
+  type="date"
+  value="${today()}"
+ >
+
+
+ <label>
+  用途
+ </label>
+
+ <input
+  id="eFundNote"
+  placeholder="例如：繳款、購買設備"
+ >
+
+
+ <div class="notice">
+
+  這筆金額會從
+  ${money(data.loan.principal)}
+  的貸款資金中扣除。
+
+ </div>
+
+ `;
+
+
+ document
+ .getElementById("modal")
+ .style.display=
+ "flex";
+
+}
+
+
+function editFund(id){
+
+ let x=
+  data.loanFundRecords
+  .find(
+   x=>x.id===id
+  );
+
+
+ editMode="fund";
+
+ editId=id;
+
+
+ document
+ .getElementById("modalTitle")
+ .textContent=
+ "🏦 修改貸款資金";
+
+
+ document
+ .getElementById("modalBody")
+ .innerHTML=`
+
+ <label>
+  使用金額
+ </label>
+
+ <input
+  id="eFundAmount"
+  type="number"
+  value="${x.amount}"
+ >
+
+
+ <label>
+  日期
+ </label>
+
+ <input
+  id="eFundDate"
+  type="date"
+  value="${x.date}"
+ >
+
+
+ <label>
+  用途
+ </label>
+
+ <input
+  id="eFundNote"
+  value="${x.note||""}"
+ >
+
+ `;
+
+
+ document
+ .getElementById("modal")
+ .style.display=
+ "flex";
+
+}
+
+
+function deleteFund(id){
+
+ if(
+  confirm(
+   "確定刪除這筆貸款資金使用？"
+  )
+ ){
+
+  data.loanFundRecords=
+   data.loanFundRecords.filter(
+    x=>x.id!==id
+   );
+
+
+  render();
+
+ }
+
+}
+
+
+function renderLoanFund(){
+
+ let total=
+  loanFundUsed();
+
+
+ let reserve=
+  loanFundReserve();
+
+
+ document
+ .getElementById("lfOriginal")
+ .textContent=
+ money(
+  data.loan.principal
+ );
+
+
+ document
+ .getElementById("lfUsed")
+ .textContent=
+ money(total);
+
+
+ document
+ .getElementById("lfReserve")
+ .textContent=
+ money(reserve);
+
+
+ document
+ .getElementById("fundRecords")
+ .innerHTML=
+
+ data.loanFundRecords.length
+
+ ?
+
+ data.loanFundRecords
+ .slice()
+ .reverse()
+ .map(
+  x=>`
+
+  <div class="item">
+
+   <div class="itemLeft">
+
+    <div class="itemIcon">
+     💸
+    </div>
+
+    <div>
+
+     <b>
+      ${x.note||"貸款資金使用"}
+     </b>
+
+     <small>
+      ${x.date}
+     </small>
+
+    </div>
+
+   </div>
+
+
+   <div>
+
+    <b class="negative">
+     −${money(x.amount)}
+    </b>
+
+
+    <div class="actions">
+
+     <button
+      class="secondary"
+      onclick="editFund('${x.id}')"
+     >
+      修改
+     </button>
+
+
+     <button
+      class="danger"
+      onclick="deleteFund('${x.id}')"
+     >
+      刪除
+     </button>
+
+    </div>
+
+   </div>
+
+  </div>
+
+  `
+ )
+ .join("")
+
+ :
+
+ '<div class="empty">尚未記錄貸款資金使用</div>';
 
 }
 
@@ -2356,11 +3377,18 @@ function renderStats(){
  let arr=[];
 
 
- for(let i=5;i>=0;i--){
+ for(
+  let i=5;
+  i>=0;
+  i--
+ ){
 
-  let d=new Date();
+  let d=
+   new Date();
+
 
   d.setDate(1);
+
 
   d.setMonth(
    d.getMonth()-i
@@ -2372,7 +3400,11 @@ function renderStats(){
    "-" +
    String(
     d.getMonth()+1
-   ).padStart(2,"0");
+   )
+   .padStart(
+    2,
+    "0"
+   );
 
 
   let val=
@@ -2384,25 +3416,26 @@ function renderStats(){
    )
    .reduce(
     (sum,x)=>
-     sum+Number(x.amount||0),
+     sum+
+     Number(x.amount||0),
     0
    );
 
 
-  /*
-    只在本月加入固定支出，
-    避免歷史月份全部重複套用。
-  */
+  if(
+   key===monthKey()
+  ){
 
-  if(key===monthKey()){
    val+=fixedTotal();
+
   }
 
 
   arr.push({
 
    label:
-    (d.getMonth()+1)+"月",
+    (d.getMonth()+1)+
+    "月",
 
    value:val
 
@@ -2414,27 +3447,36 @@ function renderStats(){
  let max=
   Math.max(
    1,
-   ...arr.map(x=>x.value)
+   ...arr.map(
+    x=>x.value
+   )
   );
 
 
- document.getElementById("chart")
+ document
+ .getElementById("chart")
  .innerHTML=
+
  arr
- .map(x=>`
+ .map(
+  x=>`
 
   <div class="barCol">
 
    <div>
-    ${Math.round(x.value/1000)}k
+    ${Math.round(
+     x.value/1000
+    )}k
    </div>
 
    <i
     style="
-     height:${Math.max(
-      3,
-      x.value/max*145
-     )}px
+     height:${
+      Math.max(
+       3,
+       x.value/max*145
+      )
+     }px
     "
    ></i>
 
@@ -2442,7 +3484,8 @@ function renderStats(){
 
   </div>
 
- `)
+ `
+ )
  .join("");
 
 
@@ -2453,22 +3496,25 @@ function renderStats(){
  .filter(
   x=>x.type==="expense"
  )
- .forEach(x=>{
+ .forEach(
+  x=>{
+   cats[x.cat]=
+    (cats[x.cat]||0)+
+    Number(x.amount||0);
+  }
+ );
 
-  cats[x.cat]=
-   (cats[x.cat]||0)+
-   Number(x.amount||0);
 
- });
-
-
- document.getElementById("catStats")
+ document
+ .getElementById("catStats")
  .innerHTML=
+
  Object.entries(cats)
  .sort(
   (a,b)=>b[1]-a[1]
  )
- .map(x=>`
+ .map(
+  x=>`
 
   <div class="item">
 
@@ -2478,17 +3524,24 @@ function renderStats(){
      ${icon(x[0])}
     </div>
 
-    <b>${x[0]}</b>
+    <b>
+     ${x[0]}
+    </b>
 
    </div>
 
-   <b>${money(x[1])}</b>
+   <b>
+    ${money(x[1])}
+   </b>
 
   </div>
 
- `)
+ `
+ )
  .join("")
+
  ||
+
  '<div class="empty">本月尚無支出</div>';
 
 }
@@ -2500,40 +3553,49 @@ function renderStats(){
 
 function renderSettings(){
 
- document.getElementById("sSalary")
+ document
+ .getElementById("sSalary")
  .value=
  data.salary;
 
 
- document.getElementById("sBudget")
+ document
+ .getElementById("sBudget")
  .value=
  data.budget;
 
 
- document.getElementById("sReserve")
+ document
+ .getElementById("sReserve")
  .value=
  data.reserve;
 
 
- document.getElementById("sCash")
+ document
+ .getElementById("sCash")
  .value=
  data.cash;
 
 
- document.getElementById("sAsset")
+ document
+ .getElementById("sAsset")
  .value=
  data.asset;
 
 
- document.getElementById("sDebt")
+ document
+ .getElementById("sDebt")
  .value=
  data.debt;
 
 
- document.getElementById("fixed")
+ document
+ .getElementById("fixed")
  .innerHTML=
+
  data.fixed
- .map(x=>`
+ .map(
+  x=>`
 
   <div class="item">
 
@@ -2545,7 +3607,9 @@ function renderSettings(){
 
     <div>
 
-     <b>${x.name}</b>
+     <b>
+      ${x.name}
+     </b>
 
      <small>
       ${money(x.amount)}／月
@@ -2565,6 +3629,7 @@ function renderSettings(){
      修改
     </button>
 
+
     <button
      class="danger"
      onclick="deleteFixed('${x.id}')"
@@ -2576,7 +3641,8 @@ function renderSettings(){
 
   </div>
 
- `)
+ `
+ )
  .join("");
 
 }
@@ -2590,44 +3656,58 @@ function saveSettings(){
 
  data.salary=
   Number(
-   document.getElementById("sSalary").value
+   document
+   .getElementById("sSalary")
+   .value
   )||0;
 
 
  data.budget=
   Number(
-   document.getElementById("sBudget").value
+   document
+   .getElementById("sBudget")
+   .value
   )||0;
 
 
  data.reserve=
   Number(
-   document.getElementById("sReserve").value
+   document
+   .getElementById("sReserve")
+   .value
   )||0;
 
 
  data.cash=
   Number(
-   document.getElementById("sCash").value
+   document
+   .getElementById("sCash")
+   .value
   )||0;
 
 
  data.asset=
   Number(
-   document.getElementById("sAsset").value
+   document
+   .getElementById("sAsset")
+   .value
   )||0;
 
 
  data.debt=
   Number(
-   document.getElementById("sDebt").value
+   document
+   .getElementById("sDebt")
+   .value
   )||0;
 
 
  render();
 
 
- alert("設定已儲存");
+ alert(
+  "設定已儲存"
+ );
 
 }
 
@@ -2653,6 +3733,7 @@ function addFixed(){
 
  data.fixed.push(x);
 
+
  editFixed(x.id);
 
 }
@@ -2671,15 +3752,19 @@ function editFixed(id){
  editMode="fixed";
 
 
- document.getElementById("modalTitle")
+ document
+ .getElementById("modalTitle")
  .textContent=
  "📌 修改固定支出";
 
 
- document.getElementById("modalBody")
+ document
+ .getElementById("modalBody")
  .innerHTML=`
 
- <label>名稱</label>
+ <label>
+  名稱
+ </label>
 
  <input
   id="eName"
@@ -2687,7 +3772,9 @@ function editFixed(id){
  >
 
 
- <label>每月金額</label>
+ <label>
+  每月金額
+ </label>
 
  <input
   id="eFixedAmount"
@@ -2698,8 +3785,10 @@ function editFixed(id){
  `;
 
 
- document.getElementById("modal")
- .style.display="flex";
+ document
+ .getElementById("modal")
+ .style.display=
+ "flex";
 
 }
 
@@ -2707,7 +3796,9 @@ function editFixed(id){
 function deleteFixed(id){
 
  if(
-  confirm("確定刪除這項固定支出？")
+  confirm(
+   "確定刪除這項固定支出？"
+  )
  ){
 
   data.fixed=
@@ -2715,9 +3806,293 @@ function deleteFixed(id){
     x=>x.id!==id
    );
 
+
   render();
 
  }
+
+}
+
+
+/* =========================================================
+   儲存所有修改
+========================================================= */
+
+function saveEdit(){
+
+ /* 記帳 */
+
+ if(
+  editMode==="record"
+ ){
+
+  let x=
+   data.records.find(
+    x=>x.id===editId
+   );
+
+
+  x.type=
+   document
+   .getElementById("eType")
+   .value;
+
+
+  x.amount=
+   Number(
+    document
+    .getElementById("eAmount")
+    .value
+   )||0;
+
+
+  x.date=
+   document
+   .getElementById("eDate")
+   .value;
+
+
+  x.cat=
+   document
+   .getElementById("eCat")
+   .value;
+
+
+  x.note=
+   document
+   .getElementById("eNote")
+   .value;
+
+ }
+
+
+ /* 固定支出 */
+
+ if(
+  editMode==="fixed"
+ ){
+
+  let x=
+   data.fixed.find(
+    x=>x.id===editId
+   );
+
+
+  x.name=
+   document
+   .getElementById("eName")
+   .value||
+   "固定支出";
+
+
+  x.amount=
+   Number(
+    document
+    .getElementById("eFixedAmount")
+    .value
+   )||0;
+
+ }
+
+
+ /* 貸款 */
+
+ if(
+  editMode==="loan"
+ ){
+
+  data.loan.principal=
+   Number(
+    document
+    .getElementById("ePrincipal")
+    .value
+   )||0;
+
+
+  data.loan.rate=
+   Number(
+    document
+    .getElementById("eRate")
+    .value
+   )||0;
+
+
+  data.loan.terms=
+   Number(
+    document
+    .getElementById("eTerms")
+    .value
+   )||1;
+
+
+  data.loan.payment=
+   Number(
+    document
+    .getElementById("ePayment")
+    .value
+   )||0;
+
+
+  data.loan.firstPaymentDate=
+   document
+   .getElementById("eFirstPayment")
+   .value||
+   "";
+
+
+  if(
+   data.loan.firstPaymentDate
+  ){
+
+   data.loan.paid=
+    calculatePaidPeriods();
+
+  }else{
+
+   data.loan.paid=
+    Math.min(
+     data.loan.terms,
+     Math.max(
+      0,
+      Number(
+       document
+       .getElementById("ePaid")
+       .value
+      )||0
+     )
+    );
+
+  }
+
+ }
+
+
+ /* 貸款資金 */
+
+ if(
+  editMode==="fund"
+ ){
+
+  let amount=
+   Number(
+    document
+    .getElementById("eFundAmount")
+    .value
+   )||0;
+
+
+  if(amount<=0){
+
+   alert(
+    "請輸入正確金額"
+   );
+
+   return;
+
+  }
+
+
+  if(editId){
+
+   let x=
+    data.loanFundRecords.find(
+     x=>x.id===editId
+    );
+
+
+   let oldAmount=
+    Number(x.amount)||0;
+
+
+   let newTotal=
+    loanFundUsed()-
+    oldAmount+
+    amount;
+
+
+   if(
+    newTotal>
+    Number(data.loan.principal)
+   ){
+
+    alert(
+     "使用金額不能超過貸款總額"
+    );
+
+    return;
+
+   }
+
+
+   x.amount=amount;
+
+   x.date=
+    document
+    .getElementById("eFundDate")
+    .value;
+
+   x.note=
+    document
+    .getElementById("eFundNote")
+    .value;
+
+  }else{
+
+   if(
+    loanFundUsed()+amount>
+    Number(data.loan.principal)
+   ){
+
+    alert(
+     "使用金額不能超過貸款總額"
+    );
+
+    return;
+
+   }
+
+
+   data.loanFundRecords.push({
+
+    id:
+     Date.now().toString(),
+
+    amount:amount,
+
+    date:
+     document
+     .getElementById("eFundDate")
+     .value,
+
+    note:
+     document
+     .getElementById("eFundNote")
+     .value
+
+   });
+
+  }
+
+ }
+
+
+ closeModal();
+
+ render();
+
+}
+
+
+/* =========================================================
+   關閉彈窗
+========================================================= */
+
+function closeModal(){
+
+ document
+ .getElementById("modal")
+ .style.display=
+ "none";
 
 }
 
@@ -2728,41 +4103,42 @@ function deleteFixed(id){
 
 function toggleDark(force){
 
- let on;
-
- if(typeof force==="boolean"){
-
-  on=force;
-
- }else{
-
-  on=
-   !document.body
-   .classList
-   .contains("dark");
-
- }
+ let on=
+  typeof force==="boolean"
+  ?
+  force
+  :
+  !document.body
+  .classList
+  .contains("dark");
 
 
  document.body
  .classList
- .toggle("dark",on);
+ .toggle(
+  "dark",
+  on
+ );
 
 
  let sw=
-  document.getElementById(
-   "darkSwitch"
-  );
+  document
+  .getElementById("darkSwitch");
 
 
  if(sw){
+
   sw.checked=on;
+
  }
 
 
  localStorage.setItem(
   "MY_FINANCE_DARK",
-  on?"1":"0"
+  on
+  ?"1"
+  :
+  "0"
  );
 
 }
@@ -2780,16 +4156,14 @@ if(
 
 
 /* =========================================================
-   總 render
+   總 Render
 ========================================================= */
 
 function render(){
 
- /*
-   如果有首次扣款日，
-   每次開啟 App 都重新計算已繳期數
- */
- if(data.loan.firstPaymentDate){
+ if(
+  data.loan.firstPaymentDate
+ ){
 
   data.loan.paid=
    calculatePaidPeriods();
@@ -2802,6 +4176,8 @@ function render(){
  renderRecords();
 
  renderLoan();
+
+ renderLoanFund();
 
  renderStats();
 
